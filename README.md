@@ -2,7 +2,7 @@
 ------------------------------------------
 <sup>HH External Client Interface & API</sup>
 
-<h2>About</h2>
+<h2>About HabClient</h2>
 
 <b>What is HabClient</b><br/>
 HabClient it's an External Game Client for HH made in Java. And also an API Communication Standards in PHP for the Java App. HabClient allows you play any HHotel directly from an Universal Client made in Java. You can play it in any Operational System that supports Java. 
