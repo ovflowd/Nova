@@ -83,6 +83,9 @@ class DatabaseManager
     public function getHandler()
     {
         if (null === $this->databaseHandler) {
+
+            error_log('[HabClient][Database] Instantiating Database Session... ');
+
             $this->databaseHandler = new DatabaseHandler($this->databaseCredentials);
             $this->databaseHandler->connect();
         }
@@ -136,6 +139,8 @@ class DatabaseManager
      */
     public function setCredentials($databaseCredentials)
     {
+        error_log('[HabClient][Database] Configuring Database...');
+
         $this->databaseCredentials = $databaseCredentials;
     }
 }
