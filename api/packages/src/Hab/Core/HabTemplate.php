@@ -42,6 +42,7 @@ final class HabTemplate
         /** @var Base $templateClass */
         $templateClass = 'Hab\Templates\\' . $templateName;
 
+        // Check if class exists
         if (class_exists($templateClass)) {
             $templateClass = new $templateClass();
 

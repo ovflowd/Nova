@@ -117,6 +117,11 @@ final class HabEngine
             }
         }
 
+        // Work around of multiple Token generation
+        if ($_SERVER['REQUEST_URI'] == '/favicon.ico') {
+            return 'NotFound';
+        }
+
         return 'Home';
     }
 

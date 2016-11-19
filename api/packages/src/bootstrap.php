@@ -30,7 +30,8 @@ if (defined('ENGINE_ERROR_REPORTING') && ENGINE_ERROR_REPORTING == false) {
 // Initialize Class Register
 spl_autoload_register(function ($class) {
     $class = str_replace('\\', '/', $class);
-    require_once('' . $class . '.php');
+    // @ is workaroung for class_exists
+    @include_once('' . $class . '.php');
 });
 
 // If the ENGINE SETTINGS or API SETTINGS aren't configured. We have a problem.
