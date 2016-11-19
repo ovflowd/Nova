@@ -38,6 +38,7 @@ final class HabTemplate
      */
     private function handleTemplate($templateName)
     {
+        // Templates Directory
         /** @var Base $templateClass */
         $templateClass = 'Hab\Templates\\' . $templateName;
 
@@ -58,6 +59,44 @@ final class HabTemplate
     public function NotFound()
     {
         return (new HabMessage(404, "The Desired Template wasn't found on our Records"))->renderJson();
+    }
+
+    /**
+     * Include PHP Vendor Script
+     *
+     * Uses PHP's Ob Method
+     * Since it's a Phar Archive need to do it recursively.
+     *
+     * @param string $vendorFile
+     * @return string
+     */
+    public static function includeVendor($vendorFile)
+    {
+        ob_start();
+
+        include("phar://HabClient.phar/Vendor/{$vendorFile}");
+
+        $stringBuilder = ob_get_contents();
+
+        ob_end_clean();
+
+        return $stringBuilder;
+    }
+
+    /**
+     * Get Vendor Asset Contents
+     *
+     * Only for CSS, JavaScript.
+     *
+     * @Attention Not recommended for Images,
+     * since you need obligatorily add the Content-Type Header
+     *
+     * @param string $vendorFile
+     * @return string
+     */
+    public static function getVendor($vendorFile)
+    {
+        return file_get_contents("phar://HabClient.phar/Vendor/{$vendorFile}");
     }
 
     /**

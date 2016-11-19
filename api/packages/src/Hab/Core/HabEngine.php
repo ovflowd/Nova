@@ -3,7 +3,6 @@
 namespace Hab\Core;
 
 use Hab\Database\DatabaseManager;
-use stdClass;
 
 /**
  * Class HabEngine
@@ -17,14 +16,14 @@ final class HabEngine
     /**
      * HabClient API Settings
      *
-     * @var stdClass
+     * @var object
      */
     private $apiSettings = null;
 
     /**
      * HabClient Engine Settings
      *
-     * @var stdClass
+     * @var object
      */
     private $engineSettings = null;
 
@@ -44,6 +43,8 @@ final class HabEngine
 
     /**
      * Get the Current Instance of the Engine Class
+     *
+     * Singleton Method
      *
      * @return HabEngine
      */
@@ -67,9 +68,11 @@ final class HabEngine
      */
     public function prepare($apiSettings, $engineSettings)
     {
+        // Decodes into Objects
         $this->apiSettings = json_decode($apiSettings);
         $this->engineSettings = json_decode($engineSettings);
 
+        // Set Database Credentials
         DatabaseManager::getInstance()->setCredentials($this->engineSettings->database);
     }
 
@@ -80,9 +83,7 @@ final class HabEngine
      */
     public function createResponse()
     {
-        $pageContainer = new HabTemplate($this->routeEngine());
-
-        return $pageContainer->getResponse();
+        return (new HabTemplate($this->routeEngine()))->getResponse();
     }
 
     /**
@@ -92,18 +93,20 @@ final class HabEngine
      */
     public function routeEngine()
     {
-        if (!array_key_exists('QUERY_STRING', $_SERVER)) {
-            return 'Home';
-        }
+        // Check if Query String exists. If exists, continue.
+        if (array_key_exists('QUERY_STRING', $_SERVER)) {
+            // Parse Query String into Array by Key=Value
+            parse_str($_SERVER['QUERY_STRING'], $this->queryString);
 
-        parse_str($_SERVER['QUERY_STRING'], $this->queryString);
+            // Check if Token Entry Exists
+            if (array_key_exists('Token', $this->queryString)) {
+                $this->tokenAuth = $this->queryString['Token'];
+            }
 
-        if (array_key_exists('Token', $this->queryString)) {
-            $this->tokenAuth = $this->queryString['Token'];
-        }
-
-        if (array_key_exists('Page', $this->queryString)) {
-            return $this->queryString['Page'];
+            // Check if Page Entry exists
+            if (array_key_exists('Page', $this->queryString)) {
+                return $this->queryString['Page'];
+            }
         }
 
         return 'Home';
@@ -112,7 +115,7 @@ final class HabEngine
     /**
      * Get Engine Settings
      *
-     * @return string
+     * @return object
      */
     public function getEngineSettings()
     {
@@ -122,7 +125,7 @@ final class HabEngine
     /**
      * Get the API Settings
      *
-     * @return string
+     * @return object
      */
     public function getApiSettings()
     {

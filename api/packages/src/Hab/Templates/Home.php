@@ -2,7 +2,7 @@
 
 namespace Hab\Templates;
 
-use Hab\Core\HabUtils;
+use Hab\Core\HabTemplate;
 
 /**
  * Class Home
@@ -18,15 +18,17 @@ final class Home extends Base
      */
     public function __construct()
     {
-        $stringBuilder = '';
+        $stringBuilder = HabTemplate::includeVendor('Home.php');
 
-        $stringBuilder .= '<h1>Welcome to the HabClient</h1>';
+        //$stringBuilder = '';
 
-        $stringBuilder .= '<br>';
+        //$stringBuilder .= '<h1>Welcome to the HabClient</h1>';
 
-        $externalUri = HabUtils::generateExternal();
+        //$stringBuilder .= '<br>';
 
-        $stringBuilder .= "<a href='{$externalUri}'>Enter in Client</a>";
+        //$externalUri = HabUtils::generateExternal();
+
+        //$stringBuilder .= "<a href='{$externalUri}'>Enter in Client</a>";
 
         $this->setResponse($stringBuilder);
     }

@@ -10,6 +10,7 @@
  */
 
 ## Build HabClient PHAR File
+## ATTENTION: ONLY FOR DEVELOPERS
 
 ini_set('phar.readonly', 0);
 
