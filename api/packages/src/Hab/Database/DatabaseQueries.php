@@ -108,7 +108,7 @@ final class DatabaseQueries
 
         // Get Server Status Data according from a Token.
         $returnedData = DatabaseManager::getInstance()->fetch("SELECT {$engine->serverColumns->online}, {$engine->serverColumns->onlineCount}" .
-            " FROM {$engine->serverTable}");
+            " FROM {$engine->serverTable} LIMIT 1");
 
         return (Object)$returnedData;
     }

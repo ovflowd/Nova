@@ -19,30 +19,6 @@ class HabUpdater
     private static $newVersion = ENGINE_VERSION;
 
     /**
-     * Check for new Versions in the Repository
-     *
-     * @Attention if the cURL goes wrong, the newVersion continues being the actual version.
-     * @return bool If New Version (true) if not (false)
-     */
-    public static function checkUpdates()
-    {
-        // If already checked Updates, Ignore the Download Again
-        if (self::$newVersion != ENGINE_VERSION) {
-            return true;
-        }
-
-        // Get RAW content
-        $newVersion = str_replace("\n", '', HabUtils::getRemoteContent('https://raw.githubusercontent.com/sant0ro/habClient/master/VERSION'));
-
-        // Check if content is valid VERSION content.
-        if (!empty($newVersion) && is_numeric($newVersion)) {
-            self::$newVersion = $newVersion;
-        }
-
-        return self::$newVersion != ENGINE_VERSION;
-    }
-
-    /**
      * Return a DIV with Rendered if Updates exists if not Returns nothing
      *
      * @param bool $jsonMessage
@@ -60,6 +36,36 @@ class HabUpdater
             : "<div style='padding: 8px 10px;border: 1px solid #d64242;margin: 5px 0 5px;border-radius: 3px;background: #d64242;color: white;'><b>Hoy!!</b> A new version of HabClient it's available. <b>({$newVersion})!</b></div>";
 
         return $existsUpdates ? $content : '';
+    }
+
+    /**
+     * Check for new Versions in the Repository
+     *
+     * @Attention if the cURL goes wrong, the newVersion continues being the actual version.
+     * @param bool $ignoreUpdates If need ignore updates
+     * @return bool If New Version (true) if not (false)
+     */
+    public static function checkUpdates($ignoreUpdates = false)
+    {
+        // New Updates Being Ignored if Force Update Engine Disabled
+        if (FORCE_UPDATE_ENGINE == false && $ignoreUpdates) {
+            return false;
+        }
+
+        // If already checked Updates, Ignore the Download Again
+        if (self::$newVersion != ENGINE_VERSION) {
+            return true;
+        }
+
+        // Get RAW content
+        $newVersion = str_replace("\n", '', HabUtils::getRemoteContent('https://raw.githubusercontent.com/sant0ro/habClient/master/VERSION'));
+
+        // Check if content is valid VERSION content.
+        if (!empty($newVersion) && is_numeric($newVersion)) {
+            self::$newVersion = $newVersion;
+        }
+
+        return self::$newVersion != ENGINE_VERSION;
     }
 
     /**

@@ -15,6 +15,9 @@ use Hab\Core\HabEngine;
 // Recommended disabling it for Production Servers
 define('ENGINE_ERROR_REPORTING', true);
 
+// Define if Need Force Update with new Engine Versions
+define('FORCE_UPDATE_ENGINE', false);
+
 // Test Only (Remove for Production Usages)
 $_SESSION['id'] = 1;
 

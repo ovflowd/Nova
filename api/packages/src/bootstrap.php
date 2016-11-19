@@ -15,9 +15,6 @@
 // Define HaEngine Version
 define('ENGINE_VERSION', '0110');
 
-// Define if Need Force Update with new Engine Versions
-define('FORCE_UPDATE_ENGINE', true);
-
 // Compatible Versions of HabClient Java App with the current Engine Version
 define('COMPATIBLE_JAVA', json_encode([
     '0111',
@@ -37,7 +34,7 @@ spl_autoload_register(function ($class) {
 });
 
 // If the ENGINE SETTINGS or API SETTINGS aren't configured. We have a problem.
-if (!defined('ENGINE_SETTINGS') || !defined('API_SETTINGS')) {
+if (!defined('ENGINE_SETTINGS') || !defined('API_SETTINGS') || !defined('FORCE_UPDATE_ENGINE')) {
     die((new \Hab\Core\HabMessage(500, "The current configuration of HabClient engine is invalid, please check the manuals."))->renderJson());
 }
 

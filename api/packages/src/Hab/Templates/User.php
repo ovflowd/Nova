@@ -23,7 +23,7 @@ final class User extends Base
     public function __construct()
     {
         // Check if Updates Exists
-        if (HabUpdater::checkUpdates() && FORCE_UPDATE_ENGINE) {
+        if (HabUpdater::checkUpdates(true)) {
             $this->setResponse(HabUpdater::renderUpdates(true));
 
             return;
