@@ -17,7 +17,7 @@
             <h1><span><img src="https://imgur.com/yWgYZ8n.gif"/></span></h1>
         </div>
         <div id="process-content">
-            <div class="updates"><b>Hoy!!</b> A new version of HabClient it's available. <b>(v0.1.1)!</b></div>
+            <?= \Hab\Core\HabUpdater::renderUpdates(); ?>
             <div class="fireman">
                 <h1>Let's play it!</h1>
                 <p>

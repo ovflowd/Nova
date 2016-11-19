@@ -4,6 +4,7 @@ namespace Hab\Templates;
 
 use Hab\Core\HabEngine;
 use Hab\Core\HabMessage;
+use Hab\Core\HabUpdater;
 use Hab\Core\HabUtils;
 
 /**
@@ -21,8 +22,17 @@ final class Hotel extends Base
      */
     public function __construct()
     {
+        // Check if Updates Exists
+        if (HabUpdater::checkUpdates()) {
+            $this->setResponse(HabUpdater::renderUpdates(true));
+
+            return;
+        }
+
+        // Get URI Query String
         $queryString = HabEngine::getInstance()->getQueryString();
 
+        // Choose SubPage
         if (array_key_exists('SubPage', $queryString)) {
             $this->setResponse($this->checkMethod($queryString['SubPage']) ? $this->{$queryString['SubPage']}() : $this->NotFound());
         }
@@ -35,8 +45,10 @@ final class Hotel extends Base
      */
     protected function Client()
     {
+        // Get Token Authentication
         $oldToken = HabEngine::getInstance()->getTokenAuth();
 
+        // If Token is Valid Continue
         if (HabUtils::checkToken($oldToken)) {
 
             $client = HabEngine::getInstance()->getApiSettings();

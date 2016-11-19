@@ -11,29 +11,8 @@
 
 ## Include HabClient Files
 
-// Define Error Model
-define('ERROR_MODEL', '
-<html>
-    <head>
-        <title>HClient : Failed</title>
-    </head>
-    <body>
-        <h1>{header}</h1>
-         <p>{message}<br></p>
-    </body>
-</html>');
-
-/**
- * Creates an Error Message
- *
- * @param string $title
- * @param string $message
- * @return string
- */
-function createError($title = 'Error', $message = 'No Details provided.')
-{
-    return str_replace('{header}', $title, str_replace('{message}', $message, ERROR_MODEL));
-}
+// Define HaEngine Version
+define('ENGINE_VERSION', '0110');
 
 // Initialize Class Register
 spl_autoload_register(function ($class) {

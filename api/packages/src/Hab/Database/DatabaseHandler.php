@@ -2,6 +2,7 @@
 
 namespace Hab\Database;
 
+use Hab\Core\HabMessage;
 use PDO;
 use PDOException;
 use stdClass;
@@ -54,7 +55,7 @@ class DatabaseHandler
                     $this->databaseSettings->user, $this->databaseSettings->password
                 );
             } catch (PDOException $e) {
-                die (createError('Fatal!', "The HabClient can't connect to the provided Database. Please check Connection String."));
+                die ((new HabMessage(500, "Failed to connect to the Database, using the provided details!"))->renderJson());
             }
         }
     }

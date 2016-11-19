@@ -126,4 +126,27 @@ final class HabUtils
 
         return $tokenHash;
     }
+
+    /**
+     * Retrieve Remote Content and Return the Data
+     *
+     * @Attention: The intent of this was to use with GitHub RAW Content
+     *
+     * @param string $remoteURI
+     * @return mixed
+     */
+    public static function getRemoteContent($remoteURI)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $remoteURI);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $data = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $data;
+    }
 }
