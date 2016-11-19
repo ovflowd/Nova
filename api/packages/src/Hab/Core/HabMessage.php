@@ -57,6 +57,6 @@ final class HabMessage
     {
         header('Content-Type: application/json');
 
-        return json_encode($this);
+        return json_encode($this, JSON_UNESCAPED_SLASHES);
     }
 }

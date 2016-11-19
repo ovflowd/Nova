@@ -1,0 +1,182 @@
+---
+swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  version: v1
+  title: HabClient API
+  description: |
+   **What is HabClient**
+
+    HabClient it's an External Game Client for HH made in Java. And also an API Communication Standards in PHP for the Java App. HabClient allows you play any HHotel directly from an Universal Client made in Java. You can play it in any Operational System that supports Java.
+
+    **What are the advantages of HabClient?**
+
+    HabClient allows you to play independent of the browsers any Flash or Shockwave HH Client. HabClient was made and intented only to be used for Retro HH Servers. Since it's pre-requisite it's the API Engine in PHP. HabClient it's more secure and convenient. You can play more feastely. For Server Administrators you have many advantages to use it.
+
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+host: website:80
+basePath: /
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+parameters:
+  Token:
+    name: Token
+    description: User Token
+    in: query
+    required: true
+    type: string
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
+  /User/Login:
+    get:
+      tags:
+        - User Login
+      description:
+        Get User Data and Auth User with Token
+      parameters:
+        - $ref: '#/parameters/Token'
+      responses:
+        200:
+          description: User Data
+          schema:
+            $ref: '#/definitions/Login'
+        404:
+          description: User Not Found
+        403:
+          description: Invalid Token
+  /Hotel/Client:
+    get:
+      tags:
+        - Hotel Client Settings
+      description:
+        Get Server Settings and Client Data
+      parameters:
+        - $ref: '#/parameters/Token'
+      responses:
+        200:
+          description: Hotel Settings
+          schema:
+            $ref: '#/definitions/Client'
+        404:
+          description: User Not Found
+        403:
+          description: Invalid Token
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  Login:
+    type: object
+    properties:
+      Code:
+        type: number
+        description: Satus Code
+      Message:
+        type: string
+        description: Response Message
+      User:
+        $ref: '#/definitions/User'
+      Token:
+        type: string
+        description: New Generated Token
+  Client:
+    type: object
+    properties:
+      Code:
+        type: number
+        description: Satus Code
+      Message:
+        type: string
+        description: Response Message
+      Client:
+        $ref: '#/definitions/ClientData'
+      Token:
+        type: string
+        description: New Generated Token
+  ClientData:
+    type: object
+    properties:
+      Hotel:
+        type: object
+        description: Hotel Data
+        properties:
+          Name:
+            type: string
+          Base:
+            type: string
+          Logout:
+            type: string
+      Emulator:
+        type: object
+        description: Emulator Settings
+        properties:
+          Ip:
+            type: string
+          Port:
+            type: number
+      Swf:
+        type: object
+        description: Swf Settings
+        properties:
+          Path:
+            type: string
+          Gordon:
+            type: object
+            properties:
+              Base:
+                type: string
+              Flash:
+                type: string
+          Gamedata:
+            type: object
+            properties:
+              Variables:
+                type: string
+              Texts:
+                type: string
+              OverrideTexts:
+                type: string
+              OverrideFlash:
+                type: string
+              Furnidata:
+                type: string
+              Productada:
+                type: string
+      Custom:
+        type: object
+        description: Custom Settings
+        properties:
+          Loading:
+            type: string
+          Logo:
+            type: string
+  User:
+    type: object
+    properties:
+      Id:
+        type: number
+        description: User Id
+      Username:
+        type: string
+        description: User Name
+      Mail:
+        type: string
+        description: User E-mail
+      Look:
+        type: string
+        description: User Look
