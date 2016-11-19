@@ -20,6 +20,11 @@ define('SRC_DIR', PACKAGES_DIR . 'src/');
 
 define('BUILD_DIR', PACKAGES_DIR . 'build/');
 
+// If Directory Doesn't exists, Create it
+if (!is_dir(BUILD_DIR)) {
+    mkdir(BUILD_DIR);
+}
+
 // Create Phar File
 $phar = new Phar(BUILD_DIR . 'HabClient.phar', 0, 'HabClient.phar');
 

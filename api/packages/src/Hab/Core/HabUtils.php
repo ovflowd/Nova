@@ -2,6 +2,7 @@
 
 namespace Hab\Core;
 
+use Colors;
 use Hab\Database\DatabaseQueries;
 
 /**
@@ -67,5 +68,17 @@ final class HabUtils
         curl_close($ch);
 
         return $data;
+    }
+
+    /**
+     * Debugs Something in the PHP CLI Console
+     *
+     * @param string $string
+     * @param string $foregroundColor
+     * @param string $backgroundColor
+     */
+    public static function habDebug($string = '', $foregroundColor = null, $backgroundColor = null)
+    {
+        error_log(Colors::getInstance()->getString($string, $foregroundColor, $backgroundColor));
     }
 }

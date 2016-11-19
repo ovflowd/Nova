@@ -75,19 +75,19 @@ final class HabEngine
      */
     public function prepare($apiSettings, $engineSettings)
     {
-        error_log('[HabClient] Starting HabClient v' . ENGINE_VERSION);
+        HabUtils::habDebug('[HabClient] Starting HabClient v' . ENGINE_VERSION, 'cyan');
 
         // Decodes into Objects
         $this->apiSettings = json_decode($apiSettings);
         $this->engineSettings = json_decode($engineSettings);
         $this->javaVersions = json_decode(COMPATIBLE_JAVA);
 
-        error_log('[HabClient] Decoding Objects...');
+        HabUtils::habDebug('[HabClient] Decoding Objects...', 'blue');
 
         // Set Database Credentials
         DatabaseManager::getInstance()->setCredentials($this->engineSettings->database);
 
-        error_log('[HabClient] Ready. ');
+        HabUtils::habDebug('[HabClient] Ready. ', 'green');
     }
 
     /**
@@ -120,7 +120,8 @@ final class HabEngine
 
             // Check if Page Entry exists
             if (array_key_exists('Page', $this->queryString)) {
-                error_log('[HabClient][Router] Receiving Request from: ' . $_SERVER['REMOTE_ADDR'] . ' to Module: ' . $this->queryString['Page']);
+                HabUtils::habDebug('[HabClient][Router] Receiving Request from: ' .
+                    $_SERVER['REMOTE_ADDR'] . ' to Module: ' . $this->queryString['Page'], 'purple');
 
                 return $this->queryString['Page'];
             }

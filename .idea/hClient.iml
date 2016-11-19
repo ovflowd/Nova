@@ -10,11 +10,9 @@
       <library name="PHARS">
         <CLASSES>
           <root url="phar://$MODULE_DIR$/api/HabClient.phar/" />
-          <root url="phar://$MODULE_DIR$/api/packages/build/HabClient.phar/" />
         </CLASSES>
         <SOURCES>
           <root url="phar://$MODULE_DIR$/api/HabClient.phar/" />
-          <root url="phar://$MODULE_DIR$/api/packages/build/HabClient.phar/" />
         </SOURCES>
       </library>
     </orderEntry>

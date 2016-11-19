@@ -2,6 +2,7 @@
 
 namespace Hab\Database;
 
+use Hab\Core\HabUtils;
 use PDO;
 use PDOStatement;
 use stdClass;
@@ -84,7 +85,7 @@ class DatabaseManager
     {
         if (null === $this->databaseHandler) {
 
-            error_log('[HabClient][Database] Instantiating Database Session... ');
+            HabUtils::habDebug('[HabClient][Database] Instantiating Database Session... ', 'blue');
 
             $this->databaseHandler = new DatabaseHandler($this->databaseCredentials);
             $this->databaseHandler->connect();
@@ -139,7 +140,7 @@ class DatabaseManager
      */
     public function setCredentials($databaseCredentials)
     {
-        error_log('[HabClient][Database] Configuring Database...');
+        HabUtils::habDebug('[HabClient][Database] Configuring Database...', 'blue');
 
         $this->databaseCredentials = $databaseCredentials;
     }

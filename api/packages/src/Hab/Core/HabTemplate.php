@@ -107,7 +107,7 @@ final class HabTemplate
      */
     public function getResponse()
     {
-        error_log('[HabClient][Router] Render Results OK to visitor: ' . $_SERVER['REMOTE_ADDR']);
+        HabUtils::habDebug('[HabClient][Router] Render Results OK to visitor: ' . $_SERVER['REMOTE_ADDR'], 'purple');
 
         return $this->response;
     }
