@@ -12,7 +12,28 @@ HabClient allows you to play independent of the browsers any Flash or Shockwave 
 
 HabClient it's more secure and convenient. You can play more feastely. For Server Administrators you have many advantages to use it.
 
-<h2>How to Install HabClient?</h2>
+<h2>How to use HabClient Engine? (Development)</h2>
+
+* First you need clone or Download a ZIP of this repository.
+* Open your console and Build HabClient by entering this on your console:
+
+<pre>
+cd api/
+php build.php
+</pre>
+
+* After that you can run HabClient API by entering this on your console:
+
+<pre>
+cd api/
+php -S 0.0.0.0:8080 ./
+</pre>
+
+* HabClient will be running at port 8080, you can access it by http://localhost/client.php
+
+_Observation.:_ Remember that the HabClient Engine works directly from the client.php
+
+<h2>How to Install HabClient? (Production)</h2>
 
 <b>I'm a Player, how i install HabClient?</b><br/>
 You only need download the HabClient directly from the Releases Pages of this Repository, or directly from the Retro Server that you play. 
