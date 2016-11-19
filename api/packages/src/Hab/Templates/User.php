@@ -24,25 +24,19 @@ final class User extends Base
         $queryString = HabEngine::getInstance()->getQueryString();
 
         if (array_key_exists('SubPage', $queryString)) {
-            switch ($queryString['SubPage']) {
-                case 'Login':
-                    return $this->UserAuth(HabEngine::getInstance()->getTokenAuth());
-                default:
-                    return $this->NotFound();
-            }
+            $this->setResponse($this->checkMethod($queryString['SubPage']) ? $this->{$queryString['SubPage']}() : $this->NotFound());
         }
-
-        return $this->NotFound();
     }
 
     /**
      * User Auth Message
      *
-     * @param string $oldToken
      * @return string
      */
-    private function UserAuth($oldToken = '')
+    protected function Login()
     {
+        $oldToken = HabEngine::getInstance()->getTokenAuth();
+
         if (HabUtils::checkToken($oldToken)) {
 
             $user = HabUtils::getUserData($oldToken);

@@ -4,15 +4,16 @@ namespace Hab\Database;
 
 use PDO;
 use PDOException;
+use stdClass;
 
 /**
- * Class Handler
+ * Class DatabaseHandler
  * @package Hab\Database
  *
  * @version 0.1
  * @author Claudio Santoro
  */
-class Handler
+class DatabaseHandler
 {
     /**
      * Database Connection Instance
@@ -24,14 +25,14 @@ class Handler
     /**
      * Database Settings Block
      *
-     * @var array
+     * @var stdClass
      */
-    private $databaseSettings;
+    private $databaseSettings = null;
 
     /**
      * Creates a Database Handler Instance.
      *
-     * @param array $databaseSettings
+     * @param stdClass $databaseSettings
      */
     public function __construct($databaseSettings)
     {
@@ -47,10 +48,10 @@ class Handler
         if ($this->databaseInstance === null) {
             try {
                 $this->databaseInstance = new PDO(
-                    "mysql:host={$this->databaseSettings['host']};" .
-                    "port={$this->databaseSettings['port']};" .
-                    "dbname={$this->databaseSettings['name']}",
-                    $this->databaseSettings['user'], $this->databaseSettings['password']
+                    "mysql:host={$this->databaseSettings->host};" .
+                    "port={$this->databaseSettings->port};" .
+                    "dbname={$this->databaseSettings->name}",
+                    $this->databaseSettings->user, $this->databaseSettings->password
                 );
             } catch (PDOException $e) {
                 die (createError('Fatal!', "The HabClient can't connect to the provided Database. Please check Connection String."));

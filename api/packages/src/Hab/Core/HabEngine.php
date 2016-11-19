@@ -3,6 +3,7 @@
 namespace Hab\Core;
 
 use Hab\Database\DatabaseManager;
+use stdClass;
 
 /**
  * Class HabEngine
@@ -16,16 +17,16 @@ final class HabEngine
     /**
      * HabClient API Settings
      *
-     * @var array
+     * @var stdClass
      */
-    private $apiSettings = [];
+    private $apiSettings = null;
 
     /**
      * HabClient Engine Settings
      *
-     * @var array
+     * @var stdClass
      */
-    private $engineSettings = [];
+    private $engineSettings = null;
 
     /**
      * Requested URI Query String
@@ -69,33 +70,7 @@ final class HabEngine
         $this->apiSettings = json_decode($apiSettings);
         $this->engineSettings = json_decode($engineSettings);
 
-        DatabaseManager::getInstance()->setCredentials($this->engineSettings['Database']);
-    }
-
-    /**
-     * Returns the Requested Page
-     *
-     * @return string
-     */
-    public function routeEngine()
-    {
-        parse_str($_SERVER['QUERY_STRING'], $this->queryString);
-
-        if (array_key_exists('Token', $this->queryString)) {
-            $this->tokenAuth = $this->queryString['Token'];
-        }
-
-        if (array_key_exists('Page', $this->queryString)) {
-            switch ($this->queryString['Page']) {
-                case 'User':
-                case 'Hotel':
-                    return $this->queryString['Page'];
-                default:
-                    return 'NotFound';
-            }
-        }
-
-        return 'Home';
+        DatabaseManager::getInstance()->setCredentials($this->engineSettings->database);
     }
 
     /**
@@ -108,6 +83,30 @@ final class HabEngine
         $pageContainer = new HabTemplate($this->routeEngine());
 
         return $pageContainer->getResponse();
+    }
+
+    /**
+     * Returns the Requested Page
+     *
+     * @return string
+     */
+    public function routeEngine()
+    {
+        if (!array_key_exists('QUERY_STRING', $_SERVER)) {
+            return 'Home';
+        }
+
+        parse_str($_SERVER['QUERY_STRING'], $this->queryString);
+
+        if (array_key_exists('Token', $this->queryString)) {
+            $this->tokenAuth = $this->queryString['Token'];
+        }
+
+        if (array_key_exists('Page', $this->queryString)) {
+            return $this->queryString['Page'];
+        }
+
+        return 'Home';
     }
 
     /**

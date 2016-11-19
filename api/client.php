@@ -13,13 +13,16 @@ use Hab\Core\HabEngine;
 
 define('ENGINE_FOLDER', __DIR__ . 'packages/');
 
+// Test Only (Remove for Production Usages)
+$_SESSION['id'] = 1;
+
 // This Settings Are Fundamental to the Engine Work.
 define('ENGINE_SETTINGS', json_encode([
-    'Database' => [
+    'database' => [
         'host' => 'localhost',
         'port' => 3306,
-        'user' => 'root',
-        'password' => 'pass',
+        'user' => 'habbo',
+        'password' => 'habbo',
         'name' => 'habbo'
     ],
     'tables' => [

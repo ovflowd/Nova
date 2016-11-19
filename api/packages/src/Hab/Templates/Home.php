@@ -28,6 +28,6 @@ final class Home extends Base
 
         $stringBuilder .= "<a href='{$externalUri}'>Enter in Client</a>";
 
-        return $stringBuilder;
+        $this->setResponse($stringBuilder);
     }
 }

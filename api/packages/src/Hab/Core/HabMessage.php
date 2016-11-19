@@ -16,14 +16,14 @@ final class HabMessage
      *
      * @var int
      */
-    private $Code = 404;
+    public $Code = 404;
 
     /**
      * Message Content
      *
      * @var string
      */
-    private $Message = 'Not Found';
+    public $Message = 'Not Found';
 
     /**
      * Message constructor.

@@ -11,6 +11,7 @@
 
 ## Include HabClient Files
 
+// Define Error Model
 define('ERROR_MODEL', '
 <html>
     <head>
@@ -34,7 +35,8 @@ function createError($title = 'Error', $message = 'No Details provided.')
     return str_replace('{header}', $title, str_replace('{message}', $message, ERROR_MODEL));
 }
 
+// Initialize Class Register
 spl_autoload_register(function ($class) {
     $class = str_replace('\\', '/', $class);
-    require_once('./' . $class . '.php');
+    require_once('' . $class . '.php');
 });

@@ -26,6 +26,17 @@ abstract class Base
     public abstract function __construct();
 
     /**
+     * Check if Method Exists
+     *
+     * @param string $template
+     * @return bool
+     */
+    public function checkMethod($template)
+    {
+        return method_exists($this, $template);
+    }
+
+    /**
      * Not Found Message
      *
      * @return string
@@ -43,5 +54,15 @@ abstract class Base
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * Set Response
+     *
+     * @param string $response
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
     }
 }

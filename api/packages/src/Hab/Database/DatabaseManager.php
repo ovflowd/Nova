@@ -4,6 +4,7 @@ namespace Hab\Database;
 
 use PDO;
 use PDOStatement;
+use stdClass;
 
 /**
  * Class DatabaseManager
@@ -17,16 +18,16 @@ class DatabaseManager
     /**
      * Database Handler Instance
      *
-     * @var Handler
+     * @var DatabaseHandler
      */
     private $databaseHandler;
 
     /**
      * Database Credentials
      *
-     * @var array
+     * @var stdClass
      */
-    private $databaseCredentials;
+    private $databaseCredentials = null;
 
     /**
      * Get Database Manager Instance
@@ -77,12 +78,12 @@ class DatabaseManager
     /**
      * Get Database Handler
      *
-     * @return Handler
+     * @return DatabaseHandler
      */
     public function getHandler()
     {
         if (null === $this->databaseHandler) {
-            $this->databaseHandler = new Handler($this->databaseCredentials);
+            $this->databaseHandler = new DatabaseHandler($this->databaseCredentials);
             $this->databaseHandler->connect();
         }
 
@@ -131,7 +132,7 @@ class DatabaseManager
     /**
      * Set the Database Credentials
      *
-     * @param array $databaseCredentials
+     * @param stdClass $databaseCredentials
      */
     public function setCredentials($databaseCredentials)
     {

@@ -24,25 +24,19 @@ final class Hotel extends Base
         $queryString = HabEngine::getInstance()->getQueryString();
 
         if (array_key_exists('SubPage', $queryString)) {
-            switch ($queryString['SubPage']) {
-                case 'Client':
-                    return $this->ClientData(HabEngine::getInstance()->getTokenAuth());
-                default:
-                    return $this->NotFound();
-            }
+            $this->setResponse($this->checkMethod($queryString['SubPage']) ? $this->{$queryString['SubPage']}() : $this->NotFound());
         }
-
-        return $this->NotFound();
     }
 
     /**
      * Obtain Hotel Client Settings
      *
-     * @param string $oldToken
      * @return string
      */
-    private function ClientData($oldToken)
+    protected function Client()
     {
+        $oldToken = HabEngine::getInstance()->getTokenAuth();
+
         if (HabUtils::checkToken($oldToken)) {
 
             $client = HabEngine::getInstance()->getApiSettings();
