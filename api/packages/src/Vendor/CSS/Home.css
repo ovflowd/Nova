@@ -43,7 +43,8 @@ li {
     width: 760px;
     text-align: left;
     margin: 25px auto;
-    border-radius: 3px;
+    border-bottom: 3px solid #96b3be;
+    border-radius: 6px;
 }
 
 #content {
@@ -150,4 +151,13 @@ a.time {
     text-decoration: none;
     font-size: 14px;
     font-weight: bold;
+}
+
+.updates {
+    padding: 8px 10px;
+    border: 1px solid #d64242;
+    margin: 5px 0 5px;
+    border-radius: 3px;
+    background: #d64242;
+    color: white;
 }

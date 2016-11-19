@@ -17,6 +17,7 @@
             <h1><span><img src="https://imgur.com/yWgYZ8n.gif"/></span></h1>
         </div>
         <div id="process-content">
+            <div class="updates"><b>Hoy!!</b> A new version of HabClient it's available. <b>(v0.1.1)!</b></div>
             <div class="fireman">
                 <h1>Let's play it!</h1>
                 <p>
@@ -41,7 +42,7 @@
                         </li>
                         <li class="tweet_even">
                             Does you already know how <b>HabClient</b> work? So click in the Enter Client button.<br/>
-                            <b>Does not?</b> Download latest version of HabClient by clicking <a>here</a>
+                            <b>Does not?</b> Download latest version of HabClient by clicking <a>here</a>.
                         </li>
                     </ul>
                 </div>
