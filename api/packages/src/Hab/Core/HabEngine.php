@@ -107,6 +107,8 @@ final class HabEngine
      */
     public function routeEngine()
     {
+        HabUtils::habDebug("[HabClient][Router][{$_SERVER['REMOTE_ADDR']}] Received Request!", 'red');
+
         // Check if Query String exists. If exists, continue.
         if (array_key_exists('QUERY_STRING', $_SERVER)) {
 
@@ -120,8 +122,7 @@ final class HabEngine
 
             // Check if Page Entry exists
             if (array_key_exists('Page', $this->queryString)) {
-                HabUtils::habDebug('[HabClient][Router] Receiving Request from: ' .
-                    $_SERVER['REMOTE_ADDR'] . ' to Module: ' . $this->queryString['Page'], 'purple');
+                HabUtils::habDebug("[HabClient][Router][{$_SERVER['REMOTE_ADDR']}] Selected Module: {$this->queryString['Page']}", 'purple');
 
                 return $this->queryString['Page'];
             }

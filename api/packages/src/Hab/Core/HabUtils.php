@@ -25,7 +25,21 @@ final class HabUtils
      */
     public static function TokenCrypto($isSSO = false)
     {
-        return ($isSSO ? 'SSO-' : 'HabClient-') . bin2hex(openssl_random_pseudo_bytes(16));
+        HabUtils::habDebug('[HabClient][Token] Generated an ' . ($isSSO ? 'SSO-' : 'HabClient-') . 'Token, Value: ' . ($hashedToken = bin2hex(openssl_random_pseudo_bytes(16))), 'blue');
+
+        return ($isSSO ? 'SSO-' : 'HabClient-') . $hashedToken;
+    }
+
+    /**
+     * Debugs Something in the PHP CLI Console
+     *
+     * @param string $string
+     * @param string $foregroundColor
+     * @param string $backgroundColor
+     */
+    public static function habDebug($string = '', $foregroundColor = null, $backgroundColor = null)
+    {
+        error_log(Colors::getInstance()->getString($string, $foregroundColor, $backgroundColor));
     }
 
     /**
@@ -57,6 +71,8 @@ final class HabUtils
      */
     public static function getRemoteContent($remoteURI)
     {
+        HabUtils::habDebug("[HabClient][Remote] Requesting Remote File: {$remoteURI}", 'blue');
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $remoteURI);
@@ -68,17 +84,5 @@ final class HabUtils
         curl_close($ch);
 
         return $data;
-    }
-
-    /**
-     * Debugs Something in the PHP CLI Console
-     *
-     * @param string $string
-     * @param string $foregroundColor
-     * @param string $backgroundColor
-     */
-    public static function habDebug($string = '', $foregroundColor = null, $backgroundColor = null)
-    {
-        error_log(Colors::getInstance()->getString($string, $foregroundColor, $backgroundColor));
     }
 }

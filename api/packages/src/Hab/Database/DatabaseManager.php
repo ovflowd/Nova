@@ -85,10 +85,12 @@ class DatabaseManager
     {
         if (null === $this->databaseHandler) {
 
-            HabUtils::habDebug('[HabClient][Database] Instantiating Database Session... ', 'blue');
+            HabUtils::habDebug('[HabClient][Database] Instantiating Database Session...', 'blue');
 
             $this->databaseHandler = new DatabaseHandler($this->databaseCredentials);
             $this->databaseHandler->connect();
+
+            HabUtils::habDebug('[HabClient][Database] Database Connected. Waiting for Queries.', 'blue');
         }
 
         return $this->databaseHandler;

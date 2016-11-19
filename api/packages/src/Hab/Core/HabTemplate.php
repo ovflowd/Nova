@@ -44,6 +44,8 @@ final class HabTemplate
 
         // Check if class exists
         if (class_exists($templateClass)) {
+            HabUtils::habDebug("[HabClient][Router][{$_SERVER['REMOTE_ADDR']}] Selected Template: {$templateName}", 'purple');
+
             $templateClass = new $templateClass();
 
             return $templateClass->getResponse();
@@ -59,6 +61,8 @@ final class HabTemplate
      */
     public function NotFound()
     {
+        HabUtils::habDebug("[HabClient][Router][{$_SERVER['REMOTE_ADDR']}] Selected Template was not found.", 'purple');
+
         return (new HabMessage(404, "The Desired Template wasn't found on our Records"))->renderJson();
     }
 

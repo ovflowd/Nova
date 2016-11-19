@@ -30,6 +30,10 @@ class HabUpdater
         $existsUpdates = self::checkUpdates();
         $newVersion = self::$newVersion;
 
+        if ($existsUpdates) {
+            HabUtils::habDebug("[HabClient][Updater] A new Update for HabClient was found. It's recommended to Update the Engine.", 'yellow');
+        }
+
         // Check if needs to be jSON or not
         // Carefully!! If the HabMessage constructor goes out from the condition, the Content-Type goes to Application/JSON
         $content = $jsonMessage ? (new HabMessage(300, "A new Version of HabClient is Available! To continue using the API, please download latest version ($newVersion)"))->renderJson()
