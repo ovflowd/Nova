@@ -14,6 +14,9 @@
 // Define HaEngine Version
 define('ENGINE_VERSION', '0110');
 
+// Define if Need Force Update with new Engine Versions
+define('FORCE_UPDATE_ENGINE', true);
+
 // Compatible Versions of HabClient Java App with the current Engine Version
 define('COMPATIBLE_JAVA', json_encode([
     '0111',
