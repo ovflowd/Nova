@@ -11,7 +11,9 @@
 
 use Hab\Core\HabEngine;
 
-define('ENGINE_FOLDER', __DIR__ . 'packages/');
+// Define the Engine Error Reporting
+// Recommended disabling it for Production Servers
+define('ENGINE_ERROR_REPORTING', true);
 
 // Test Only (Remove for Production Usages)
 $_SESSION['id'] = 1;
@@ -39,8 +41,11 @@ define('ENGINE_SETTINGS', json_encode([
         'tokenColumn' => 'auth_ticket',
         'tokenCriteria' => 'id',
         'tokenCriteriaValue' => @$_SESSION['id'],
-        'onlineTable' => 'server_status',
-        'onlineColumn' => 'online_users'
+        'serverTable' => 'server_status',
+        'serverColumns' => [
+            'online' => 'is_online',
+            'onlineCount' => 'online_users'
+        ]
     ]
 ]));
 

@@ -50,7 +50,7 @@
             <div id="footer">
                 <p class="copyright">&copy; 2016
                     - <?= \Hab\Core\HabEngine::getInstance()->getApiSettings()->hotel->name; ?><br/>
-                    <b>Developed by Claudio Santoro [HabClient]</b></p>
+                    <b>Developed by Claudio Santoro [HabClient v<?= ENGINE_VERSION ?>]</b></p>
             </div>
         </div>
     </div>

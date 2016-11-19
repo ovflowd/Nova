@@ -5,7 +5,7 @@ namespace Hab\Templates;
 use Hab\Core\HabEngine;
 use Hab\Core\HabMessage;
 use Hab\Core\HabUpdater;
-use Hab\Core\HabUtils;
+use Hab\Database\DatabaseQueries;
 
 /**
  * Class User
@@ -49,13 +49,13 @@ final class User extends Base
         $oldToken = HabEngine::getInstance()->getTokenAuth();
 
         // If Token is Valid Continue
-        if (HabUtils::checkToken($oldToken)) {
+        if (DatabaseQueries::checkToken($oldToken)) {
 
-            $user = HabUtils::getUserData($oldToken);
+            $user = DatabaseQueries::getUserData($oldToken);
 
             $message = new HabMessage(200, 'Authentication OK');
             $message->addField('User', $user);
-            $message->addField('NewToken', HabUtils::updateToken($oldToken));
+            $message->addField('NewToken', DatabaseQueries::updateToken($oldToken));
 
             return $message->renderJson();
         }
