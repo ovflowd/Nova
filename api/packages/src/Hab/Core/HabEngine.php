@@ -42,6 +42,13 @@ final class HabEngine
     private $tokenAuth = '';
 
     /**
+     * Compatible HabClient Java Versions
+     *
+     * @var array
+     */
+    private $javaVersions = [];
+
+    /**
      * Get the Current Instance of the Engine Class
      *
      * Singleton Method
@@ -71,6 +78,7 @@ final class HabEngine
         // Decodes into Objects
         $this->apiSettings = json_decode($apiSettings);
         $this->engineSettings = json_decode($engineSettings);
+        $this->javaVersions = json_decode(COMPATIBLE_JAVA);
 
         // Set Database Credentials
         DatabaseManager::getInstance()->setCredentials($this->engineSettings->database);
@@ -150,5 +158,15 @@ final class HabEngine
     public function getTokenAuth()
     {
         return $this->tokenAuth;
+    }
+
+    /**
+     * Get Compatible JavaApp Versions with this Engine
+     *
+     * @return array
+     */
+    public function getJavaVersions()
+    {
+        return $this->javaVersions;
     }
 }

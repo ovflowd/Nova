@@ -61,4 +61,17 @@ class HabUpdater
 
         return $existsUpdates ? $content : '';
     }
+
+    /**
+     * Check if the HabClient Java App version is compatible with the current Engine version
+     *
+     * @param integer $checkVersion
+     * @return bool Return (true) if the Version it's compatible (false) if not.
+     */
+    public static function checkEngineJava($checkVersion)
+    {
+        $compatibleVersions = HabEngine::getInstance()->getJavaVersions();
+
+        return (in_array($checkVersion, $compatibleVersions));
+    }
 }
