@@ -3,4 +3,7 @@
 	<output-test url="file://$MODULE_DIR$/tests"/>
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$/.."/>
+	<lib name="DJNativeSwing-SWT.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/client/lib/DJNativeSwing-SWT.jar!/"/>
+	</lib>
 </component>
