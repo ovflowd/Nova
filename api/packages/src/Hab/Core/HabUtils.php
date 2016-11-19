@@ -41,11 +41,12 @@ final class HabUtils
      *
      * @Attention PHP 5.3 or Higher!
      *
+     * @param bool $isSSO If is SSO
      * @return string
      */
-    public static function TokenCrypto()
+    public static function TokenCrypto($isSSO = false)
     {
-        return bin2hex(openssl_random_pseudo_bytes(16));
+        return ($isSSO ? 'SSO-' : 'HabClient-') . bin2hex(openssl_random_pseudo_bytes(16));
     }
 
     /**
