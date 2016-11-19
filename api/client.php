@@ -9,34 +9,13 @@
  * @author Claudio Santoro
  */
 
+use Hab\Core\HabEngine;
+
 define('ENGINE_FOLDER', __DIR__ . 'packages/');
-
-define('ERROR_MODEL', '
-<html>
-    <head>
-        <title>HClient : Failed</title>
-    </head>
-    <body>
-        <h1>{header}</h1>
-         <p>{message}<br></p>
-    </body>
-</html>');
-
-/**
- * Creates an Error Message
- *
- * @param string $title
- * @param string $message
- * @return string
- */
-function createError($title = 'Error', $message = 'No Details provided.')
-{
-    return str_replace('{header}', $title, str_replace('{message}', $message, ERROR_MODEL));
-}
 
 // This Settings Are Fundamental to the Engine Work.
 define('ENGINE_SETTINGS', json_encode([
-    'database' => [
+    'Database' => [
         'host' => 'localhost',
         'port' => 3306,
         'user' => 'root',
@@ -97,16 +76,10 @@ define('API_SETTINGS', json_encode([
 
 ## Start Engine Section
 
-if (!file_exists(ENGINE_FOLDER . 'Engine.php')) {
-    die(createError('Sorry', "The HClient API Couldn't be loaded correctly. The Core Engine wasn't found."));
-}
+@require_once "phar://HabClient.phar/bootstrap.php";
 
-// Load the Core Engine
-@require_once ENGINE_FOLDER . 'Engine.php';
+HabEngine::getInstance()->prepare(API_SETTINGS, ENGINE_SETTINGS);
 
-Engine::getInstance()->prepare(API_SETTINGS, ENGINE_SETTINGS);
-
-echo Engine::getInstance()->createResponse();
+echo HabEngine::getInstance()->createResponse();
 
 ## HClient ends here.
-
