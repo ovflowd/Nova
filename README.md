@@ -12,7 +12,35 @@ HabClient allows you to play independent of the browsers any Flash or Shockwave 
 
 HabClient it's more secure and convenient. You can play more feastely. For Server Administrators you have many advantages to use it.
 
-<h2>How to use HabClient Engine? (Development)</h2>
+<h2>How to use HabClient Development Version</h2>
+
+<h3>I want to configure HabClient </h3>
+
+* Download latests builds of HabClient Engine and HabClient App in Releases Section
+* Configure the HabClient Engine Settings on `client.php`
+* You can run a test environment of HabClient by starting PHP Built-In server (explained above)
+* Package the HabClient App
+* Open the client (Engine) `http://yoursite.com:8080/client.php`
+* Copy the Token Hash
+* Open HabClient App
+* Enter your hotel URI (eg.: `http://yoursite.com:8080`)
+* Enter the Generated Token, and press the Button.
+* Client will load instantly.
+
+_Observation.:_ Be sure that your Emulator is running! And that the External_Variables are configured correctly.
+
+<h3>I want to play HabClient with a Development Server that is deployed</h3>
+
+* Open the client (Engine) `http://yoursite.com:8080/client.php`
+* Copy the Token Hash
+* Open HabClient App
+* Enter your hotel URI (eg.: `http://yoursite.com:8080`)
+* Enter the Generated Token, and press the Button.
+* Client will load instantly.
+
+<h2>How to build HabClient Engine? (Development)</h2>
+
+<h3>For HabClient Engine</h3>
 
 * First you need clone or Download a ZIP of this repository.
 * Open your console and Build HabClient by entering this on your console:
@@ -32,6 +60,19 @@ php -S 0.0.0.0:8080 ./
 * HabClient will be running at port 8080, you can access it by http://localhost/client.php
 
 _Observation.:_ Remember that the HabClient Engine works directly from the client.php
+
+<h3>For HabClient Electron App</h3>
+
+* You need Have Installed `NPM` Package Manager
+* After Installing it, open your console and enter this:
+
+```bash
+npm install -g electron
+npm install -g electron-packager
+electron-packager client/ HabClient --version 1.4.7 --platform all
+```
+
+* Your app was builded successfully ;) (Multi Platform)
 
 <h2>How to Install HabClient? (Production)</h2>
 
