@@ -59,14 +59,18 @@
     </div>
 </div>
 <script type="text/javascript">
+// Require Electron Module
 var electron = require('electron');
 
+// Require startHabClient Method
 var startHabClient = electron.remote.require('./main').startHabClient;
 
+// Get Document Elements for Button & Inputs
 var serverButton = document.getElementById('submitServer');
 var serverText = document.getElementById('serverUri');
 var serverToken = document.getElementById('serverToken');
 
+// Create a Listener for the OnClick on the Submit Button
 serverButton.addEventListener('click', function () {
   startHabClient(serverText.value, serverToken.value);
 });

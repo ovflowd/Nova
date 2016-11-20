@@ -1,59 +1,114 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, Menu} = require('electron')
 const path = require('path')
 const url = require('url')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
-let pluginName
+let win, flashName, shockwaveName
 
+// Select Which Platform being Used.
 switch (process.platform) {
   case 'win32':
-    pluginName = 'pepflashplayer.dll'
+    flashName = 'PepperFlashPlayer.dll'
     break
   case 'darwin':
-    pluginName = 'PepperFlashPlayer.plugin'
+    flashName = 'PepperFlashPlayer.plugin'
     break
   case 'linux':
-    pluginName = 'libpepflashplayer.so'
+    flashName = 'libpepflashplayer.so'
     break
 }
 
+// Load Pepper Flash (PPAPI)
+app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, flashName))
+
+// Defined that it's preparing modules
 console.log("[HabClient] Preparing Modules...");
+
+function HabClient() {
+
+  // Initialize HabClient and store it contents
+  this.initHab = function(serverName, serverToken) {
+    console.log("[HabClient] Server Selected: " + serverName)
+
+    console.log("[HabClient] Selected Token: " + serverToken)
+
+    console.log("Preparing now HabClient for selected server...")
+
+    // Set Internal Variables
+    variables.ServerToken = serverToken;
+    variables.ServerUri = serverName;
+  }
+
+  // Start HabClient Communication
+  this.startComm = function() {
+    console.log("[HabClient] Preparing [ContextURL]: " + this.getBase() + this.getController('Hotel') + this.getModule('Client') + this.getToken())
+
+    win.loadURL(this.getBase() + this.getController('Hotel') + this.getModule('Client') + this.getToken())
+
+    console.log("[HabClient] Loading Client...")
+  }
+
+  // HabClient Variables
+  var variables = {
+    ServerToken : "",
+    ServerUri : "",
+    ServerBase : "/client.php",
+  }
+
+  // HabClient Controllers
+  var controllers = {
+    Hotel : "?Page=Hotel",
+    Users : "?Page=Users"
+  }
+
+  // HabClient Modules
+  var modules = {
+    Token : "&Token=",
+    Client : "&SubPage=ShowClient",
+    HotelSettings : "&SubPage=Client",
+    UserAuth : "&SubPage=Login",
+    HotelStatus : "&SubPage=Status",
+    UserCount : "&SubPage=OnlineCount"
+  }
+
+  // Get Server Base URI + Server Base
+  this.getBase = function() {
+    return this.getVar('ServerUri') + this.getVar('ServerBase');
+  }
+
+  // Get Server Token
+  this.getToken = function() {
+    return this.getModule('Token') + this.getVar('ServerToken')
+  }
+
+  // Get HabClient Variable
+  this.getVar = function(VarName) {
+    return variables[VarName]
+  }
+
+  // Get HabClient Controllers
+  this.getController = function(VarName) {
+    return controllers[VarName]
+  }
+
+  // Get HabClient Modules
+  this.getModule = function(VarName) {
+    return modules[VarName]
+  }
+}
+
+// Instantiates HabClient
+global.habclient = new HabClient();
 
 // Start HabClient Function
 function startHabClient(serverName, serverToken) {
-  console.log("[HabClient] Server Selected: " + serverName)
+    global.habclient.initHab(serverName, serverToken);
 
-  console.log("[HabClient] Selected Token: " + serverToken)
-
-  console.log("Preparing now HabClient for selected server...")
-
-  global.habclient.ServerUri = serverName;
-  global.habclient.ServerToken = serverToken;
-
-  initHabClient();
+    global.habclient.startComm();
 }
 
-// Init HabClient for Selected Server
-function initHabClient() {
-
-  console.log("[HabClient] Loading Client...")
-
-  win.loadURL(global.habclient.ServerUri + global.habclient.ServerController + "&Token=" + global.habclient.ServerToken)
-
-  console.log("[HabClient] Preparing [ContextURL]: " + global.habclient.ServerUri + global.habclient.ServerController + "&Token=" + global.habclient.ServerToken)
-}
-
-// Define HabClient Variavles
-global.habclient = {
-  ServerToken : "",
-  ServerUri : "",
-  ServerController : "/client.php?Page=Hotel&SubPage=ShowClient"
-}
-
-app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName))
-
+// Exports HabClient Init Method
 exports.startHabClient = startHabClient;
 
 function createWindow () {
@@ -86,7 +141,27 @@ function createWindow () {
     console.log("[HabClient] Bye.")
   })
 
-  win.setMenu(null)
+  // Create the Application's main menu
+    var template = [{
+        label: "HabClient",
+        submenu: [
+            { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+            { type: "separator" },
+            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        ]}, {
+        label: "Edit",
+        submenu: [
+            { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+            { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+            { type: "separator" },
+            { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+            { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+            { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        ]}
+    ];
+
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 // This method will be called when Electron has finished

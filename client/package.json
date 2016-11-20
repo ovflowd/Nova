@@ -1,5 +1,15 @@
 {
   "name"    : "HabClient",
   "version" : "0.1.0",
-  "main"    : "main.js"
+  "main"    : "main.js",
+  "description": "External Habbo Hotel Client Interface",
+  "keywords": [
+    "Habbo",
+    "Habbo Hotel",
+    "RaGEZONE",
+    "Retro Server"
+  ],
+  "author": "sant0ro",
+  "repository": "https://github.com/sant0ro/habclient",
+  "license": "MIT"
 }

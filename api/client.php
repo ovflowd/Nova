@@ -60,7 +60,7 @@ define('ENGINE_SETTINGS', json_encode([
 define('API_SETTINGS', json_encode([
     'hotel' => [
         'name' => 'Habbo Hotel',
-        'base' => 'http://localhost:8080/',
+        'base' => 'http://localhost/',
         'logout' => 'http://localhost/logout.php'
     ],
     'emulator' => [
@@ -68,7 +68,7 @@ define('API_SETTINGS', json_encode([
         'port' => 30000,
     ],
     'swf' => [
-        'path' => 'http://localhost:8080/resources/swf/',
+        'path' => 'http://localhost/resources/swf/',
         'gordon' => [
             'base' => 'gordon/PRODUCTION-201510201205-42435347/',
             'flash' => 'Habbo.swf'
@@ -84,7 +84,7 @@ define('API_SETTINGS', json_encode([
     ],
     'custom' => [
         'loading' => 'Loading Habbo Hotel...',
-        'logo' => 'http://localhost:8080/images/logo.gif',
+        'logo' => 'http://localhost/images/logo.gif',
     ]
 ]));
 
