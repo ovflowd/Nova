@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>
+        HabClient - Welcome
+    </title>
+    <link rel="stylesheet" type="text/css" href="assets/css/home.css">
+</head>
+<body>
+<div id="loading"></div>
+<div id="container">
+    <div id="content">
+        <div id="header" style="margin-bottom:20px;" class="clearfix">
+            <h1><span><img src="assets/images/logo.gif"/></span></h1>
+        </div>
+        <div id="process-content">
+            <div class="fireman">
+                <h1>Select the Server!</h1>
+                  <p>
+                    Hello, in order to use HabClient you need select the server.
+                    <br/>
+                    <br/>
+                    <p>Hotel URL</p>
+                    <p><input class="text-input" id="serverUri" type="text"/></p>
+                    <p>Your Generated Token</p>
+                    <p><input class="text-input" id="serverToken" type="text"/></p>
+                </p>
+                <p>
+                    <br/>
+                    <a class="button-blue" href="#" id="submitServer">Load Server</a>
+                </p>
+            </div>
+            <div class="tweet-container">
+                <h2>What's going on?</h2>
+                <div class="tweet">
+                    <ul class="tweet_list">
+                        <li>
+                            <b>Welcome to HabClient Bootstrapper</b>
+                            This is the HabClient Bootstraper, you can play any Retro Server using HabClient, with this App.
+                        </li>
+                        <li class="tweet_even">
+                            <b>RaGEZONE! & GitHub</b>
+                            Help by contributing to HabClient, see our development thread <a href="http://forum.ragezone.com/f331/habclient-java-php-flash-shockwave-1119880">here</a>
+                        </li>
+                        <li>
+                            <b>Which version i'm running?</b>
+                            HabClient App v0111 (Dev Alpha)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="footer">
+                <p class="copyright">&copy; 2016
+                    - HabClient<br/>
+                    <b>Developed by Claudio Santoro [HabClient v<?= ENGINE_VERSION ?>]</b></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+var electron = require('electron');
+
+var startHabClient = electron.remote.require('./main').startHabClient;
+
+var serverButton = document.getElementById('submitServer');
+var serverText = document.getElementById('serverUri');
+var serverToken = document.getElementById('serverToken');
+
+serverButton.addEventListener('click', function () {
+  startHabClient(serverText.value, serverToken.value);
+});
+</script>
+</body>
+</html>
