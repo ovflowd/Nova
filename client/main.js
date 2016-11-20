@@ -37,14 +37,17 @@ function startHabClient(serverName, serverToken) {
 
 // Init HabClient for Selected Server
 function initHabClient() {
+
+  console.log("[HabClient] Loading Client...")
+
   win.loadURL(global.habclient.ServerUri + global.habclient.ServerController + "&Token=" + global.habclient.ServerToken)
 
-  console.log("[HabClient] Preparing... " + global.habclient.ServerUri + global.habclient.ServerController + "&Token=" + global.habclient.ServerToken)
+  console.log("[HabClient] Preparing [ContextURL]: " + global.habclient.ServerUri + global.habclient.ServerController + "&Token=" + global.habclient.ServerToken)
 }
 
-// define habclient
+// Define HabClient Variavles
 global.habclient = {
-  ServerToken : "", // Provisory Master Token
+  ServerToken : "",
   ServerUri : "",
   ServerController : "/client.php?Page=Hotel&SubPage=ShowClient"
 }
@@ -54,26 +57,24 @@ app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName
 exports.startHabClient = startHabClient;
 
 function createWindow () {
-  // Create the browser window.
   win = new BrowserWindow({
     width: 900,
     height: 700,
-    //titleBarStyle: 'hidden',
-    //transparent: true,
-    //frame:false,
-    //toolbar: false,
     center: true,
     webPreferences: {
         plugins: true,
         allowRunningInsecureContent: true
     }})
 
-  // and load the index.html of the app.
+  console.log("[HabClient] Launching Context Window...")
+
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',
     slashes: true
   }))
+
+  console.log("[HabClient] Ready!")
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -81,6 +82,8 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null
+
+    console.log("[HabClient] Bye.")
   })
 
   win.setMenu(null)
