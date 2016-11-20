@@ -10,6 +10,8 @@
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
 
+client/.idea
+
 # HabEngine
 api/packages/build
 api/HabClient.phar

@@ -2,8 +2,12 @@
 <component inheritJdk="true">
 	<output-test url="file://$MODULE_DIR$/tests"/>
 	<exclude-output/>
-	<contentEntry url="file://$MODULE_DIR$/.."/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="Tomcat 8.5.8" scope="PROVIDED"/>
 	<lib name="DJNativeSwing-SWT.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/client/lib/DJNativeSwing-SWT.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/DJNativeSwing-SWT.jar!/"/>
 	</lib>
+	<levels>
+		<level name="Tomcat 8.5.8" value="application_server_libraries"/>
+	</levels>
 </component>
