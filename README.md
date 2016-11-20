@@ -70,7 +70,26 @@ _Observation.:_ Remember that the HabClient Engine works directly from the clien
 npm install -g electron
 npm install -g electron-packager
 npm install -g electron-menus
-electron-packager client/ HabClient --version 1.4.7 --platform all --out output/
+```
+
+* Now Build for your Platform:
+
+<h4>Darwin (OS X)</h4>
+
+```bash
+electron-packager client/ HabClient --version 1.4.7 --platform darwin --out output/ --icon client/icon.icns
+```
+
+<h4>Windows (x64)</h4>
+
+```bash
+electron-packager client/ HabClient --version 1.4.7 --platform win32 --out output/ --icon client/icon.ico
+```
+
+<h4>Linux</h4>
+
+```bash
+electron-packager client/ HabClient --version 1.4.7 --platform linux --out output/
 ```
 
 * Your app was builded successfully ;) (Multi Platform)
@@ -87,5 +106,17 @@ See our guide in the Wiki Page, by clicking here. All documentation about Instal
 
 You also can see the API Documentation by clicking here.
 
+<h2>Considerations about Flash</h2>
+
+**HabClient** actualy uses PepperFlash, since Electron emulates a Chrome Container. Actually i'm researching to enable NPAPI Plugins, like Adobe Shockwave (Adobe Flash v18.0) (Netscape API). Since the Pepper Flash (Adobe Flash v24.0+) (Pepper API) excludes the Adobe Shockwave Directory and obviously the Adobe Shockwave Flash.
+
+This will be the biggest **blocking step** in this project. Winning this phase, will literally make the project working for Shockwave.
+
+Anyways, i'm actually gathering the PepperFlash Plugin Files {.plugin, .dll, .so} for their respective SO's, Other mission will be updating continuously the Flash versions.
+
 <h2>How to contribute to HabClient?</h2>
 Soon.
+
+<h2>Many tahnks</h2>
+
+Thanks for supporting HabClient.
