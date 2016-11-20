@@ -24,7 +24,7 @@ $_SESSION['id'] = 1;
 // This Settings Are Fundamental to the Engine Work.
 define('ENGINE_SETTINGS', json_encode([
     'database' => [
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => 3306,
         'user' => 'habbo',
         'password' => 'habbo',
