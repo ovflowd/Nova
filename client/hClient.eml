@@ -5,9 +5,37 @@
 	<contentEntry url="file://$MODULE_DIR$"/>
 	<lib name="Tomcat 8.5.8" scope="PROVIDED"/>
 	<lib name="DJNativeSwing-SWT.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/DJNativeSwing-SWT.jar!/chrriis"/>
+	</lib>
+	<lib name="jna-4.1.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jna-4.1.0.jar!/"/>
+	</lib>
+	<lib name="lib/DJNativeSwing-SWT.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/DJNativeSwing-SWT.jar!/"/>
+	</lib>
+	<lib name="commons-codec-1.9.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/commons-codec-1.9.jar!/"/>
+	</lib>
+	<lib name="jna-platform-4.1.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jna-platform-4.1.0.jar!/"/>
+	</lib>
+	<lib name="fluent-hc-4.5.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/fluent-hc-4.5.2.jar!/"/>
+	</lib>
+	<lib name="httpcore-4.4.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/httpcore-4.4.4.jar!/"/>
+	</lib>
+	<lib name="httpclient-4.5.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/httpclient-4.5.2.jar!/"/>
+	</lib>
+	<lib name="httpmime-4.5.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/httpmime-4.5.2.jar!/"/>
+	</lib>
+	<lib name="commons-logging-1.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/commons-logging-1.2.jar!/"/>
 	</lib>
 	<levels>
 		<level name="Tomcat 8.5.8" value="application_server_libraries"/>
+		<level name="com.google.code.gson:gson:2.8.0" value="project"/>
 	</levels>
 </component>

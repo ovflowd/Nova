@@ -22,14 +22,10 @@ public class SplashScreen extends Application {
     private Stage mainStage;
     private Label progressLabel;
 
-    public static void main(String[] args) throws Exception {
-        launch(args);
-    }
-
     @Override
     public void init() {
         ImageView splash = new ImageView(new Image(SplashScreen.class.getClassLoader().getResourceAsStream("assets/Loading.png")));
-        ImageView inside = new ImageView(new Image("http://localhost/images/logo.gif"));
+        ImageView inside = new ImageView(new Image(Initializer.getServerApi().getClient().getHotel().getBase() + "images/logo.gif"));
 
         splashLayout = new StackPane();
         splashLayout.setMaxSize(1200, 600);
@@ -68,7 +64,7 @@ public class SplashScreen extends Application {
 
                 Thread.sleep(500);
 
-                updateMessage("Connection made with HabClient Engine at [127.0.0.1:8080]");
+                updateMessage("Connection made with HabClient Engine at [" + Initializer.getServerApi().getClient().getHotel().getBase() + "]");
 
                 Thread.sleep(500);
 
@@ -112,7 +108,7 @@ public class SplashScreen extends Application {
         mainStage.setTitle("HabClient - Welcome");
 
         webView = new WebView();
-        webView.getEngine().load("http://localhost:8080/client.php");
+        webView.getEngine().load(Initializer.getServerApi().getClient().getHotel().getBase() + "client.php");
 
         Scene scene = new Scene(webView, 1000, 700);
 

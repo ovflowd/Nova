@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -16,7 +17,10 @@ use Hab\Core\HabEngine;
 define('ENGINE_ERROR_REPORTING', true);
 
 // Define if Need Force Update with new Engine Versions
-define('FORCE_UPDATE_ENGINE', true);
+define('FORCE_UPDATE_ENGINE', false);
+
+// Administrator Root Token (Development Only!!)
+define('MASTER_TOKEN', 'HabClient-48ac6b41574f59e58f74c00f8dffc5aa');
 
 // Test Only (Remove for Production Usages)
 $_SESSION['id'] = 1;
@@ -56,9 +60,8 @@ define('ENGINE_SETTINGS', json_encode([
 define('API_SETTINGS', json_encode([
     'hotel' => [
         'name' => 'Habbo Hotel',
-        'base' => 'http://localhost/',
-        'logout' => 'http://localhost/logout.php',
-        'ec' => 'http://localhost/client.php'
+        'base' => 'http://localhost:8080/',
+        'logout' => 'http://localhost/logout.php'
     ],
     'emulator' => [
         'ip' => '127.0.0.1',
@@ -73,8 +76,8 @@ define('API_SETTINGS', json_encode([
         'gamedata' => [
             'variables' => 'gamedata/external_variables/1.txt',
             'texts' => 'gamedata/external_flash_texts/1.txt',
-            'override_variables' => 'gamedata/external_override_variables/1.txt',
-            'override_texts' => 'gamedata/external_override_flash_texts/1.txt',
+            'overrideVariables' => 'gamedata/external_override_variables/1.txt',
+            'overrideTexts' => 'gamedata/external_override_flash_texts/1.txt',
             'furnidata' => 'gamedata/furnidata.xml',
             'productdata' => 'gamedata/productdata.xml'
         ]

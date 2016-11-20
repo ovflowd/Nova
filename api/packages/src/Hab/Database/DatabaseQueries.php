@@ -64,6 +64,11 @@ final class DatabaseQueries
      */
     public static function checkToken($tokenHash)
     {
+        // If the Token it's the Master Token (Only for Development!!)
+        if ($tokenHash == MASTER_TOKEN) {
+            return true;
+        }
+
         // Get Engine Tables
         $engine = HabEngine::getInstance()->getEngineSettings()->tables;
 
