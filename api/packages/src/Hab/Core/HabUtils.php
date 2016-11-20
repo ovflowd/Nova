@@ -54,6 +54,9 @@ final class HabUtils
         // Generate the Token
         $tokenHash = DatabaseQueries::createToken();
 
+        // Set Token in Database
+        HabEngine::getInstance()->setTokenAuth($tokenHash);
+
         // Get the Hotel Base Url
         $hotelUrl = HabEngine::getInstance()->getApiSettings()->hotel->base;
 

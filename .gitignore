@@ -15,6 +15,7 @@ client/.idea
 # HabEngine
 api/packages/build
 api/HabClient.phar
+api/resources/
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids

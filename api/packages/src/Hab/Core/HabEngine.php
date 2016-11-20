@@ -185,4 +185,14 @@ final class HabEngine
     {
         return $this->javaVersions;
     }
+
+    /**
+     * Set the Token Auth
+     *
+     * @param string $tokenAuth
+     */
+    public function setTokenAuth($tokenAuth)
+    {
+        $this->tokenAuth = $tokenAuth;
+    }
 }

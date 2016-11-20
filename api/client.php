@@ -68,23 +68,23 @@ define('API_SETTINGS', json_encode([
         'port' => 30000,
     ],
     'swf' => [
-        'path' => 'http://localhost/swf/',
+        'path' => 'http://localhost:8080/resources/swf/',
         'gordon' => [
-            'base' => 'gordon/',
+            'base' => 'gordon/PRODUCTION-201510201205-42435347/',
             'flash' => 'Habbo.swf'
         ],
         'gamedata' => [
-            'variables' => 'gamedata/external_variables/1.txt',
-            'texts' => 'gamedata/external_flash_texts/1.txt',
-            'overrideVariables' => 'gamedata/external_override_variables/1.txt',
-            'overrideTexts' => 'gamedata/external_override_flash_texts/1.txt',
+            'variables' => 'gamedata/external_variables.txt',
+            'texts' => 'gamedata/external_flash_texts.txt',
+            'overrideVariables' => 'gamedata/external_override_variables.txt',
+            'overrideTexts' => 'gamedata/external_override_flash_texts.txt',
             'furnidata' => 'gamedata/furnidata.xml',
-            'productdata' => 'gamedata/productdata.xml'
+            'productdata' => 'gamedata/productdata.json'
         ]
     ],
     'custom' => [
         'loading' => 'Loading Habbo Hotel...',
-        'logo' => 'http://localhost/images/logo.png',
+        'logo' => 'http://localhost:8080/images/logo.gif',
     ]
 ]));
 

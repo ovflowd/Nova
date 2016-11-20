@@ -14,7 +14,7 @@
 <div id="container">
     <div id="content">
         <div id="header" style="margin-bottom:20px;" class="clearfix">
-            <h1><span><img src="https://imgur.com/yWgYZ8n.gif"/></span></h1>
+            <h1><span><img src="<?= \Hab\Core\HabEngine::getInstance()->getApiSettings()->custom->logo; ?>"/></span></h1>
         </div>
         <div id="process-content">
             <?= \Hab\Core\HabUpdater::renderUpdates(); ?>
@@ -29,6 +29,10 @@
                 <p>
                     <br/>
                     <a class="button-blue" href="<?= \Hab\Core\HabUtils::generateExternal(); ?>">Enter Client!</a>
+                    <br/>
+                    <br/>
+                    <i>Or enter manually the Token in the Client:
+                        <b style="font-size:12px !important"><?= \Hab\Core\HabEngine::getInstance()->getTokenAuth(); ?></b></i>
                 </p>
             </div>
             <div class="tweet-container">

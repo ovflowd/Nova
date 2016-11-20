@@ -4,6 +4,7 @@ namespace Hab\Templates;
 
 use Hab\Core\HabEngine;
 use Hab\Core\HabMessage;
+use Hab\Core\HabTemplate;
 use Hab\Core\HabUpdater;
 use Hab\Database\DatabaseQueries;
 
@@ -120,5 +121,23 @@ final class Hotel extends Base
         }
 
         return (new HabMessage(403, "Your Token isn't valid! Authentication Failed to obtain Hotel Data"))->renderJson();
+    }
+
+    /**
+     * Show the Hotel Client
+     *
+     * @return string
+     */
+    protected function ShowClient()
+    {
+        // Get Token Authentication
+        $oldToken = HabEngine::getInstance()->getTokenAuth();
+
+        // If Token is Valid Continue
+        if (DatabaseQueries::checkToken($oldToken)) {
+            return HabTemplate::includeVendor('Client.php');
+        }
+
+        return (new HabMessage(403, "Your Token isn't valid! Authentication Failed to obtain Hotel Client"))->renderJson();
     }
 }
