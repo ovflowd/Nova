@@ -69,7 +69,7 @@ _Observation.:_ Remember that the HabClient Engine works directly from the clien
 ```bash
 npm install -g electron
 npm install -g electron-packager
-electron-packager client/ HabClient --version 1.4.7 --platform all
+electron-packager client/ HabClient --version 1.4.7 --platform all --out client/output/
 ```
 
 * Your app was builded successfully ;) (Multi Platform)
