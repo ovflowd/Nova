@@ -1,6 +1,5 @@
 package com.habbohotel.habclient.core;
 
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
@@ -16,13 +15,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 public class SplashScreen extends Application {
     private Pane splashLayout;
     private WebView webView;
     private Stage mainStage;
-    private Task<Void> labelTask;
     private Label progressLabel;
 
     public static void main(String[] args) throws Exception {
@@ -56,28 +53,28 @@ public class SplashScreen extends Application {
         showSplash(initStage);
         initStage.toFront();
 
-        labelTask = new Task<Void>() {
+        Task<Void> labelTask = new Task<Void>() {
             @Override
             public Void call() throws InterruptedException {
                 updateMessage("Please Wait! Starting up HabClient...");
 
-                Thread.sleep(3000);
+                Thread.sleep(500);
 
                 updateMessage("Loading HabClient Communication Modules..");
 
-                Thread.sleep(5000);
+                Thread.sleep(500);
 
                 updateMessage("Starting Communication with HabClient Engine..");
 
-                Thread.sleep(3000);
+                Thread.sleep(500);
 
                 updateMessage("Connection made with HabClient Engine at [127.0.0.1:8080]");
 
-                Thread.sleep(2000);
+                Thread.sleep(500);
 
                 updateMessage("Authenticating with provided Token....");
 
-                Thread.sleep(2000);
+                Thread.sleep(500);
 
                 updateMessage("Authentication OK... Starting Flash Provider...");
 
@@ -91,32 +88,33 @@ public class SplashScreen extends Application {
             progressLabel.setText("HabClient Engine is Ready...");
 
             showMainStage();
+
+            webView.getEngine().documentProperty().addListener((observableValue, document, document1) -> {
+                if (initStage.isShowing()) {
+                    initStage.hide();
+                    mainStage.show();
+                }
+            });
         });
 
-        webView.getEngine().documentProperty().addListener((observableValue, document, document1) -> {
-            if (initStage.isShowing()) {
+        Thread thread = new Thread(labelTask);
+        thread.setDaemon(true);
+        thread.start();
 
-                mainStage.setIconified(false);
-                initStage.toFront();
-
-                FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
-                fadeSplash.setFromValue(1.0);
-                fadeSplash.setToValue(0.0);
-                fadeSplash.setOnFinished(actionEvent -> initStage.hide());
-                fadeSplash.play();
-            }
-        });
+        progressLabel.textProperty().bind(labelTask.messageProperty());
     }
 
     private void showMainStage() {
+
         mainStage = new Stage(StageStyle.DECORATED);
+        mainStage.hide();
+
         mainStage.setTitle("HabClient - Welcome");
-        mainStage.setIconified(true);
 
         webView = new WebView();
         webView.getEngine().load("http://localhost:8080/client.php");
 
-        Scene scene = new Scene(webView, 1000, 600);
+        Scene scene = new Scene(webView, 1000, 700);
 
         webView.prefWidthProperty().bind(scene.widthProperty());
         webView.prefHeightProperty().bind(scene.heightProperty());
@@ -127,12 +125,6 @@ public class SplashScreen extends Application {
 
     private void showSplash(Stage initStage) {
         Scene splashScene = new Scene(splashLayout);
-
-        Thread thread = new Thread(labelTask);
-        thread.setDaemon(true);
-        thread.start();
-
-        progressLabel.textProperty().bind(labelTask.messageProperty());
 
         splashScene.setFill(Color.TRANSPARENT);
 
