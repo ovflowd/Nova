@@ -69,6 +69,7 @@ _Observation.:_ Remember that the HabClient Engine works directly from the clien
 ```bash
 npm install -g electron
 npm install -g electron-packager
+npm install -g electron-menus
 electron-packager client/ HabClient --version 1.4.7 --platform all --out output/
 ```
 
