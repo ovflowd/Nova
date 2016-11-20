@@ -21,14 +21,12 @@
                     Hello, in order to use HabClient you need select the server.
                     <br/>
                     <br/>
-                    <p>Hotel URL</p>
+                    <p>Hotel URL (without http://)</p>
                     <p><input class="text-input" id="serverUri" type="text"/></p>
-                    <p>Your Generated Token</p>
-                    <p><input class="text-input" id="serverToken" type="text"/></p>
                 </p>
                 <p>
                     <br/>
-                    <a class="button-blue" href="#" id="submitServer">Load Server</a>
+                    <a class="button blue" href="#" id="submitServer">Load Server</a>
                 </p>
             </div>
             <div class="tweet-container">
@@ -53,7 +51,7 @@
             <div id="footer">
                 <p class="copyright">&copy; 2016
                     - HabClient<br/>
-                    <b>Developed by Claudio Santoro [HabClient v<?= ENGINE_VERSION ?>]</b></p>
+                    <b>Developed by Claudio Santoro</b></p>
             </div>
         </div>
     </div>
@@ -63,16 +61,15 @@
 var electron = require('electron');
 
 // Require startHabClient Method
-var startHabClient = electron.remote.require('./main').startHabClient;
+var checkServer = electron.remote.require('./main').checkServer;
 
 // Get Document Elements for Button & Inputs
 var serverButton = document.getElementById('submitServer');
 var serverText = document.getElementById('serverUri');
-var serverToken = document.getElementById('serverToken');
 
 // Create a Listener for the OnClick on the Submit Button
 serverButton.addEventListener('click', function () {
-  startHabClient(serverText.value, serverToken.value);
+  checkServer(serverText.value);
 });
 </script>
 </body>

@@ -68,6 +68,11 @@ h2 {
     border-radius: 3px;
 }
 
+.fireman-error {
+  background: #ff5800 !important;
+  width: 710px !important;
+}
+
 div.fireman {
     color: #fff;
     /* background: #f60; */
@@ -88,6 +93,7 @@ div.fireman h1 {
 div.fireman p {
     margin: 0 14px 7px 14px;
     font-size: 16px;
+    font-weight: lighter;
 }
 
 div.tweet-container {
@@ -143,8 +149,7 @@ a.time {
     clear: both;
 }
 
-.button-blue {
-    background: #559edc;
+.button {
     color: white;
     padding: 10px;
     border-radius: 3px;
@@ -152,6 +157,14 @@ a.time {
     font-size: 14px;
     font-weight: bold;
     border: 1px solid transparent;
+}
+
+.blue {
+  background: #559edc;
+}
+
+.red {
+  background: #959595;
 }
 
 .updates {

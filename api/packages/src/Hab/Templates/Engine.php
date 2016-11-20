@@ -42,7 +42,7 @@ class Engine extends Base
 
         // Version need be in the QueryString
         if (!array_key_exists('Version', $queryString)) {
-            return (new HabMessage(400, "You need assign your Java App Version to be checked the compatibility."));
+            return (new HabMessage(400, "You need assign your Java App Version to be checked the compatibility."))->renderJson();
         }
 
         // Check if the Version it's compatible

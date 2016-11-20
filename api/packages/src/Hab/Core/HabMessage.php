@@ -57,6 +57,8 @@ final class HabMessage
     {
         header('Content-Type: application/json; charset=utf-8');
 
+        http_response_code($this->Code);
+
         // Uses the Method to remove the escaping from the slashes
         return json_encode($this, JSON_UNESCAPED_SLASHES, JSON_PRETTY_PRINT);
     }
