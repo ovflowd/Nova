@@ -14,4 +14,4 @@ cache:
   directories:
     - client/node_modules
     - node_modules
-script: cd client && ./script/travis-build.sh
+script: cd client && bash script/travis-build.sh
