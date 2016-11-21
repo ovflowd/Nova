@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "electron ."
+    "test": "mocha && standard"
   },
   "keywords": [],
   "author": "",
