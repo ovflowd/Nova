@@ -118,6 +118,6 @@ Anyways, i'm actually gathering the PepperFlash Plugin Files {.plugin, .dll, .so
 <h2>How to contribute to HabClient?</h2>
 Soon.
 
-<h2>Many tahnks</h2>
+<h2>Many thanks</h2>
 
 Thanks for supporting HabClient.
