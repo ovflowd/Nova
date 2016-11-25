@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>
+        HabClient - Let's do it!
+    </title>
+    <link rel="stylesheet" type="text/css" href="assets/css/home.css">
+</head>
+<body>
+<div id="loading"></div>
+<div id="container">
+    <div id="content">
+        <div id="header" style="margin-bottom:20px;" class="clearfix">
+            <h1><span><img src="assets/images/logo.gif"/></span></h1>
+        </div>
+        <div id="process-content">
+            <div class="fireman">
+                <h1>Authenticate User!</h1>
+                  <p>
+                    OK! You're playing in a valid server. Please enter the Token that was provided for you.
+                    <br/>
+                    <br/>
+                    <p>Your Generated Token</p>
+                    <p><input class="text-input" id="serverToken" type="text"/></p>
+                </p>
+                <p>
+                    <br/>
+                    <a class="button blue" href="#" id="submitServer">Load Server</a>
+                </p>
+            </div>
+            <div class="tweet-container">
+                <h2>What's going on?</h2>
+                <div class="tweet">
+                    <ul class="tweet_list">
+                        <li>
+                            <b>Welcome to HabClient Bootstrapper</b><br/>
+                            This is the HabClient Bootstraper, you can play any Retro Server using HabClient, with this App.
+                        </li>
+                        <li class="tweet_even">
+                            <b>RaGEZONE! & GitHub</b><br/>
+                            Help by contributing to HabClient, see our development thread <a href="http://forum.ragezone.com/f331/habclient-java-php-flash-shockwave-1119880">here</a>
+                        </li>
+                        <li>
+                            <b>Which Version i'm Running?</b><br/>
+                            HabClient App v0111 (Dev Alpha)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="footer">
+                <p class="copyright">&copy; 2016
+                    - HabClient<br/>
+                    <b>Developed by Claudio Santoro</b></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+// Require Electron Module
+var electron = require('electron');
+
+// Require startHabClient Method
+var checkToken = electron.remote.require('./main').checkToken;
+
+// Get Document Elements for Button & Inputs
+var serverButton = document.getElementById('submitServer');
+var serverToken = document.getElementById('serverToken');
+
+// Create a Listener for the OnClick on the Submit Button
+serverButton.addEventListener('click', function () {
+  checkToken(serverToken.value);
+});
+</script>
+</body>
+</html>
