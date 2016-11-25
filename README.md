@@ -1,4 +1,4 @@
-<sub>![](https://github.com/sant0ro/Nova/raw/master/docs/Beta.gif)</sub>
+<sub>![](https://github.com/sant0ro/Nova/raw/master/docs/Beta.gif) ![](https://github.com/sant0ro/Nova/raw/master/docs/Rat.png)</sub>
 ------------------------------------------
 <sup>The External HH Engine, Client & API</sup><br/>
 [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/habclient/total.svg)]() [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]() [![Build Status](https://travis-ci.org/sant0ro/habclient.svg?branch=master)](https://travis-ci.org/sant0ro/habclient)
