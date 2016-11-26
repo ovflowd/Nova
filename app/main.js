@@ -33,27 +33,36 @@ function NovaApp() {
   const HabVersion = '0111';
 
   // Initialize NovaApp and store it contents
-  this.initHab = function() {
+  this.initHab = function(needAddServer) {
     console.log("[NovaApp] Preparing now NovaApp for selected server...")
 
     // Retrieve Server Data
-    this.retrieveServerData(function (response) {
+    if(needAddServer == true) {
+      this.retrieveServerData(function (response) {
+        if(response == true) {
+          console.log("[NovaApp] Server Selected: " + global.NovaApp.getVar('ServerUri'))
 
-      if(response == true) {
-        console.log("[NovaApp] Server Selected: " + global.NovaApp.getVar('ServerUri'))
+          console.log("[NovaApp] Selected Token: " + global.NovaApp.getVar('ServerToken'))
 
-        console.log("[NovaApp] Selected Token: " + global.NovaApp.getVar('ServerToken'))
+          console.log("[NovaApp] Gathered Server Data...")
 
-        console.log("[NovaApp] Gathered Server Data...")
+          // Add Server Data
+          global.NovaApp.addServer(global.NovaApp.getData('base'))
 
-        // Add Server Data
-        global.NovaApp.addServer(global.NovaApp.getData('base'))
+          global.NovaApp.startComm();
+        } else {
+          console.log("[NovaApp] Failed Retrieving Server Data")
+        }
+      });
+    } else {
+      console.log("[NovaApp] Server Selected: " + global.NovaApp.getVar('ServerUri'))
 
-        global.NovaApp.startComm();
-      } else {
-        console.log("[NovaApp] Failed Retrieving Server Data")
-      }
-    });
+      console.log("[NovaApp] Selected Token: " + global.NovaApp.getVar('ServerToken'))
+
+      console.log("[NovaApp] Gathered Server Data...")
+
+      global.NovaApp.startComm();
+    }
   }
 
   // Start NovaApp Communication
@@ -71,7 +80,7 @@ function NovaApp() {
       slashes: true
     }))
 
-    console.log('[NovaApp] Loadin Page: ' + loadPage)
+    console.log('[NovaApp] Loading Page: ' + loadPage)
   }
 
   this.loadError = function(Title, Message) {
@@ -189,7 +198,8 @@ function NovaApp() {
               var serverData = {
                 base : global.NovaApp.getVars('ServerUri'),
                 name : global.NovaApp.getData('name'),
-                token : global.NovaApp.getVars('ServerToken')
+                token : global.NovaApp.getVars('ServerToken'),
+                fullbase : serverName
               }
 
               var server = {};
@@ -314,6 +324,35 @@ function NovaApp() {
         console.log("[NovaApp] Server is invalid. Sorry.")
       }
     });
+  }
+
+  // Get Rendered Server List
+  this.getRenderedServerList = function(callback) {
+    this.getServerList(function (response) {
+      var updatesHTML = '';
+
+      updatesHTML = '<ul class="tweet_list">';
+
+      var even = 1;
+
+      for(var key in response) {
+        for(var subKey in response[key]) {
+          even++;
+
+          updatesHTML += (even % 2 == 0) ? '<li class="tweet_even">' : '<li>';
+
+          updatesHTML += '<b>' + response[key][subKey].name + '</b> (#' + key + ')<br/>';
+
+          updatesHTML += '<p>Access the Hotel by clicking <a onclick="openServer(\'' + response[key][subKey].base + '\', \'' + response[key][subKey].token + '\');">here</a><p>';
+
+          updatesHTML += '</li>';
+        }
+      }
+
+      updatesHTML += '</ul>';
+
+      callback(updatesHTML);
+    })
   }
 
   // Set Server Updates
@@ -508,7 +547,7 @@ function checkToken(serverToken) {
     if(response == false) {
       global.NovaApp.loadError('Invalid Token!', "Sorry, but the authentication result with the response that you SSO Token is invalid. Please check if the Token is valid, or if you copied it correctly.")
     } else {
-      global.NovaApp.initHab();
+      global.NovaApp.initHab(true);
     }
   })
 }
@@ -523,8 +562,10 @@ function goBack() {
 }
 
 // Get Local Server List
-function getServerList() {
-  return global.NovaApp.getRenderedServerList();
+function getServerList(callback) {
+  global.NovaApp.getRenderedServerList(function (response) {
+    callback(response)
+  })
 }
 
 // Get getError Message
@@ -536,6 +577,20 @@ function getError() {
 function getUpdates() {
   return global.NovaApp.getUpdates();
 }
+
+// Start Specific Server
+function startSpecificServer(serverUri, userToken) {
+  console.log("[NovaApp] Starting a Specific Server from the List... ");
+
+  global.NovaApp.setVar('ServerUri', serverUri)
+
+  global.NovaApp.setVar('ServerToken', userToken)
+
+  global.NovaApp.initHab(false);
+}
+
+// Exports startSpecificServer checkServer Method
+exports.startSpecificServer = startSpecificServer;
 
 // Exports getServerList checkServer Method
 exports.getServerList = getServerList;
@@ -601,10 +656,10 @@ function createWindow () {
       global.NovaApp.eraseServerList();
 
       // Only Uncomment for Development
-      storage.clear(function(error) {
-        if (error)
-          throw error;
-      });
+      // storage.clear(function(error) {
+      //   if (error)
+      //     throw error;
+      // });
 
       // Load Main File
       global.NovaApp.checkServerList(function (response) {

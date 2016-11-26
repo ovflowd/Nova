@@ -49,12 +49,13 @@
         // Require Electron Module
         var electron = require('electron');
 
-        // Require startHabClient Method
+        // Require Check Server Method
         var checkServer = electron.remote.require('./main').checkServer;
 
+        // Get Server Latest News
         var getUpdates = electron.remote.require('./main').getUpdates;
 
-        // Set Lastest News
+        // Set Latest News
         document.getElementById('lastNews').innerHTML = getUpdates();
 
         // Get Document Elements for Button & Inputs

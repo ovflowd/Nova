@@ -44,12 +44,20 @@
         // Require Electron Module
         var electron = require('electron');
 
-        // Require startHabClient Method
-        var checkServer = electron.remote.require('./main').checkServer;
+        // Require Get Server List Method
+        var getServerList = electron.remote.require('./main').getServerList;
 
-        // Create a Listener for the OnClick on the Submit Button
-        //serverButton.addEventListener('click', function () {
-        //});
+        var startSpecificServer = electron.remote.require('./main').startSpecificServer;
+
+        // Set Server List
+        getServerList(function (response) {
+          document.getElementById('serverList').innerHTML = response;
+        })
+
+        // Start Specific Server
+        function openServer(serverUri, userToken) {
+          startSpecificServer(serverUri, userToken);
+        }
       </script>
     </body>
 </html>
