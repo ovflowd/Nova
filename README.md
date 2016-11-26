@@ -49,14 +49,14 @@ _Observation.:_ Be sure that your Emulator is running! And that the External_Var
 * Open your console and Build Nova by entering this on your console:
 
 ```bash
-cd api/
+cd engine/
 php build.php
 ```
 
 * After that you can run Nova API by entering this on your console:
 
 ```bash
-cd api/
+cd engine/
 php -S 0.0.0.0:8080 ./
 ```
 
@@ -80,19 +80,19 @@ npm install -g electron-menus
 <h4>Darwin (OS X)</h4>
 
 ```bash
-electron-packager client/ HabClient --version 1.4.7 --platform darwin --out output/ --icon client/icon.icns
+electron-packager app/ HabClient --version 1.4.7 --platform darwin --out output/ --icon client/icon.icns
 ```
 
 <h4>Windows (x64)</h4>
 
 ```bash
-electron-packager client/ HabClient --version 1.4.7 --platform win32 --out output/ --icon client/icon.ico
+electron-packager app/ HabClient --version 1.4.7 --platform win32 --out output/ --icon client/icon.ico
 ```
 
 <h4>Linux</h4>
 
 ```bash
-electron-packager client/ HabClient --version 1.4.7 --platform linux --out output/
+electron-packager app/ HabClient --version 1.4.7 --platform linux --out output/
 ```
 
 * Nova was builded successfully ;) (Multi Platform)
