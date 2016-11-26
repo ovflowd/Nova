@@ -393,6 +393,9 @@ function createWindow () {
         slashes: true
       }))
 
+      // Close Window
+      winLoading.close()
+
       console.log("[NovaApp] Ready!")
 
       // Emitted when the window is closed.
@@ -403,6 +406,8 @@ function createWindow () {
         win = null
 
         console.log("[NovaApp] Bye.")
+
+        app.quit();
       })
     }, 3000);
 
