@@ -82,19 +82,19 @@ npm install -g --save-dev electron-winstaller
 <h4>Darwin (OS X)</h4>
 
 ```bash
-electron-packager app/ HabClient --version 1.4.7 --platform darwin --out output/ --icon app/icon.icns
+electron-packager app/ Nova --version 1.4.7 --platform darwin --out output/ --icon app/icon.icns
 ```
 
 <h4>Windows (x64)</h4>
 
 ```bash
-electron-packager app/ HabClient --version 1.4.7 --platform win32 --out output/ --icon app/icon.ico
+electron-packager app/ Nova --version 1.4.7 --platform win32 --out output/ --icon app/icon.ico
 ```
 
 <h4>Linux</h4>
 
 ```bash
-electron-packager app/ HabClient --version 1.4.7 --platform linux --out output/
+electron-packager app/ Nova --version 1.4.7 --platform linux --out output/
 ```
 
 * Nova was builded successfully ;) (Multi Platform)
