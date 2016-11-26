@@ -17,6 +17,9 @@ engine/packages/build
 engine/HabClient.phar
 engine/resources/
 
+app/node_modules
+node_modules
+
 # Sensitive or high-churn files:
 .idea/dataSources.ids
 .idea/dataSources.xml
