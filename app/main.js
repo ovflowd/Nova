@@ -2,6 +2,7 @@ const {app, BrowserWindow, Menu} = require('electron')
 const path = require('path')
 const url = require('url')
 const request = require('request')
+const storage = require('electron-json-storage')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -33,13 +34,26 @@ function NovaApp() {
 
   // Initialize NovaApp and store it contents
   this.initHab = function() {
-    console.log("[NovaApp] Server Selected: " + this.getVar('ServerUri'))
+    console.log("[NovaApp] Preparing now NovaApp for selected server...")
 
-    console.log("[NovaApp] Selected Token: " + this.getVar('ServerToken'))
+    // Retrieve Server Data
+    this.retrieveServerData(function (response) {
 
-    console.log("Preparing now NovaApp for selected server...")
+      if(response == true) {
+        console.log("[NovaApp] Server Selected: " + global.NovaApp.getVar('ServerUri'))
 
-    this.startComm();
+        console.log("[NovaApp] Selected Token: " + global.NovaApp.getVar('ServerToken'))
+
+        console.log("[NovaApp] Gathered Server Data...")
+
+        // Add Server Data
+        global.NovaApp.addServer(global.NovaApp.getData('base'))
+
+        global.NovaApp.startComm();
+      } else {
+        console.log("[NovaApp] Failed Retrieving Server Data")
+      }
+    });
   }
 
   // Start NovaApp Communication
@@ -72,6 +86,137 @@ function NovaApp() {
     this.setError(Title, Message)
   }
 
+  // Check if Exists ServerList
+  this.checkServerList = function(callback) {
+    storage.has('serverList', function(error, hasKey) {
+      if (error) {
+        console.log(error);
+      }
+
+      callback(hasKey == true)
+    })
+  }
+
+  // Get Server List
+  this.getServerList = function(callback) {
+    storage.get('serverList', function(error, data) {
+      if (error) {
+        console.log(error);
+      }
+
+      callback(data);
+    });
+  }
+
+  // Update Server List Data
+  this.setServerList = function(serverListData) {
+    storage.set('serverList', serverListData, function(error) {
+      if (error) {
+        console.log(error);
+      }
+
+      global.NovaApp.setLocalServerList(serverListData)
+
+      console.log("[Nova] Updated Server List!")
+    });
+  }
+
+  this.eraseServerList = function() {
+    global.NovaApp.checkServerList(function (response) {
+      if(response == true) {
+        global.NovaApp.getServerList(function (response) {
+          if(response == '{}' || response == 'undefined') {
+            storage.clear(function(error) {
+              if(error) {
+                console.log(error);
+              }
+            });
+
+            console.log("[NovaApp] Clearing Server List, because Data Corrupted.")
+          }
+        })
+      }
+    })
+  }
+
+  // Check If an Specific Server Exists
+  this.checkServerExistence = function(serverName, callback) {
+    this.getServerList(function (serverList) {
+      callback(serverList[serverName] != "undefined");
+    });
+  }
+
+  // Remove Server from the Server List
+  this.removeServer = function(serverName) {
+    this.checkServerExistence(serverName, function(response) {
+      this.getServerList(function (serverList) {
+        delete serverList[serverName];
+
+        global.NovaApp.setServerList(serverList);
+    })})
+  }
+
+  // Add Server or Update Server to the Server List
+  this.addServer = function(serverName) {
+    this.checkServerExistence(serverName, function(response) {
+      if(response == true) {
+        var serverData = {
+          base : global.NovaApp.getVar('ServerUri'),
+          name : global.NovaApp.getData('name'),
+          token : global.NovaApp.getVar('ServerToken')
+        }
+
+        var server = {};
+
+        server[serverName] = serverData;
+
+        global.NovaApp.checkServerList(function (response) {
+          if(response == true) {
+            serverList.push(server);
+
+            global.NovaApp.setServerList(serverList);
+          } else {
+           global.NovaApp.getServerList(function (serverList) {
+             var serverList = [];
+
+             serverList.push(server);
+
+             global.NovaApp.setServerList(serverList);
+           });
+        }});
+      } else {
+            global.NovaApp.getServerList(function (serverList) {
+              var serverData = {
+                base : global.NovaApp.getVars('ServerUri'),
+                name : global.NovaApp.getData('name'),
+                token : global.NovaApp.getVars('ServerToken')
+              }
+
+              var server = {};
+
+              server[serverName] = serverData;
+
+              serverList[serverName] = server;
+
+              global.NovaApp.setServerList(serverList);
+            });
+          }
+    });
+  }
+
+  // Retrieve Server Data
+  this.getServerData = function(serverName, callback) {
+    this.checkServerExistence(serverName, function(response) {
+      if(response == true) {
+        global.NovaApp.getServerList(function (serverList) {
+          callback(serverList[serverName]);
+        });
+      } else {
+        callback({})
+      }
+    });
+  }
+
   // Do NovaApp Request
   this.doRequest = function(RequestUri, callback) {
     request(RequestUri, function (error, response, body) {
@@ -100,6 +245,7 @@ function NovaApp() {
         if(answer.Code == '200') {
           console.log("[NovaApp] Token Validated. All right.")
 
+          // Update Server Token
           global.NovaApp.setVar('ServerToken', answer.NewToken)
 
           validToken = true
@@ -139,6 +285,37 @@ function NovaApp() {
     });
   }
 
+  // Retrieve Server Data
+  this.retrieveServerData = function(callback) {
+    var success = false;
+
+    this.doRequest(this.createUriWithToken('Hotel', 'HotelSettings'), function(response) {
+      if(response == false) {
+        console.log("[NovaApp] Server is invalid and with errors. Sorry.")
+      } else if(response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
+        var answer = JSON.parse(response.Body)
+
+        if(answer.Code == '200') {
+          console.log("[NovaApp] OK. Gathering Server Data...")
+
+          // Update Server Token
+          global.NovaApp.setVar('ServerToken', answer.NewToken)
+
+          // Set Server Data
+          global.NovaApp.setData(answer.Client.hotel)
+
+          success = true
+
+          callback(success)
+        } else {
+          console.log("[NovaApp] Server is outdated. Sorry.")
+        }
+      } else {
+        console.log("[NovaApp] Server is invalid. Sorry.")
+      }
+    });
+  }
+
   // Set Server Updates
   this.retrieveUpdates = function(callback) {
     var updatesHTML = '';
@@ -172,6 +349,9 @@ function NovaApp() {
 
   // Last Server Updates
   var lastUpdatesHTML = '';
+
+  // Server Data
+  var serverData, localServerList;
 
   // NovaApp Variables
   var variables = {
@@ -268,12 +448,34 @@ function NovaApp() {
     errorVars["Message"] = Message;
   }
 
+  // Get App Latest News
   this.getUpdates = function() {
     return lastUpdatesHTML;
   }
 
+  // Set App Latest News
   this.setUpdates = function(updatesHTML) {
     lastUpdatesHTML = updatesHTML;
+  }
+
+  // Set Server Data
+  this.setData = function(servData) {
+    serverData = servData;
+  }
+
+  // Get Server Data
+  this.getData = function(servVar) {
+    return serverData[servVar];
+  }
+
+  // Get Local Server List
+  this.getLocalServerList = function() {
+    return localServerList;
+  }
+
+  // Set Local Server List
+  this.setLocalServerList = function(list) {
+    localServerList = list;
   }
 }
 
@@ -289,7 +491,7 @@ function checkServer(serverName) {
   global.NovaApp.validateServer(function (response) {
     if(response == false) {
       //global.NovaApp.loadPage('invalid-server.html')
-      global.NovaApp.loadError('Invalid Server!', "This isn't a valid HabClient server. Be sure that you typed correctly the server url.")
+      global.NovaApp.loadError('Invalid Server!', "This isn't a valid Nova server. Be sure that you typed correctly the server url.")
     } else {
       global.NovaApp.loadPage('token.html')
     }
@@ -320,6 +522,11 @@ function goBack() {
   }))
 }
 
+// Get Local Server List
+function getServerList() {
+  return global.NovaApp.getRenderedServerList();
+}
+
 // Get getError Message
 function getError() {
   return global.NovaApp.getError();
@@ -329,6 +536,9 @@ function getError() {
 function getUpdates() {
   return global.NovaApp.getUpdates();
 }
+
+// Exports getServerList checkServer Method
+exports.getServerList = getServerList;
 
 // Exports NovaApp checkServer Method
 exports.checkServer = checkServer;
@@ -354,6 +564,7 @@ function createWindow () {
     resizable: false,
     frame: false,
     minimizable: false,
+    acceptFirstMouse: false,
     maximizable: false,
     movable: false,
   })
@@ -386,12 +597,31 @@ function createWindow () {
 
       console.log("[NovaApp] Launching Context Window...")
 
+      // Check Data Corruption
+      global.NovaApp.eraseServerList();
+
+      // Only Uncomment for Development
+      storage.clear(function(error) {
+        if (error)
+          throw error;
+      });
+
       // Load Main File
-      win.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-      }))
+      global.NovaApp.checkServerList(function (response) {
+        if(response == true) {
+          win.loadURL(url.format({
+            pathname: path.join(__dirname, 'servers.html'),
+            protocol: 'file:',
+            slashes: true
+          }))
+        } else {
+          win.loadURL(url.format({
+            pathname: path.join(__dirname, 'index.html'),
+            protocol: 'file:',
+            slashes: true
+          }))
+        }
+      });
 
       // Close Window
       winLoading.close()
@@ -409,7 +639,7 @@ function createWindow () {
 
         app.quit();
       })
-    }, 3000);
+    }, 1000);
 
     // Emitted when the window is closed.
     winLoading.on('closed', () => {

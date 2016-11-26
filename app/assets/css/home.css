@@ -73,6 +73,10 @@ h2 {
   width: 710px !important;
 }
 
+.fireman-server {
+  background: #d0a33d !important;
+}
+
 div.fireman {
     color: #fff;
     /* background: #f60; */
@@ -182,4 +186,12 @@ a.time {
   height: 25px;
   border-radius: 3px;
   border: 1px solid transparent;
+}
+
+.server-list {
+  width: 310px !important;
+}
+
+.server-list h2 {
+  background: #7a7d71 !important;
 }

@@ -5,9 +5,10 @@
   "main": "main.js",
   "dependencies": {
     "dev-null": "^0.1.1",
+    "electron": "^1.4.7",
     "electron-chromedriver": "~1.4.0",
-    "request": "^2.65.0",
-    "electron": "^1.4.7"
+    "electron-json-storage": "^2.1.0",
+    "request": "^2.65.0"
   },
   "scripts": {
     "test": "mocha && standard"
