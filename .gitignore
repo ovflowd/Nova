@@ -10,14 +10,14 @@
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
 
-client/.idea
-
 # HabEngine
 engine/packages/build
 engine/HabClient.phar
 engine/resources/
 
 app/node_modules
+app/.idea
+app/output/HabClient-
 node_modules
 
 # Sensitive or high-churn files:
