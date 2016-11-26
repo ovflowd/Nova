@@ -5,7 +5,7 @@ const request = require('request')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win, flashName, shockwaveName
+let win, flashName, shockwaveName, winLoading
 
 // Select Which Platform being Used.
 switch (process.platform) {
@@ -347,14 +347,23 @@ exports.getUpdates = getUpdates;
 
 // Create Context Window
 function createWindow () {
-  win = new BrowserWindow({
-    width: 900,
-    height: 700,
+  winLoading = new BrowserWindow({
+    width: 420,
+    height: 320,
     center: true,
-    webPreferences: {
-        plugins: true,
-        allowRunningInsecureContent: true
-    }})
+    resizable: false,
+    frame: false,
+    minimizable: false,
+    maximizable: false,
+    movable: false,
+  })
+
+  // Load Main File
+  winLoading.loadURL(url.format({
+    pathname: path.join(__dirname, 'loading.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
 
   console.log("[NovaApp] Loading Last News...")
 
@@ -362,27 +371,52 @@ function createWindow () {
   global.NovaApp.retrieveUpdates(function (response) {
     global.NovaApp.setUpdates(response);
 
-    console.log("[NovaApp] Launching Context Window...")
+    setTimeout(function() {
+      console.log("[NovaApp] Creating Context Window...")
 
-    // Load Main File
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file:',
-      slashes: true
-    }))
+      win = new BrowserWindow({
+        width: 900,
+        height: 700,
+        center: true,
+        webPreferences: {
+          plugins: true,
+          allowRunningInsecureContent: true
+        }
+      })
 
-    console.log("[NovaApp] Ready!")
+      console.log("[NovaApp] Launching Context Window...")
+
+      // Load Main File
+      win.loadURL(url.format({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true
+      }))
+
+      console.log("[NovaApp] Ready!")
+
+      // Emitted when the window is closed.
+      win.on('closed', () => {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        win = null
+
+        console.log("[NovaApp] Bye.")
+      })
+    }, 3000);
+
+    // Emitted when the window is closed.
+    winLoading.on('closed', () => {
+      // Dereference the window object, usually you would store windows
+      // in an array if your app supports multi windows, this is the time
+      // when you should delete the corresponding element.
+      winLoading = null
+
+      console.log("[NovaApp] Loading OK.")
+    })
   });
 
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-
-    console.log("[NovaApp] Bye.")
-  })
 
   // Create the Application's main menu
     var template = [{
