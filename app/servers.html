@@ -20,6 +20,10 @@
             <p>
               It's seems that you already added a Server in Nova.
               Check the list of Saved servers.
+              <br/>
+              <br/>
+              Want to add other server to your list?<br/>
+              <a style="color:white;font-weight:bold" id="submitServer">Add a New Server</a>
             </p>
             <p>
               <br/>
@@ -47,12 +51,24 @@
         // Require Get Server List Method
         var getServerList = electron.remote.require('./main').getServerList;
 
+        // Start Specific Server
         var startSpecificServer = electron.remote.require('./main').startSpecificServer;
+
+        // Add New Server
+        var addNewServer = electron.remote.require('./main').addNewServer;
 
         // Set Server List
         getServerList(function (response) {
           document.getElementById('serverList').innerHTML = response;
         })
+
+        // Add Server Trigger Button
+        var serverButton = document.getElementById('submitServer');
+
+        // Create a Listener for the OnClick on the Submit Button
+        serverButton.addEventListener('click', function () {
+          addNewServer();
+        });
 
         // Start Specific Server
         function openServer(serverUri, userToken) {

@@ -18,7 +18,8 @@
           <div class="fireman">
             <h1>Select the Server!</h1>
             <p>
-              Hello, in order to use Nova you need select the server.
+              Hello, in order to use Nova you need select the server.<br/><br/>
+              <i id="hasServer">If you already have stored servers, you can go to the server list by clicking <a id="serverList">here</a></i>
               <br/>
               <br/>
               <p>Hotel URL (without http://)</p>
@@ -55,6 +56,9 @@
         // Get Server Latest News
         var getUpdates = electron.remote.require('./main').getUpdates;
 
+        // Get GoToServerList
+        var goToServerList = electron.remote.require('./main').goToServerList;
+
         // Set Latest News
         document.getElementById('lastNews').innerHTML = getUpdates();
 
@@ -62,6 +66,8 @@
         var serverButton = document.getElementById('submitServer');
         var serverText = document.getElementById('serverUri');
         var resultMessage = document.getElementById('resultMessage');
+        var serverList = document.getElementById('serverList');
+        var hasServer = document.getElementById('hasServer');
 
         // Create a Listener for the OnClick on the Submit Button
         serverButton.addEventListener('click', function () {
@@ -70,6 +76,15 @@
             resultMessage.innerHTML = "Loading Server Details... Wait please.";
             checkServer(serverText.value);
           }
+        });
+
+        // Create a Listener for the OnClick on the Submit Button
+        serverList.addEventListener('click', function () {
+          goToServerList(function (response) {
+            if(response == false) {
+              hasServer.innerHTML = "Sorry, but you don't have any stored server. You need add one.";
+            }
+          })
         });
       </script>
     </body>

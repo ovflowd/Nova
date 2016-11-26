@@ -589,6 +589,36 @@ function startSpecificServer(serverUri, userToken) {
   global.NovaApp.initHab(false);
 }
 
+// Go to Main Page
+function addNewServer() {
+  win.loadURL(url.format({
+    pathname: path.join(__dirname, 'index.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+}
+
+// Got to Server List
+function goToServerList(callback) {
+  global.NovaApp.checkServerList(function (response) {
+    if(response == true) {
+      win.loadURL(url.format({
+        pathname: path.join(__dirname, 'servers.html'),
+        protocol: 'file:',
+        slashes: true
+      }))
+    } else {
+      callback(false)
+    }
+  })
+}
+
+// Exports addNewServer checkServer Method
+exports.addNewServer = addNewServer;
+
+// Exports goToServerList checkServer Method
+exports.goToServerList = goToServerList;
+
 // Exports startSpecificServer checkServer Method
 exports.startSpecificServer = startSpecificServer;
 
@@ -657,9 +687,10 @@ function createWindow () {
 
       // Only Uncomment for Development
       // storage.clear(function(error) {
-      //   if (error)
+      //    if (error)
       //     throw error;
-      // });
+      //   }
+      // );
 
       // Load Main File
       global.NovaApp.checkServerList(function (response) {
