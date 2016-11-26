@@ -80,13 +80,13 @@ npm install -g electron-menus
 <h4>Darwin (OS X)</h4>
 
 ```bash
-electron-packager app/ HabClient --version 1.4.7 --platform darwin --out output/ --icon client/icon.icns
+electron-packager app/ HabClient --version 1.4.7 --platform darwin --out output/ --icon app/icon.icns
 ```
 
 <h4>Windows (x64)</h4>
 
 ```bash
-electron-packager app/ HabClient --version 1.4.7 --platform win32 --out output/ --icon client/icon.ico
+electron-packager app/ HabClient --version 1.4.7 --platform win32 --out output/ --icon app/icon.ico
 ```
 
 <h4>Linux</h4>
