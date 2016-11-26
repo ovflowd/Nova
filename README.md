@@ -73,6 +73,7 @@ _Observation.:_ Remember that the Nova Engine works directly from the client.php
 npm install -g electron
 npm install -g electron-packager
 npm install -g electron-menus
+npm install -g electron-json-storage
 ```
 
 * Now Build for your Platform:
