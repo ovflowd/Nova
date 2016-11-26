@@ -1,1 +1,5 @@
-
+{"messages":[
+  {"message" : "<b>Welcome to HabClient Bootstrapper</b><br/>This is the HabClient Bootstraper, you can play any Retro Server using HabClient, with this App."},
+  {"message" : "<b>RaGEZONE! & GitHub</b><br/>Help by contributing to HabClient, see our development thread <a href='http://forum.ragezone.com/f331/habclient-java-php-flash-shockwave-1119880'>here</a>"},
+  {"message" : "<b>Which Version i'm Running?</b><br/>HabClient App v0111 (Dev Alpha)"}
+]}
