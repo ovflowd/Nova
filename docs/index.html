@@ -113,8 +113,10 @@ php -S 0.0.0.0:8080 ./</pre></div>
 </ul>
 
 <div class="highlight highlight-source-shell"><pre>npm install -g electron
-npm install -g electron-packager
-npm install -g electron-menus</pre></div>
+npm install -g --save electron-packager
+npm install -g --save electron-menus
+npm install -g --save electron-json-storage
+npm install -g --save-dev electron-winstaller</pre></div>
 
 <ul>
 <li>Now Build for your Platform:</li>
@@ -123,17 +125,17 @@ npm install -g electron-menus</pre></div>
 <h4>
 <a id="darwin-os-x" class="anchor" href="#darwin-os-x" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Darwin (OS X)</h4>
 
-<div class="highlight highlight-source-shell"><pre>electron-packager client/ HabClient --version 1.4.7 --platform darwin --out output/ --icon client/icon.icns</pre></div>
+<div class="highlight highlight-source-shell"><pre>electron-packager app/ HabClient --version 1.4.7 --platform darwin --out output/ --icon app/icon.icns</pre></div>
 
 <h4>
 <a id="windows-x64" class="anchor" href="#windows-x64" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Windows (x64)</h4>
 
-<div class="highlight highlight-source-shell"><pre>electron-packager client/ HabClient --version 1.4.7 --platform win32 --out output/ --icon client/icon.ico</pre></div>
+<div class="highlight highlight-source-shell"><pre>electron-packager app/ HabClient --version 1.4.7 --platform win32 --out output/ --icon app/icon.ico</pre></div>
 
 <h4>
 <a id="linux" class="anchor" href="#linux" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Linux</h4>
 
-<div class="highlight highlight-source-shell"><pre>electron-packager client/ HabClient --version 1.4.7 --platform linux --out output/</pre></div>
+<div class="highlight highlight-source-shell"><pre>electron-packager app/ HabClient --version 1.4.7 --platform linux --out output/</pre></div>
 
 <ul>
 <li>Nova was builded successfully ;) (Multi Platform)</li>
