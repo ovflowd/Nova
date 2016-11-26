@@ -161,3 +161,11 @@ a.time {
     background: #d64242;
     color: white;
 }
+
+.text-input {
+    margin-top: 5px;
+    width: 300px;
+    height: 25px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+}

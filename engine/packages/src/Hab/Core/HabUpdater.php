@@ -12,7 +12,7 @@ namespace Hab\Core;
 class HabUpdater
 {
     /**
-     * Defines the new Version of HabClient
+     * Defines the new Version of Nova
      *
      * @var string
      */
@@ -31,13 +31,13 @@ class HabUpdater
         $newVersion = self::$newVersion;
 
         if ($existsUpdates) {
-            HabUtils::habDebug("[HabClient][Updater] A new Update for HabClient was found. It's recommended to Update the Engine.", 'yellow');
+            HabUtils::habDebug("[Nova][Updater] A new Update for Nova was found. It's recommended to Update the Engine.", 'yellow');
         }
 
         // Check if needs to be jSON or not
         // Carefully!! If the HabMessage constructor goes out from the condition, the Content-Type goes to Application/JSON
-        $content = $jsonMessage ? (new HabMessage(300, "A new Version of HabClient is Available! To continue using the API, please download latest version ($newVersion)"))->renderJson()
-            : "<div style='padding: 8px 10px;border: 1px solid #d64242;margin: 5px 0 5px;border-radius: 3px;background: #d64242;color: white;'><b>Hoy!!</b> A new version of HabClient it's available. <b>({$newVersion})!</b></div>";
+        $content = $jsonMessage ? (new HabMessage(300, "A new Version of Nova is Available! To continue using the API, please download latest version ($newVersion)"))->renderJson()
+            : "<div style='padding: 8px 10px;border: 1px solid #d64242;margin: 5px 0 5px;border-radius: 3px;background: #d64242;color: white;'><b>Hoy!!</b> A new version of Nova it's available. <b>({$newVersion})!</b></div>";
 
         return $existsUpdates ? $content : '';
     }
@@ -62,7 +62,7 @@ class HabUpdater
         }
 
         // Get RAW content
-        $newVersion = str_replace("\n", '', HabUtils::getRemoteContent('https://raw.githubusercontent.com/sant0ro/habClient/master/VERSION'));
+        $newVersion = str_replace("\n", '', HabUtils::getRemoteContent('https://raw.githubusercontent.com/sant0ro/Nova/master/VERSION'));
 
         // Check if content is valid VERSION content.
         if (!empty($newVersion) && is_numeric($newVersion)) {
@@ -73,14 +73,14 @@ class HabUpdater
     }
 
     /**
-     * Check if the HabClient Java App version is compatible with the current Engine version
+     * Check if the Nova App version is compatible with the current Engine version
      *
      * @param integer $checkVersion
      * @return bool Return (true) if the Version it's compatible (false) if not.
      */
-    public static function checkEngineJava($checkVersion)
+    public static function checkEngineApp($checkVersion)
     {
-        $compatibleVersions = HabEngine::getInstance()->getJavaVersions();
+        $compatibleVersions = HabEngine::getInstance()->getAppVersion();
 
         return (in_array($checkVersion, $compatibleVersions));
     }

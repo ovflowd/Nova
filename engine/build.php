@@ -9,7 +9,7 @@
  * @author Claudio Santoro
  */
 
-## Build HabClient PHAR File
+## Build Nova PHAR File
 ## ATTENTION: ONLY FOR DEVELOPERS
 
 ini_set('phar.readonly', 0);
@@ -26,7 +26,7 @@ if (!is_dir(BUILD_DIR)) {
 }
 
 // Create Phar File
-$phar = new Phar(BUILD_DIR . 'HabClient.phar', 0, 'HabClient.phar');
+$phar = new Phar(BUILD_DIR . 'Nova.phar', 0, 'Nova.phar');
 
 // Add All Files from Source Directory
 $phar->buildFromDirectory(SRC_DIR);
@@ -35,4 +35,4 @@ $phar->buildFromDirectory(SRC_DIR);
 $phar->setStub($phar->createDefaultStub('bootstrap.php', 'index.php'));
 
 // Copy the Built file
-copy(BUILD_DIR . 'HabClient.phar', dirname(__FILE__) . '/HabClient.phar');
+copy(BUILD_DIR . 'Nova.phar', dirname(__FILE__) . '/Nova.phar');

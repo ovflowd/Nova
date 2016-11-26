@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>
-        HabClient - Sorry
+        Nova - Sorry
     </title>
     <link rel="stylesheet" type="text/css" href="assets/css/home.css">
 </head>
@@ -16,20 +16,19 @@
         </div>
         <div id="process-content">
             <div class="fireman fireman-error">
-                <h1>Invalid Token!</h1>
-                  <p>
-                    Sorry, but the authentication result with the response that you SSO Token is invalid.
-                    Please check if the Token is valid, or if you copied it correctly.
-                    <br/>
-                    <br/>
-                    <a href="#" style="color:white;" id="goBackHome">Go Back</a>
-                    <br/>
-                    <img src="assets/images/trouble.png" style="float:right;margin-right: -15px;"/>
+                <h1 id="errorTitle">Error not Defined.</h1>
+                <p id="errorMessage">
+                  Sorry but something happened and NovaApp couldn't figue out what is.
+                </p>
+                <p>
+                  <a href="#" style="color:white;" id="goBackHome">Go Back</a>
+                  <br/>
+                  <img src="assets/images/trouble.png" style="float:right;margin-right: -15px;"/>
                 </p>
             </div>
             <div id="footer">
                 <p class="copyright">&copy; 2016
-                    - HabClient<br/>
+                    - Nova<br/>
                     <b>Developed by Claudio Santoro</b></p>
             </div>
         </div>
@@ -39,7 +38,20 @@
 // Require Electron Module
 var electron = require('electron');
 
-// Require startHabClient Method
+// Require Electron Modules Method
+var goBack = electron.remote.require('./main').goBack;
+
+// Require ErrorMessage Method
+var getError = electron.remote.require('./main').getError;
+
+// Error Message
+var errorMessage = getError();
+
+// Set the Error Message Components
+document.getElementById("errorTitle").innerHTML = errorMessage.Title;
+document.getElementById("errorMessage").innerHTML = errorMessage.Message;
+
+// Require GoBack Method
 var goBack = electron.remote.require('./main').goBack;
 
 // Get Document Elements for Button & Inputs

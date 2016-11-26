@@ -31,7 +31,7 @@ class Engine extends Base
     }
 
     /**
-     * Check Engine Version vs Java App Version
+     * Check Engine Version vs App Version
      *
      * @return string
      */
@@ -42,12 +42,12 @@ class Engine extends Base
 
         // Version need be in the QueryString
         if (!array_key_exists('Version', $queryString)) {
-            return (new HabMessage(400, "You need assign your Java App Version to be checked the compatibility."))->renderJson();
+            return (new HabMessage(400, "You need assign your App Version to be checked the compatibility."))->renderJson();
         }
 
         // Check if the Version it's compatible
-        return HabUpdater::checkEngineJava($queryString['Version']) ?
-            (new HabMessage(200, "All right, Your HabClient JavaApp version it's compatible with the Engine."))->renderJson()
-            : (new HabMessage(500, "Sorry but your HabClient Java App version it's outdated and not compatible with this Engine."))->renderJson();
+        return HabUpdater::checkEngineApp($queryString['Version']) ?
+            (new HabMessage(200, "All right, Your Nova App version it's compatible with the Engine."))->renderJson()
+            : (new HabMessage(500, "Sorry but your Nova App version it's outdated and not compatible with this Engine."))->renderJson();
     }
 }

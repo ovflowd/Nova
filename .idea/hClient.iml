@@ -11,12 +11,14 @@
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
-          <root url="phar://$MODULE_DIR$/api/HabClient.phar/" />
-          <root url="phar://$MODULE_DIR$/api/packages/build/HabClient.phar/" />
+          <root url="phar://$MODULE_DIR$/engine/HabClient.phar/" />
+          <root url="phar://$MODULE_DIR$/engine/Nova.phar/" />
+          <root url="phar://$MODULE_DIR$/engine/packages/build/Nova.phar/" />
         </CLASSES>
         <SOURCES>
-          <root url="phar://$MODULE_DIR$/api/HabClient.phar/" />
-          <root url="phar://$MODULE_DIR$/api/packages/build/HabClient.phar/" />
+          <root url="phar://$MODULE_DIR$/engine/HabClient.phar/" />
+          <root url="phar://$MODULE_DIR$/engine/Nova.phar/" />
+          <root url="phar://$MODULE_DIR$/engine/packages/build/Nova.phar/" />
         </SOURCES>
       </library>
     </orderEntry>

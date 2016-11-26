@@ -94,7 +94,7 @@ final class DatabaseQueries
 
         // Create a New token Based in the User logged in the CMS.
         // Used for the First Token in the Communication
-        DatabaseManager::getInstance()->query("UPDATE {$engine->tokenTable} SET {$engine->tokenColumn} = '{$tokenHash}'" .
+        DatabaseManager::getInstance()->query("UPDATE {$engine->tokenTable} SET {$engine->tokenColumn} = '{$tokenHash}', {$engine->usedTokenColumn} = 'USED'" .
             " WHERE {$engine->tokenCriteria} = {$engine->tokenCriteriaValue}");
 
         return $tokenHash;
@@ -116,5 +116,35 @@ final class DatabaseQueries
             " FROM {$engine->serverTable} LIMIT 1");
 
         return (Object)$returnedData;
+    }
+
+    /**
+     * Return the last Used Token by the User
+     *
+     * @return string
+     */
+    public static function getLastToken()
+    {
+        // Get the Engine Tables
+        $engine = HabEngine::getInstance()->getEngineSettings()->tables;
+
+        // Get the Last Used Token by the User
+        return DatabaseManager::getInstance()->fetch("SELECT {$engine->tokenColumn} FROM {$engine->tokenTable} " .
+            " WHERE {$engine->tokenCriteria} = {$engine->tokenCriteriaValue} LIMIT 1")->{$engine->tokenColumn};
+    }
+
+    /**
+     * Check if the Used Token Column
+     *
+     * @return bool
+     */
+    public static function checkTokenExistence()
+    {
+        // Get the Engine Tables
+        $engine = HabEngine::getInstance()->getEngineSettings()->tables;
+
+        // Check if the Used Token Column is set as 'USED'
+        return DatabaseManager::getInstance()->rowCount("SELECT {$engine->usedTokenColumn} FROM {$engine->tokenTable} " .
+            " WHERE {$engine->usedTokenColumn} = 'USED' AND {$engine->tokenCriteria} = {$engine->tokenCriteriaValue} LIMIT 1") == 1;
     }
 }

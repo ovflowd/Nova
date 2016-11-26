@@ -1,0 +1,1 @@
+ALTER TABLE users ADD used_token ENUM('USED', 'NOT_USED') NOT NULL DEFAULT 'USED';

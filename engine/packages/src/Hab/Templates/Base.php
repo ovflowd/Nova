@@ -43,7 +43,7 @@ abstract class Base
      */
     public function NotFound()
     {
-        return (new HabMessage(404, "The Requested Uri wasn't found in this HabClient."))->renderJson();
+        return (new HabMessage(404, "The Requested Uri wasn't found in this Nova."))->renderJson();
     }
 
     /**

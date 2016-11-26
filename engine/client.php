@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -20,7 +19,7 @@ define('ENGINE_ERROR_REPORTING', true);
 define('FORCE_UPDATE_ENGINE', false);
 
 // Administrator Root Token (Development Only!!)
-define('MASTER_TOKEN', 'HabClient-48ac6b41574f59e58f74c00f8dffc5aa');
+define('MASTER_TOKEN', 'Nova-48ac6b41574f59e58f74c00f8dffc5aa');
 
 // Test Only (Remove for Production Usages)
 $_SESSION['id'] = 1;
@@ -48,6 +47,7 @@ define('ENGINE_SETTINGS', json_encode([
         'tokenColumn' => 'auth_ticket',
         'tokenCriteria' => 'id',
         'tokenCriteriaValue' => @$_SESSION['id'],
+        'usedTokenColumn' => 'used_token',
         'serverTable' => 'server_status',
         'serverColumns' => [
             'online' => 'is_online',
@@ -90,7 +90,7 @@ define('API_SETTINGS', json_encode([
 
 ## Start Engine Section
 
-@require_once "phar://HabClient.phar/bootstrap.php";
+@require_once "phar://Nova.phar/bootstrap.php";
 
 HabEngine::getInstance()->prepare(API_SETTINGS, ENGINE_SETTINGS);
 

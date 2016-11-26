@@ -44,7 +44,7 @@ final class HabTemplate
 
         // Check if class exists
         if (class_exists($templateClass)) {
-            HabUtils::habDebug("[HabClient][Router][{$_SERVER['REMOTE_ADDR']}] Selected Template: {$templateName}", 'purple');
+            HabUtils::habDebug("[Nova][Router][{$_SERVER['REMOTE_ADDR']}] Selected Template: {$templateName}", 'purple');
 
             $templateClass = new $templateClass();
 
@@ -61,7 +61,7 @@ final class HabTemplate
      */
     public function NotFound()
     {
-        HabUtils::habDebug("[HabClient][Router][{$_SERVER['REMOTE_ADDR']}] Selected Template was not found.", 'purple');
+        HabUtils::habDebug("[Nova][Router][{$_SERVER['REMOTE_ADDR']}] Selected Template was not found.", 'purple');
 
         return (new HabMessage(404, "The Desired Template wasn't found on our Records"))->renderJson();
     }
@@ -79,7 +79,7 @@ final class HabTemplate
     {
         ob_start();
 
-        include("phar://HabClient.phar/Vendor/{$vendorFile}");
+        include("phar://Nova.phar/Vendor/{$vendorFile}");
 
         $stringBuilder = ob_get_contents();
 
@@ -101,7 +101,7 @@ final class HabTemplate
      */
     public static function getVendor($vendorFile)
     {
-        return file_get_contents("phar://HabClient.phar/Vendor/{$vendorFile}");
+        return file_get_contents("phar://Nova.phar/Vendor/{$vendorFile}");
     }
 
     /**
@@ -111,7 +111,7 @@ final class HabTemplate
      */
     public function getResponse()
     {
-        HabUtils::habDebug('[HabClient][Router] Render Results OK to visitor: ' . $_SERVER['REMOTE_ADDR'], 'purple');
+        HabUtils::habDebug('[Nova][Router] Render Results OK to visitor: ' . $_SERVER['REMOTE_ADDR'], 'purple');
 
         return $this->response;
     }

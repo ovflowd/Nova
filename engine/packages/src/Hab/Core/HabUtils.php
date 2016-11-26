@@ -25,9 +25,9 @@ final class HabUtils
      */
     public static function TokenCrypto($isSSO = false)
     {
-        HabUtils::habDebug('[HabClient][Token] Generated an ' . ($isSSO ? 'SSO-' : 'HabClient-') . 'Token, Value: ' . ($hashedToken = bin2hex(openssl_random_pseudo_bytes(16))), 'blue');
+        HabUtils::habDebug('[Nova][Token] Generated an ' . ($isSSO ? 'SSO-' : 'Nova-') . 'Token, Value: ' . ($hashedToken = bin2hex(openssl_random_pseudo_bytes(16))), 'blue');
 
-        return ($isSSO ? 'SSO-' : 'HabClient-') . $hashedToken;
+        return ($isSSO ? 'SSO-' : 'Nova-') . $hashedToken;
     }
 
     /**
@@ -74,7 +74,7 @@ final class HabUtils
      */
     public static function getRemoteContent($remoteURI)
     {
-        HabUtils::habDebug("[HabClient][Remote] Requesting Remote File: {$remoteURI}", 'blue');
+        HabUtils::habDebug("[Nova][Remote] Requesting Remote File: {$remoteURI}", 'blue');
 
         $ch = curl_init();
 

@@ -24,29 +24,29 @@ switch (process.platform) {
 app.commandLine.appendSwitch('ppapi-flash-path', path.join('assets/plugins/', flashName))
 
 // Defined that it's preparing modules
-console.log("[HabClient] Preparing Modules...");
+console.log("[NovaApp] Preparing Modules...");
 
-function HabClient() {
+function NovaApp() {
 
-  // HabClient Version
+  // NovaApp Version
   const HabVersion = '0111';
 
-  // Initialize HabClient and store it contents
+  // Initialize NovaApp and store it contents
   this.initHab = function() {
-    console.log("[HabClient] Server Selected: " + this.getVar('ServerUri'))
+    console.log("[NovaApp] Server Selected: " + this.getVar('ServerUri'))
 
-    console.log("[HabClient] Selected Token: " + this.getVar('ServerToken'))
+    console.log("[NovaApp] Selected Token: " + this.getVar('ServerToken'))
 
-    console.log("Preparing now HabClient for selected server...")
+    console.log("Preparing now NovaApp for selected server...")
 
     this.startComm();
   }
 
-  // Start HabClient Communication
+  // Start NovaApp Communication
   this.startComm = function() {
     win.loadURL(this.getBase() + this.getController('Hotel') + this.getModule('Client') + this.getToken())
 
-    console.log("[HabClient] Loading Client...")
+    console.log("[NovaApp] Loading Client...")
   }
 
   // Load Page
@@ -56,76 +56,124 @@ function HabClient() {
       protocol: 'file:',
       slashes: true
     }))
+
+    console.log('[NovaApp] Loadin Page: ' + loadPage)
   }
 
-  // Do HabClient Request
+  this.loadError = function(Title, Message) {
+    win.loadURL(url.format({
+      pathname: path.join(__dirname, 'error.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
+
+    console.log('[NovaApp] Loading Error Page...')
+
+    this.setError(Title, Message)
+  }
+
+  // Do NovaApp Request
   this.doRequest = function(RequestUri, callback) {
     request(RequestUri, function (error, response, body) {
       if (error) {
-        console.log("[HabClient] Request got error. Sorry.")
+        console.log("[NovaApp] Request got error. Sorry.")
 
         callback(false);
       } else {
-        console.log("[HabClient] Request got OK.")
+        console.log("[NovaApp] Request got OK.")
 
         callback({Response : response, Body : body});
       }
     })
   }
 
-  // Validate HabClient Token
+  // Validate NovaApp Token
   this.validateToken = function(callback) {
     var validToken = false;
 
     this.doRequest(this.createUriWithToken('Users', 'UserAuth'), function(response) {
       if(response == false) {
-        console.log("[HabClient] Token is invalid because can't contact server..")
+        console.log("[NovaApp] Token is invalid because can't contact server..")
       } else if(response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
         var answer = JSON.parse(response.Body)
 
         if(answer.Code == '200') {
-          console.log("[HabClient] Token Validated. All right.")
+          console.log("[NovaApp] Token Validated. All right.")
 
-          global.habclient.setVar('ServerToken', answer.NewToken)
+          global.NovaApp.setVar('ServerToken', answer.NewToken)
 
           validToken = true
         } else {
-          console.log("[HabClient] Token is invalid. Sorry.")
+          console.log("[NovaApp] Token is invalid. Sorry.")
         }
       } else {
-        console.log("[HabClient] Token is invalid. Sorry.")
+        console.log("[NovaApp] Token is invalid. Sorry.")
       }
 
       callback(validToken);
     });
   }
 
-  // Validate HabClient Server
+  // Validate NovaApp Server
   this.validateServer = function(callback) {
     var validServer = false;
 
     this.doRequest(this.createUriWithArguments('Engine', 'VersionCheck', '&Version=' + HabVersion), function(response) {
       if(response == false) {
-        console.log("[HabClient] Server is invalid and with errors. Sorry.")
+        console.log("[NovaApp] Server is invalid and with errors. Sorry.")
       } else if(response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
         var answer = JSON.parse(response.Body)
 
         if(answer.Code == '200') {
-          console.log("[HabClient] Server Validated. All right.")
+          console.log("[NovaApp] Server Validated. All right.")
 
           validServer = true
         } else {
-          console.log("[HabClient] Server is outdated. Sorry.")
+          console.log("[NovaApp] Server is outdated. Sorry.")
         }
       } else {
-        console.log("[HabClient] Server is invalid. Sorry.")
+        console.log("[NovaApp] Server is invalid. Sorry.")
       }
 
       callback(validServer);
     });
   }
 
-  // HabClient Variables
+  // Set Server Updates
+  this.retrieveUpdates = function(callback) {
+    var updatesHTML = '';
+
+    this.doRequest('https://raw.githubusercontent.com/sant0ro/Nova/master/SERVER_MESSAGES.json', function(response) {
+      if(response == false) {
+        console.log("[NovaApp] Can't communicate with Nova Repository..")
+      } else {
+        var answer = JSON.parse(response.Body)
+
+        updatesHTML = '<ul class="tweet_list">';
+
+        var even = 0;
+
+        answer.messages.forEach(function(entry) {
+          even++;
+
+          updatesHTML += (even % 2 == 0) ? '<li class="tweet_even">' : '<li>';
+
+          updatesHTML += entry.message;
+
+          updatesHTML += '</li>';
+        });
+
+        updatesHTML += '</ul>';
+      }
+
+      callback(updatesHTML);
+    });
+  }
+
+  // Last Server Updates
+  var lastUpdatesHTML = '';
+
+  // NovaApp Variables
   var variables = {
     ServerProtocol : "http://",
     ServerToken : "",
@@ -133,14 +181,19 @@ function HabClient() {
     ServerBase : "/client.php",
   }
 
-  // HabClient Controllers
+  var errorVars = {
+    Title : "Error!",
+    Message : "System got Error..."
+  }
+
+  // NovaApp Controllers
   var controllers = {
     Hotel : "?Page=Hotel",
     Users : "?Page=User",
     Engine : "?Page=Engine"
   }
 
-  // HabClient Modules
+  // NovaApp Modules
   var modules = {
     Token : "&Token=",
     Client : "&SubPage=ShowClient",
@@ -155,7 +208,7 @@ function HabClient() {
   this.createUriWithArguments = function(ServerController, ServerModule, Arguments) {
     var URL = this.getBase() + this.getController(ServerController) + this.getModule(ServerModule) + Arguments;
 
-    console.log("[HabClient] Prepraring Context URL: " + URL)
+    console.log("[NovaApp] Prepraring Context URL: " + URL)
 
     return URL;
   }
@@ -164,7 +217,7 @@ function HabClient() {
   this.createUri = function(ServerController, ServerModule) {
     var URL = this.getBase() + this.getController(ServerController) + this.getModule(ServerModule);
 
-    console.log("[HabClient] Prepraring Context URL: " + URL)
+    console.log("[NovaApp] Prepraring Context URL: " + URL)
 
     return URL;
   }
@@ -184,7 +237,7 @@ function HabClient() {
     return this.getModule('Token') + this.getVar('ServerToken')
   }
 
-  // Get HabClient Variable
+  // Get NovaApp Variable
   this.getVar = function(VarName) {
     return variables[VarName]
   }
@@ -194,46 +247,66 @@ function HabClient() {
     variables[VarName] = VarValue;
   }
 
-  // Get HabClient Controllers
+  // Get NovaApp Controllers
   this.getController = function(VarName) {
     return controllers[VarName]
   }
 
-  // Get HabClient Modules
+  // Get NovaApp Modules
   this.getModule = function(VarName) {
     return modules[VarName]
   }
+
+  // Get Error Message
+  this.getError = function() {
+    return errorVars;
+  }
+
+  // Set the Error Message
+  this.setError = function(Title, Message) {
+    errorVars["Title"] = Title;
+    errorVars["Message"] = Message;
+  }
+
+  this.getUpdates = function() {
+    return lastUpdatesHTML;
+  }
+
+  this.setUpdates = function(updatesHTML) {
+    lastUpdatesHTML = updatesHTML;
+  }
 }
 
-// Instantiates HabClient
-global.habclient = new HabClient();
+// Instantiates NovaApp
+global.NovaApp = new NovaApp();
 
 // Check Server Vality
 function checkServer(serverName) {
-  console.log("[HabClient] Starting Server Validation")
+  console.log("[NovaApp] Starting Server Validation")
 
-  global.habclient.setVar('ServerUri', serverName)
+  global.NovaApp.setVar('ServerUri', serverName)
 
-  global.habclient.validateServer(function (response) {
+  global.NovaApp.validateServer(function (response) {
     if(response == false) {
-      global.habclient.loadPage('invalid-server.html')
+      //global.NovaApp.loadPage('invalid-server.html')
+      global.NovaApp.loadError('Invalid Server!', "This isn't a valid HabClient server. Be sure that you typed correctly the server url.")
     } else {
-      global.habclient.loadPage('token.html')
+      global.NovaApp.loadPage('token.html')
     }
   })
 }
 
 // Check Token Function
 function checkToken(serverToken) {
-  console.log("[HabClient] Starting Token Validation")
+  console.log("[NovaApp] Starting Token Validation")
 
-  global.habclient.setVar('ServerToken', serverToken)
+  global.NovaApp.setVar('ServerToken', serverToken)
 
-  global.habclient.validateToken(function (response) {
+  global.NovaApp.validateToken(function (response) {
     if(response == false) {
-      global.habclient.loadPage('invalid-token.html')
+      global.NovaApp.loadError('Invalid Token!', "Sorry, but the authentication result with the response that you SSO Token is invalid. Please check if the Token is valid, or if you copied it correctly.")
     } else {
-      global.habclient.initHab();
+      global.NovaApp.initHab();
     }
   })
 }
@@ -247,14 +320,30 @@ function goBack() {
   }))
 }
 
-// Exports HabClient checkServer Method
+// Get getError Message
+function getError() {
+  return global.NovaApp.getError();
+}
+
+// Get Last News HTML
+function getUpdates() {
+  return global.NovaApp.getUpdates();
+}
+
+// Exports NovaApp checkServer Method
 exports.checkServer = checkServer;
 
-// Exports HabClient goBack Method
+// Exports NovaApp goBack Method
 exports.goBack = goBack;
 
-// Exports HabClient checkToken Method
+// Exports NovaApp errorMessage Method
+exports.getError = getError;
+
+// Exports NovaApp checkToken Method
 exports.checkToken = checkToken;
+
+// Exports NovaApp getUpdates Method
+exports.getUpdates = getUpdates;
 
 // Create Context Window
 function createWindow () {
@@ -267,15 +356,23 @@ function createWindow () {
         allowRunningInsecureContent: true
     }})
 
-  console.log("[HabClient] Launching Context Window...")
+  console.log("[NovaApp] Loading Last News...")
 
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+  // Set Server Updates
+  global.NovaApp.retrieveUpdates(function (response) {
+    global.NovaApp.setUpdates(response);
 
-  console.log("[HabClient] Ready!")
+    console.log("[NovaApp] Launching Context Window...")
+
+    // Load Main File
+    win.loadURL(url.format({
+      pathname: path.join(__dirname, 'index.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
+
+    console.log("[NovaApp] Ready!")
+  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -284,12 +381,12 @@ function createWindow () {
     // when you should delete the corresponding element.
     win = null
 
-    console.log("[HabClient] Bye.")
+    console.log("[NovaApp] Bye.")
   })
 
   // Create the Application's main menu
     var template = [{
-        label: "HabClient",
+        label: "NovaApp",
         submenu: [
             { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
             { type: "separator" },

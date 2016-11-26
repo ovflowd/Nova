@@ -14,14 +14,14 @@ use Hab\Database\DatabaseManager;
 final class HabEngine
 {
     /**
-     * HabClient API Settings
+     * Nova API Settings
      *
      * @var object
      */
     private $apiSettings = null;
 
     /**
-     * HabClient Engine Settings
+     * Nova Engine Settings
      *
      * @var object
      */
@@ -42,11 +42,11 @@ final class HabEngine
     private $tokenAuth = '';
 
     /**
-     * Compatible HabClient Java Versions
+     * Compatible Nova App Versions
      *
      * @var array
      */
-    private $javaVersions = [];
+    private $appVersions = [];
 
     /**
      * Get the Current Instance of the Engine Class
@@ -68,26 +68,26 @@ final class HabEngine
     }
 
     /**
-     * Prepares the HabClient Engine
+     * Prepares the Nova Engine
      *
      * @param string $apiSettings
      * @param string $engineSettings
      */
     public function prepare($apiSettings, $engineSettings)
     {
-        HabUtils::habDebug('[HabClient] Starting HabClient v' . ENGINE_VERSION, 'cyan');
+        HabUtils::habDebug('[Nova] Starting Nova v' . ENGINE_VERSION, 'cyan');
 
         // Decodes into Objects
         $this->apiSettings = json_decode($apiSettings);
         $this->engineSettings = json_decode($engineSettings);
-        $this->javaVersions = json_decode(COMPATIBLE_JAVA);
+        $this->appVersions = json_decode(COMPATIBLE_APP);
 
-        HabUtils::habDebug('[HabClient] Decoding Objects...', 'blue');
+        HabUtils::habDebug('[Nova] Decoding Objects...', 'blue');
 
         // Set Database Credentials
         DatabaseManager::getInstance()->setCredentials($this->engineSettings->database);
 
-        HabUtils::habDebug('[HabClient] Ready. ', 'green');
+        HabUtils::habDebug('[Nova] Ready. ', 'green');
     }
 
     /**
@@ -107,7 +107,7 @@ final class HabEngine
      */
     public function routeEngine()
     {
-        HabUtils::habDebug("[HabClient][Router][{$_SERVER['REMOTE_ADDR']}] Received Request!", 'red');
+        HabUtils::habDebug("[Nova][Router][{$_SERVER['REMOTE_ADDR']}] Received Request!", 'red');
 
         // Check if Query String exists. If exists, continue.
         if (array_key_exists('QUERY_STRING', $_SERVER)) {
@@ -122,7 +122,7 @@ final class HabEngine
 
             // Check if Page Entry exists
             if (array_key_exists('Page', $this->queryString)) {
-                HabUtils::habDebug("[HabClient][Router][{$_SERVER['REMOTE_ADDR']}] Selected Module: {$this->queryString['Page']}", 'purple');
+                HabUtils::habDebug("[Nova][Router][{$_SERVER['REMOTE_ADDR']}] Selected Module: {$this->queryString['Page']}", 'purple');
 
                 return $this->queryString['Page'];
             }
@@ -177,13 +177,13 @@ final class HabEngine
     }
 
     /**
-     * Get Compatible JavaApp Versions with this Engine
+     * Get Compatible App Versions with this Engine
      *
      * @return array
      */
-    public function getJavaVersions()
+    public function getAppVersion()
     {
-        return $this->javaVersions;
+        return $this->appVersions;
     }
 
     /**

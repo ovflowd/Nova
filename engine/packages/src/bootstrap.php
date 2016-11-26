@@ -9,17 +9,17 @@
  * @author Claudio Santoro
  */
 
-## HabClient Bootstrap starts here.
-## Include HabClient Files
+## Nova Bootstrap starts here.
+## Include Nova Files
 
-// Define HaEngine Version
+// Define NovaEngine Version
 
 use Hab\Core\HabMessage;
 
 define('ENGINE_VERSION', '0110');
 
-// Compatible Versions of HabClient Java App with the current Engine Version
-define('COMPATIBLE_JAVA', json_encode([
+// Compatible Versions of HabClient App with the current Engine Version
+define('COMPATIBLE_APP', json_encode([
     '0111',
     '0110',
     '0100'
@@ -39,7 +39,7 @@ spl_autoload_register(function ($class) {
 
 // If the ENGINE SETTINGS or API SETTINGS aren't configured. We have a problem.
 if (!defined('ENGINE_SETTINGS') || !defined('API_SETTINGS') || !defined('FORCE_UPDATE_ENGINE')) {
-    die((new HabMessage(500, "The current configuration of HabClient engine is invalid, please check the manuals."))->renderJson());
+    die((new HabMessage(500, "The current configuration of Nova engine is invalid, please check the manuals."))->renderJson());
 }
 
-## End of HabClient Bootstrap
+## End of Nova Bootstrap
