@@ -16,13 +16,14 @@
 
 use Hab\Core\HabMessage;
 
-define('ENGINE_VERSION', '0110');
+define('ENGINE_VERSION', '012');
 
 // Compatible Versions of HabClient App with the current Engine Version
 define('COMPATIBLE_APP', json_encode([
-    '0111',
-    '0110',
-    '0100'
+    '011',
+    '011',
+    '010',
+    '012'
 ]));
 
 // Disable Error Reporting if Required

@@ -31,7 +31,7 @@ console.log("[NovaApp] Preparing Modules...")
 function NovaApp() {
 
   // NovaApp Version
-  const HabVersion = '0111'
+  const HabVersion = '012'
 
   // Initialize NovaApp and store it contents
   this.initHab = function(needAddServer) {
