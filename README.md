@@ -74,6 +74,7 @@ npm install -g electron
 npm install -g electron-packager
 npm install -g electron-menus
 npm install -g electron-json-storage
+npm install -g --save-dev electron-winstaller
 ```
 
 * Now Build for your Platform:
