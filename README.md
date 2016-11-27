@@ -4,7 +4,7 @@
 [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/habclient/total.svg)]() [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]() [![Build Status](https://travis-ci.org/sant0ro/habclient.svg?branch=master)](https://travis-ci.org/sant0ro/habclient)
 
 <hr>
-![](https://github.com/sant0ro/Nova/raw/master/Welcome.jpeg)
+![](https://github.com/sant0ro/Nova/raw/master/Welcome.png)
 
 <h2>About Nova</h2>
 
