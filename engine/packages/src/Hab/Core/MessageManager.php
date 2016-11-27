@@ -38,15 +38,13 @@ class MessageManager
     }
 
     /**
-     * Fetch all ENGINE_MESSAGES Messages
+     * Get Rendered Message
+     *
+     * @return string
      */
-    public function fetchMessages()
+    public function getMessages()
     {
-        $messages = HabUtils::getRemoteContent('https://raw.githubusercontent.com/sant0ro/Nova/master/ENGINE_MESSAGES.json');
-
-        foreach (json_decode($messages)->messages as $messageObject) {
-            $this->engineMessages[] = $messageObject->message;
-        }
+        return $this->generateResult();
     }
 
     /**
@@ -77,12 +75,14 @@ class MessageManager
     }
 
     /**
-     * Get Rendered Message
-     *
-     * @return string
+     * Fetch all ENGINE_MESSAGES Messages
      */
-    public function getMessages()
+    public function fetchMessages()
     {
-        return $this->generateResult();
+        $messages = HabUtils::getRemoteContent('https://raw.githubusercontent.com/sant0ro/Nova/master/ENGINE_MESSAGES.json');
+
+        foreach (json_decode($messages)->messages as $messageObject) {
+            $this->engineMessages[] = $messageObject->message;
+        }
     }
 }

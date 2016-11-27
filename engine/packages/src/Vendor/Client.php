@@ -46,6 +46,16 @@
 </head>
 <body>
 <object type="application/x-shockwave-flash" width="100%" height="100%" id="client"></object>
+<div class="top-bar">
+    <img src="<?= \Hab\Core\HabEngine::getInstance()->getApiSettings()->custom->small_logo ?>">
+    <div class="logout">
+        <p id="logoutUser">Logout</p>
+    </div>
+    <div class="online">
+        <p><?= \Hab\Database\DatabaseQueries::getHotelStatus()->{\Hab\Core\HabEngine::getInstance()->getEngineSettings()->tables->serverColumns->onlineCount} ?> Users
+            Online</p>
+    </div>
+</div>
 <div id="client-ui">
     <div id="flash-wrapper">
         <div id="flash-container">
@@ -71,6 +81,20 @@
     <div id="content" class="client-content">
     </div>
 </div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    // Require Electron Module
+    var electron = require('electron');
+
+    // Require Logout Method
+    var logOut = electron.remote.require('./main').logOut;
+
+    // Listen to Logout Item
+    var logoutUser = document.getElementById('logoutUser');
+
+    // Create a Listener for the OnClick on the Submit Button
+    logoutUser.addEventListener('click', function () {
+        logOut();
+    });
+</script>
 </body>
 </html>

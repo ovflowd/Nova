@@ -177,16 +177,6 @@ final class HabEngine
     }
 
     /**
-     * Get Compatible App Versions with this Engine
-     *
-     * @return array
-     */
-    public function getAppVersion()
-    {
-        return $this->appVersions;
-    }
-
-    /**
      * Set the Token Auth
      *
      * @param string $tokenAuth
@@ -194,5 +184,15 @@ final class HabEngine
     public function setTokenAuth($tokenAuth)
     {
         $this->tokenAuth = $tokenAuth;
+    }
+
+    /**
+     * Get Compatible App Versions with this Engine
+     *
+     * @return array
+     */
+    public function getAppVersion()
+    {
+        return $this->appVersions;
     }
 }

@@ -47,24 +47,57 @@ function NovaApp() {
         if(response == true) {
           console.log("[NovaApp] Gathered Server Data...")
 
-          // Add New Server to Server List
           global.NovaApp.addServer(global.NovaApp.getData('base'))
+
+          global.NovaApp.startComm();
         } else {
           console.log("[NovaApp] Failed Retrieving Server Data")
         }
       });
+    } else {
+      global.NovaApp.startComm();
     }
-
-    // Start Communication with Client
-    global.NovaApp.startComm();
   }
 
   // Start NovaApp Communication
   this.startComm = function() {
-    // Load Hotel Client from NovaEngine
-    win.loadURL(this.getBase() + this.getController('Hotel') + this.getModule('Client') + this.getToken())
+    this.loadServer(function (response) {
+      if(response == true) {
+        // Load Hotel Client from NovaEngine
+        win.loadURL(global.NovaApp.getBase() + global.NovaApp.getController('Hotel') + global.NovaApp.getModule('Client') + global.NovaApp.getToken())
 
-    console.log("[NovaApp] Loading Client...")
+        console.log("[NovaApp] Loading Client...")
+      } else {
+        global.NovaApp.loadError('Failed to Auth with NovaEngine Client', "Sorry! Something happened when we tried to start the Client Communication. We recommend try to Re-Auth. If this server is already on Server List. You can re-add the server by entering the same details in Add Server page.")
+      }
+    })
+  }
+
+  // Check if we're ready to load Server
+  this.loadServer = function(callback) {
+    var serverLoaded = false
+
+    this.doRequest(this.getBase() + this.getController('Hotel') + this.getModule('Client') + this.getToken(), function(response) {
+      if(response == false) {
+        console.log("[NovaApp] Server is invalid.. Why?..")
+      } else if(response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
+        var answer = JSON.parse(response.Body)
+
+        if(answer.Code == '403') {
+          console.log("[NovaApp] Server Error. Token is invalid!.")
+        } else {
+          console.log("[NovaApp] Other answer given by Server Load. Anyways, it's wrong.")
+        }
+      } else if(response.Response.headers['content-type'] == 'text/html; charset=UTF-8') {
+        console.log("[NovaApp] Token is invalid. Sorry.")
+
+        serverLoaded = true
+      } else {
+        console.log("[NovaApp] Server didn't answered right. Sorry.")
+      }
+
+      callback(serverLoaded)
+    })
   }
 
   // Load Page Function
@@ -219,7 +252,6 @@ function NovaApp() {
         if(answer.Code == '200') {
           console.log("[NovaApp] Token Validated. All right.")
 
-          // Update Server Token
           global.NovaApp.setVar('ServerToken', answer.NewToken)
 
           validToken = true
@@ -279,8 +311,6 @@ function NovaApp() {
           global.NovaApp.setData(answer.Client.hotel)
 
           success = true
-
-          callback(success)
         } else {
           console.log("[NovaApp] Server is outdated. Sorry.")
         }
@@ -288,6 +318,8 @@ function NovaApp() {
         console.log("[NovaApp] Server is invalid. Sorry.")
       }
     })
+
+    callback(success)
   }
 
   // Get Rendered Server List
@@ -567,6 +599,14 @@ function goToServerList(callback) {
     }
   })
 }
+
+// Logout User
+function logOut() {
+  global.NovaApp.loadPage('index.html')
+}
+
+// Exports logOut checkServer Method
+exports.logOut = logOut
 
 // Exports addNewServer checkServer Method
 exports.addNewServer = addNewServer

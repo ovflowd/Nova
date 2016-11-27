@@ -32,16 +32,6 @@ class TokenManager
     }
 
     /**
-     * Check the Existence of the Token
-     *
-     * @return bool
-     */
-    public function checkToken()
-    {
-        return DatabaseQueries::checkTokenExistence();
-    }
-
-    /**
      * Get the Last Used Token
      *
      * @return string
@@ -68,5 +58,15 @@ class TokenManager
         }
 
         return $this->usedToken;
+    }
+
+    /**
+     * Check the Existence of the Token
+     *
+     * @return bool
+     */
+    public function checkToken()
+    {
+        return DatabaseQueries::checkTokenExistence();
     }
 }

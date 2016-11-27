@@ -5,18 +5,17 @@
       <sourceFolder url="file://$MODULE_DIR$/api/packages/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/api/resources" />
       <excludeFolder url="file://$MODULE_DIR$/client" />
+      <excludeFolder url="file://$MODULE_DIR$/engine/resources" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
-          <root url="phar://$MODULE_DIR$/engine/HabClient.phar/" />
           <root url="phar://$MODULE_DIR$/engine/Nova.phar/" />
           <root url="phar://$MODULE_DIR$/engine/packages/build/Nova.phar/" />
         </CLASSES>
         <SOURCES>
-          <root url="phar://$MODULE_DIR$/engine/HabClient.phar/" />
           <root url="phar://$MODULE_DIR$/engine/Nova.phar/" />
           <root url="phar://$MODULE_DIR$/engine/packages/build/Nova.phar/" />
         </SOURCES>

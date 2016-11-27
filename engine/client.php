@@ -50,8 +50,8 @@ define('ENGINE_SETTINGS', json_encode([
         'usedTokenColumn' => 'used_token',
         'serverTable' => 'server_status',
         'serverColumns' => [
-            'online' => 'is_online',
-            'onlineCount' => 'online_users'
+            'online' => 'status',
+            'onlineCount' => 'users_online'
         ]
     ]
 ]));
@@ -85,6 +85,7 @@ define('API_SETTINGS', json_encode([
     'custom' => [
         'loading' => 'Loading Habbo Hotel...',
         'logo' => 'http://localhost/images/logo.gif',
+        'small_logo' => 'http://localhost/images/nova.gif'
     ]
 ]));
 
