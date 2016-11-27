@@ -3,6 +3,9 @@
 <sup>The External HH Engine, Client & API</sup><br/>
 [![Github All Releases](https://img.shields.io/github/downloads/sant0ro/habclient/total.svg)]() [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]() [![Build Status](https://travis-ci.org/sant0ro/habclient.svg?branch=master)](https://travis-ci.org/sant0ro/habclient)
 
+<hr>
+![](https://github.com/sant0ro/Nova/raw/master/Welcome.jpeg)
+
 <h2>About Nova</h2>
 
 <b>What is Nova</b><br/>
