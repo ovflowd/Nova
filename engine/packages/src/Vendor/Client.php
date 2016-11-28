@@ -96,7 +96,7 @@
 
     // Create a Listener for the OnClick on the Submit Button
     logoutUser.addEventListener('click', function () {
-        NovaApp.Load().loadPage('index.html');
+        NovaApp.Load().loadPage('servers.html');
     });
 </script>
 </body>

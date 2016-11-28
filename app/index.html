@@ -21,7 +21,7 @@
                     <h1 id="helloTitle">Select the Server!</h1>
                     <p>
                         <k id="helloServer">Hello, in order to use Nova you need select the server.<br/><br/></k>
-                        <i id="hasServer">If you already have stored servers, you can go to the server list by clicking <a id="serverList">here</a></i>
+                        <i id="hasServer">If you already have stored servers, you can go to the server list by clicking</i> <a id="serverList">here</a>
                         <br/>
                         <br/>
                         <p>Hotel URL</p>
@@ -48,6 +48,9 @@
         </div>
     </div>
     <script type="text/javascript">
+        document.addEventListener('dragover', event => event.preventDefault());
+        document.addEventListener('drop', event => event.preventDefault());
+
         // Require Electron Module
         var electron = require('electron');
 
@@ -77,7 +80,7 @@
                 serverButton.disabled = true;
                 resultMessage.innerHTML = "Loading Server Details... Wait please.";
 
-                NovaApp.setVar('ServerUri', serverName);
+                NovaApp.setVar('ServerUri', serverText.value);
                 NovaApp.Requests().validateServer(function(response) {
                     if (response == false) {
                         NovaApp.Load().loadError(getLang("errors", "invalidServerTitle"), getLang("errors", "invalidServerText"));
@@ -94,6 +97,7 @@
                 if (response == true) {
                     NovaApp.Load().loadPage('servers.html');
                 } else {
+                    console.log('aaa')
                     hasServer.innerHTML = getLang("errors", noStoredServer);
                 }
             });

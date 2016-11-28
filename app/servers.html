@@ -29,7 +29,7 @@
                     </p>
                 </div>
                 <div class="tweet-container server-list">
-                    <h2 id="serverList">Server List</h2>
+                    <h2 id="serverListTitle">Server List</h2>
                     <div class="tweet" id="serverList">
 
                     </div>
@@ -42,6 +42,9 @@
         </div>
     </div>
     <script type="text/javascript">
+        document.addEventListener('dragover', event => event.preventDefault());
+        document.addEventListener('drop', event => event.preventDefault());
+
         // Require Electron Module
         var electron = require('electron');
 
@@ -53,7 +56,7 @@
         document.getElementById('serverTitle').innerHTML = getLang("servers", "serverTitle");
         document.getElementById('serverText').innerHTML = getLang("servers", "serverText");
         document.getElementById('submitServer').innerHTML = getLang("servers", "submitServer");
-        document.getElementById('serverList').innerHTML = getLang("servers", "serverList");
+        document.getElementById('serverListTitle').innerHTML = getLang("servers", "serverListTitle");
 
         // Set Server List
         NovaApp.Renderers().renderServerList(function(response) {

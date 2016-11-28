@@ -103,7 +103,7 @@ function NovaApp() {
 				} else {
 					novaLangLog("failedRetrieveServer")
 				}
-			});
+			})
 		} else {
 			this.startComm();
 		}
@@ -114,7 +114,7 @@ function NovaApp() {
 		this.Requests().validateAuth(function(response) {
 			if (response == true) {
 				// Load Hotel Client from NovaEngine
-				win.loadURL(global.NovaApp.getBase() + global.NovaApp.getController('Hotel') + global.NovaApp.getModule('Client') + global.NovaApp.getToken())
+				win.loadURL(global.NovaApp.Uri().createUriWithToken('Hotel', 'Client'))
 
 				novaLangLog("loadClient")
 			} else {
@@ -255,37 +255,35 @@ function NovaApp() {
 
 		// Add Server or Update Server to the Server List
 		this.addServer = function(serverName) {
-			var server = {}
-
-			server[serverName] = {
+			var server = {
 				base: NovaApp.getVar('ServerUri'),
 				name: NovaApp.getData('name'),
 				token: NovaApp.getVar('ServerToken')
 			}
 
-			checkServerExistence(serverName, function(response) {
+			checkServers(function(response) {
 				if (response == true) {
-					global.NovaApp.Server().checkServers(function(response) {
+					global.NovaApp.Server().checkServerExistence(serverName, function(response) {
 						if (response == true) {
-							serverList.push(server)
+							global.NovaApp.Server().getServers(function(serverList) {
+								serverList[serverName] = server
 
-							global.NovaApp.Server().storeServers(serverList)
+								global.NovaApp.Server().storeServers(serverList)
+							})
 						} else {
 							global.NovaApp.Server().getServers(function(serverList) {
-								var serverList = []
-
-								serverList.push(server)
+								serverList[serverName] = server
 
 								global.NovaApp.Server().storeServers(serverList)
 							})
 						}
 					})
 				} else {
-					global.NovaApp.Server().getServers(function(serverList) {
-						serverList[serverName] = server;
+					var serverList = {}
 
-						global.NovaApp.Server().storeServers(serverList)
-					})
+					serverList[serverName] = server
+
+					global.NovaApp.Server().storeServers(serverList)
 				}
 			})
 		}
@@ -330,7 +328,7 @@ function NovaApp() {
 		this.validateAuth = function(callback) {
 			var serverLoaded = false
 
-			doRequest(NovaApp.Uri().createUriWithToken('Hotel', 'HotelSettings'), function(response) {
+			doRequest(NovaApp.Uri().createUriWithToken('Hotel', 'Client'), function(response) {
 				if (response == false) {
 					novaLangLog("serverInvalid")
 				} else if (response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
@@ -430,9 +428,9 @@ function NovaApp() {
 				} else {
 					novaLangLog("serverInvalid")
 				}
-			})
 
-			callback(success)
+				callback(success)
+			})
 		}
 
 		return this
@@ -450,17 +448,15 @@ function NovaApp() {
 				var even = 1
 
 				for (var key in response) {
-					for (var subKey in response[key]) {
-						even++
+					even++
 
-						serversHTML += (even % 2 == 0) ? '<li class="tweet_even">' : '<li>'
+					serversHTML += (even % 2 == 0) ? '<li class="tweet_even">' : '<li>'
 
-						serversHTML += '<b>' + response[key][subKey].name + '</b> (#' + (key + 1) + ')<br/>'
+					serversHTML += '<b>' + response[key].name + '</b> (#' + (key + 1) + ')<br/>'
 
-						serversHTML += '<p>Access the Hotel by clicking <a onclick="openServer(\'' + response[key][subKey].base + '\', \'' + response[key][subKey].token + '\');">here</a><p>'
+					serversHTML += '<p>Access the Hotel by clicking <a onclick="openServer(\'' + response[key].base + '\', \'' + response[key].token + '\');">here</a><p>'
 
-						serversHTML += '</li>'
-					}
+					serversHTML += '</li>'
 				}
 
 				serversHTML += '</ul>'
@@ -632,6 +628,15 @@ function addNewServer() {
 	global.NovaApp.Load().loadPage('index.html')
 }
 
+// Remote Client Functions
+function remoteClient(itemName) {
+	switch(itemName) {
+		case 'logOut':
+			global.NovaApp.Load().loadPage('servers.html')
+		break;
+	}
+}
+
 // Exports NovaApp
 exports.NovaApp = global.NovaApp
 
@@ -640,6 +645,9 @@ exports.getLang = getLang
 
 // Exports Nova Log Manager
 exports.novaLog = novaLog
+
+// Remote Client
+exports.remoteClient = remoteClient
 
 // Create Context Window
 function createWindow() {
