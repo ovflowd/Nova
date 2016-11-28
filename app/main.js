@@ -27,11 +27,25 @@ switch (process.platform) {
 		break
 }
 
+// Log Something
+function novaLog(content) {
+	console.log("[NovaApp] " + content)
+}
+
+// Log Something from Language Variables
+function novaLangLog(langVariable) {
+	novaLog(getLang("logs", langVariable))
+}
+
+function novaLangLogArgs(langVariable, logArgs) {
+	novaLog(getLang("logs", langVariable) + logArgs)
+}
+
 // Load Pepper Flash (PPAPI)
 app.commandLine.appendSwitch('ppapi-flash-path', path.join('assets/plugins/', flashName))
 
 // Nova it's preparing his classes
-console.log("[NovaApp] Preparing Modules...")
+novaLangLog("Preparing Modules...")
 
 // Nova Class
 function NovaApp() {
@@ -39,13 +53,14 @@ function NovaApp() {
 	// NovaApp Version
 	const HabVersion = '012'
 
+	// Language File
 	const Language = 'english'
 
 	// Last Server Updates
 	var lastUpdatesHTML = ''
 
 	// Server Data
-	var serverData, localServerList
+	var serverData, localServerList, systemLanguages
 
 	// NovaApp Variables
 	var variables = {
@@ -80,23 +95,21 @@ function NovaApp() {
 
 	// Initialize NovaApp and store it contents
 	this.initHab = function(needAddServer) {
-		console.log("[NovaApp] Preparing now NovaApp for selected server...")
-
-		console.log("[NovaApp] Server Selected: " + global.NovaApp.getVar('ServerUri'))
-
-		console.log("[NovaApp] Selected Token: " + global.NovaApp.getVar('ServerToken'))
+		novaLangLog("prepareLaunch")
+		novaLangLogArgs("selectedServer", global.NovaApp.getVar('ServerUri'))
+		novaLangLogArgs("selectedToken", global.NovaApp.getVar('ServerToken'))
 
 		// Retrieve Server Data
 		if (needAddServer == true) {
 			global.NovaApp.Requests().retrieveServer(function(response) {
 				if (response == true) {
-					console.log("[NovaApp] Gathered Server Data...")
+					novaLangLog("gatheredServer")
 
 					global.NovaApp.Server().addServer(global.NovaApp.getData('base'))
 
 					global.NovaApp.startComm();
 				} else {
-					console.log("[NovaApp] Failed Retrieving Server Data")
+					novaLangLog("failedRetrieveServer")
 				}
 			});
 		} else {
@@ -111,15 +124,28 @@ function NovaApp() {
 				// Load Hotel Client from NovaEngine
 				win.loadURL(global.NovaApp.getBase() + global.NovaApp.getController('Hotel') + global.NovaApp.getModule('Client') + global.NovaApp.getToken())
 
-				console.log("[NovaApp] Loading Client...")
+				novaLangLog("loadClient")
 			} else {
-				global.NovaApp.Load().loadError('Failed to Auth with NovaEngine Client', "Sorry! Something happened when we tried to start the Client Communication. We recommend try to Re-Auth. If this server is already on Server List. You can re-add the server by entering the same details in Add Server page.")
+				global.NovaApp.Load().loadError(getLang("errors", "failedAuthTitle"), getLang("errors", "failedAuthText"))
 			}
 		})
 	}
 
 	// Language Functions
 	this.Languages = function() {
+		this.loadLanguages = function() {
+			global.NovaApp.setLangauges(ini.parse(fs.readFileSync(path.join(__dirname + '/languages/', Language + '.ini'), 'utf-8')));
+		}
+
+		// Return Language Section
+		this.getLanguageSection = function(langVar) {
+			return systemLanguages[langVar]
+		}
+
+		// Get Language Var
+		this.getLanguageVar = function(section, langVar) {
+			return global.NovaApp.Languages().getLanguageSection(section)[langVar]
+		}
 
 		return this
 	}
@@ -130,7 +156,7 @@ function NovaApp() {
 		this.createUriWithArguments = function(ServerController, ServerModule, Arguments) {
 			var URL = global.NovaApp.getBase() + global.NovaApp.getController(ServerController) + global.NovaApp.getModule(ServerModule) + Arguments
 
-			console.log("[NovaApp] Prepraring Context URL: " + URL)
+			novaLangLogArgs("prepareContextModule", URL)
 
 			return URL
 		}
@@ -139,7 +165,7 @@ function NovaApp() {
 		this.createUri = function(ServerController, ServerModule) {
 			var URL = global.NovaApp.getBase() + global.NovaApp.getController(ServerController) + global.NovaApp.getModule(ServerModule)
 
-			console.log("[NovaApp] Prepraring Context URL: " + URL)
+			novaLangLogArgs("prepareContextModule", URL)
 
 			return URL
 		}
@@ -162,7 +188,7 @@ function NovaApp() {
 				slashes: true
 			}))
 
-			console.log('[NovaApp] Loading Page: ' + loadPage)
+			novaLangLogArgs("loadPage", loadPage)
 		}
 
 		// Load Error Page Function
@@ -173,7 +199,7 @@ function NovaApp() {
 				slashes: true
 			}))
 
-			console.log('[NovaApp] Loading Error Page...')
+			novaLangLog("loadingError")
 
 			global.NovaApp.setError(title, message)
 		}
@@ -202,7 +228,7 @@ function NovaApp() {
 			storage.set('serverList', serverListData, function(error) {
 				global.NovaApp.setLocalServerList(serverListData)
 
-				console.log("[Nova] Updated Server List!")
+				novaLangLog("serverListUpdated")
 			});
 		}
 
@@ -211,7 +237,7 @@ function NovaApp() {
 			global.NovaApp.Server().getServers(function(response) {
 				if (response == '{}' || response == 'undefined') {
 					storage.clear(function(error) {
-						console.log("[NovaApp] Clearing Server List, because Data Corrupted.")
+						novaLangLog("serverListCleared")
 					});
 				}
 			})
@@ -294,11 +320,11 @@ function NovaApp() {
 		this.doRequest = function(RequestUri, callback) {
 			request(RequestUri, function(error, response, body) {
 				if (error) {
-					console.log("[NovaApp] Request got error. Sorry.")
+					novaLangLog("requestError")
 
 					callback(false)
 				} else {
-					console.log("[NovaApp] Request got OK.")
+					novaLangLog("requestOK")
 
 					callback({
 						Response: response,
@@ -314,21 +340,21 @@ function NovaApp() {
 
 			global.NovaApp.Requests().doRequest(global.NovaApp.getBase() + global.NovaApp.getController('Hotel') + global.NovaApp.getModule('Client') + global.NovaApp.getToken(), function(response) {
 				if (response == false) {
-					console.log("[NovaApp] Server is invalid.. Why?..")
+					novaLangLog("serverInvalid")
 				} else if (response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
 					var answer = JSON.parse(response.Body)
 
 					if (answer.Code == '403') {
-						console.log("[NovaApp] Server Error. Token is invalid!.")
+						novaLangLog("serverInvalidToken")
 					} else {
-						console.log("[NovaApp] Other answer given by Server Load. Anyways, it's wrong.")
+						novaLangLog("serverOtherAnswer")
 					}
 				} else if (response.Response.headers['content-type'] == 'text/html; charset=UTF-8') {
-					console.log("[NovaApp] Token is invalid. Sorry.")
+					novaLangLog("serverAuthOK")
 
 					serverLoaded = true
 				} else {
-					console.log("[NovaApp] Server didn't answered right. Sorry.")
+					novaLangLog("serverWTF")
 				}
 
 				callback(serverLoaded)
@@ -341,21 +367,21 @@ function NovaApp() {
 
 			global.NovaApp.Requests().doRequest(global.NovaApp.Uri().createUriWithToken('Users', 'UserAuth'), function(response) {
 				if (response == false) {
-					console.log("[NovaApp] Token is invalid because can't contact server..")
+					novaLangLog("serverTokenWTF")
 				} else if (response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
 					var answer = JSON.parse(response.Body)
 
 					if (answer.Code == '200') {
-						console.log("[NovaApp] Token Validated. All right.")
+						novaLangLog("serverTokenOK")
 
 						global.NovaApp.setVar('ServerToken', answer.NewToken)
 
 						validToken = true
 					} else {
-						console.log("[NovaApp] Token is invalid. Sorry.")
+						novaLangLog("serverInvalidToken")
 					}
 				} else {
-					console.log("[NovaApp] Token is invalid. Sorry.")
+					novaLangLog("serverInvalidToken")
 				}
 
 				callback(validToken)
@@ -375,14 +401,14 @@ function NovaApp() {
 					var answer = JSON.parse(response.Body)
 
 					if (answer.Code == '200') {
-						console.log("[NovaApp] Server Validated. All right.")
+						novaLangLog("serverOK")
 
 						validServer = true
 					} else {
-						console.log("[NovaApp] Server is outdated. Sorry.")
+						novaLangLog("serverInvalid")
 					}
 				} else {
-					console.log("[NovaApp] Server is invalid. Sorry.")
+					novaLangLog("serverInvalid")
 				}
 
 				callback(validServer)
@@ -395,25 +421,22 @@ function NovaApp() {
 
 			global.NovaApp.Requests().doRequest(global.NovaApp.Uri().createUriWithToken('Hotel', 'HotelSettings'), function(response) {
 				if (response == false) {
-					console.log("[NovaApp] Server is invalid and with errors. Sorry.")
+					novaLangLog("serverNON")
 				} else if (response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
 					var answer = JSON.parse(response.Body)
 
 					if (answer.Code == '200') {
-						console.log("[NovaApp] OK. Gathering Server Data...")
+						novaLangLog("serverGathOK")
 
-						// Update Server Token
 						global.NovaApp.setVar('ServerToken', answer.NewToken)
-
-						// Set Server Data
 						global.NovaApp.setData(answer.Client.hotel)
 
 						success = true
 					} else {
-						console.log("[NovaApp] Server is outdated. Sorry.")
+						novaLangLog("serverInvalid")
 					}
 				} else {
-					console.log("[NovaApp] Server is invalid. Sorry.")
+					novaLangLog("serverInvalid")
 				}
 			})
 
@@ -557,20 +580,34 @@ function NovaApp() {
 	this.setLocalServerList = function(list) {
 		localServerList = list
 	}
+
+	// Get Languages
+	this.getLanguages = function() {
+		return systemLanguages;
+	}
+
+	// Set Languages
+	this.setLangauges = function(languageFiles) {
+		systemLanguages = languageFiles;
+	}
 }
 
 // Instantiates NovaApp
 global.NovaApp = new NovaApp();
+
+// Get Language Variable
+function getLang(section, langVar) {
+	return global.NovaApp.Languages().getLanguageVar(section, langVar)
+}
 
 // Check Server Vality
 function checkServer(serverName) {
 	console.log("[NovaApp] Starting Server Validation")
 
 	global.NovaApp.setVar('ServerUri', serverName)
-
 	global.NovaApp.Requests().validateServer(function(response) {
 		if (response == false) {
-			global.NovaApp.Load().loadError('Invalid Server!', "This isn't a valid Nova server. Be sure that you typed correctly the server url.")
+			global.NovaApp.Load().loadError(getLang("errors", "invalidServerTitle"), getLang("errors", "invalidServerText"))
 		} else {
 			global.NovaApp.Load().loadPage('token.html')
 		}
@@ -582,10 +619,9 @@ function checkToken(serverToken) {
 	console.log("[NovaApp] Starting Token Validation")
 
 	global.NovaApp.setVar('ServerToken', serverToken)
-
 	global.NovaApp.Requests().validateToken(function(response) {
 		if (response == false) {
-			global.NovaApp.Load().loadError('Invalid Token!', "Sorry, but the authentication result with the response that you SSO Token is invalid. Please check if the Token is valid, or if you copied it correctly.")
+			global.NovaApp.Load().loadError(getLang("errors", "invalidTokenTitle"), getLang("errors", "invalidTokenText"))
 		} else {
 			global.NovaApp.initHab(true);
 		}
@@ -594,11 +630,7 @@ function checkToken(serverToken) {
 
 // Go Back to Home Page
 function goBack() {
-	win.loadURL(url.format({
-		pathname: path.join(__dirname, 'index.html'),
-		protocol: 'file:',
-		slashes: true
-	}))
+	global.NovaApp.Load().loadPage('index.html')
 }
 
 // Get Local Server List
@@ -620,12 +652,10 @@ function getUpdates() {
 
 // Start Specific Server
 function startSpecificServer(serverUri, userToken) {
-	console.log("[NovaApp] Starting a Specific Server from the List... ")
+	novaLangLog("startSpecificServer")
 
 	global.NovaApp.setVar('ServerUri', serverUri)
-
 	global.NovaApp.setVar('ServerToken', userToken)
-
 	global.NovaApp.initHab(false);
 }
 
@@ -701,14 +731,19 @@ function createWindow() {
 		slashes: true
 	}))
 
-	console.log("[NovaApp] Loading Last News...")
+	novaLog("Loading Language System...")
+
+	// Load Languages
+	global.NovaApp.Languages().loadLanguages();
+
+	novaLangLog("startupNews")
 
 	// Set Server Updates
 	global.NovaApp.Renderers().renderNewsHTML(function(response) {
 		global.NovaApp.setUpdates(response);
 
 		setTimeout(function() {
-			console.log("[NovaApp] Creating Context Window...")
+			novaLangLog("startupContextWindow")
 
 			win = new BrowserWindow({
 				width: 900,
@@ -720,7 +755,7 @@ function createWindow() {
 				}
 			})
 
-			console.log("[NovaApp] Launching Context Window...")
+			novaLangLog("startupLaunchContextWindow")
 
 			// Check Data Corruption
 			global.NovaApp.Server().clearServers()
@@ -740,7 +775,7 @@ function createWindow() {
 			// Close Loading Window
 			winLoading.close()
 
-			console.log("[NovaApp] Ready!")
+			novaLangLog("startupReady")
 
 			// Emitted when the window is closed.
 			win.on('closed', () => {
@@ -749,7 +784,7 @@ function createWindow() {
 				// when you should delete the corresponding element.
 				win = null
 
-				console.log("[NovaApp] Bye.")
+				novaLangLog("startupBye")
 
 				app.quit()
 			})
@@ -762,7 +797,7 @@ function createWindow() {
 			// when you should delete the corresponding element.
 			winLoading = null
 
-			console.log("[NovaApp] Loading OK.")
+			novaLangLog("startupLoadingOK")
 		})
 	});
 
