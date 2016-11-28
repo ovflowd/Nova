@@ -1,50 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>
-    Nova - Servers
-  </title>
-  <link rel="stylesheet" type="text/css" href="assets/css/home.css">
-</head>
-<body>
-  <div id="loading"></div>
-  <div id="container">
-    <div id="content">
-        <div id="header" style="margin-bottom:20px;" class="clearfix">
-            <h1><span><img src="assets/images/logo.gif"/></span></h1>
-        </div>
-        <div id="process-content">
-          <div class="fireman fireman-server">
-            <h1>Select the Server!</h1>
-            <p>
-              It's seems that you already added a Server in Nova.
-              Check the list of Saved servers.
-              <br/>
-              <br/>
-              Want to add other server to your list?<br/>
-              <a style="color:white;font-weight:bold" id="submitServer">Add a New Server</a>
-            </p>
-            <p>
-              <br/>
-              <img src="assets/images/server.gif" style="float:right;margin-right: -15px;"/>
-            </p>
-          </div>
-          <div class="tweet-container server-list">
-            <h2>Server List</h2>
-            <div class="tweet" id="serverList">
 
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>
+        Nova - Servers
+    </title>
+    <link rel="stylesheet" type="text/css" href="assets/css/home.css">
+</head>
+
+<body>
+    <div id="loading"></div>
+    <div id="container">
+        <div id="content">
+            <div id="header" style="margin-bottom:20px;" class="clearfix">
+                <h1><span><img src="assets/images/logo.gif"/></span></h1>
             </div>
-          </div>
-          <div id="footer">
-            <p class="copyright">&copy; 2016
-              - NovaApp<br/>
-              <b>Developed by Claudio Santoro</b></p>
+            <div id="process-content">
+                <div class="fireman fireman-server">
+                    <h1>Select the Server!</h1>
+                    <p>
+                        It's seems that you already added a Server in Nova. Check the list of Saved servers.
+                        <br/>
+                        <br/> Want to add other server to your list?<br/>
+                        <a style="color:white;font-weight:bold" id="submitServer">Add a New Server</a>
+                    </p>
+                    <p>
+                        <br/>
+                        <img src="assets/images/server.gif" style="float:right;margin-right: -15px;" />
+                    </p>
+                </div>
+                <div class="tweet-container server-list">
+                    <h2>Server List</h2>
+                    <div class="tweet" id="serverList">
+
+                    </div>
+                </div>
+                <div id="footer">
+                    <p class="copyright">&copy; 2016 - NovaApp<br/>
+                        <b>Developed by Claudio Santoro</b></p>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <script type="text/javascript">
+    </div>
+    <script type="text/javascript">
         // Require Electron Module
         var electron = require('electron');
 
@@ -58,22 +57,23 @@
         var addNewServer = electron.remote.require('./main').addNewServer;
 
         // Set Server List
-        getServerList(function (response) {
-          document.getElementById('serverList').innerHTML = response;
+        getServerList(function(response) {
+            document.getElementById('serverList').innerHTML = response;
         })
 
         // Add Server Trigger Button
         var serverButton = document.getElementById('submitServer');
 
         // Create a Listener for the OnClick on the Submit Button
-        serverButton.addEventListener('click', function () {
-          addNewServer();
+        serverButton.addEventListener('click', function() {
+            addNewServer();
         });
 
         // Start Specific Server
         function openServer(serverUri, userToken) {
-          startSpecificServer(serverUri, userToken);
+            startSpecificServer(serverUri, userToken);
         }
-      </script>
-    </body>
+    </script>
+</body>
+
 </html>
