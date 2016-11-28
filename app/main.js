@@ -632,7 +632,7 @@ function addNewServer() {
 function remoteClient(itemName) {
 	switch(itemName) {
 		case 'logOut':
-			global.NovaApp.Load().loadPage('servers.html')
+			app.quit()
 		break;
 	}
 }

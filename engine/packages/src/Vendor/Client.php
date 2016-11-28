@@ -91,12 +91,15 @@
     // Require Language Manager
     var getLang = electron.remote.require('./main').getLang;
 
+    // Require Remote Client Manager
+    var remoteClient = electron.remote.require('./main').remoteClient;
+
     // Listen to Logout Item
     var logoutUser = document.getElementById('logoutUser');
 
     // Create a Listener for the OnClick on the Submit Button
     logoutUser.addEventListener('click', function () {
-        NovaApp.Load().loadPage('servers.html');
+        remoteClient('logOut')
     });
 </script>
 </body>
