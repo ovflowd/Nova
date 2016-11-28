@@ -27,28 +27,19 @@ switch (process.platform) {
 		break
 }
 
-// Log Something
-function novaLog(content) {
-	console.log("[NovaApp] " + content)
-}
-
-// Log Something from Language Variables
-function novaLangLog(langVariable) {
-	novaLog(getLang("logs", langVariable))
-}
-
-function novaLangLogArgs(langVariable, logArgs) {
-	novaLog(getLang("logs", langVariable) + logArgs)
-}
-
 // Load Pepper Flash (PPAPI)
 app.commandLine.appendSwitch('ppapi-flash-path', path.join('assets/plugins/', flashName))
 
 // Nova it's preparing his classes
-novaLangLog("Preparing Modules...")
+novaLog("Preparing Modules...")
+
+// Instantiates NovaApp
+global.NovaApp = new NovaApp();
 
 // Nova Class
 function NovaApp() {
+
+	novaLog("Loading Nova Core..")
 
 	// NovaApp Version
 	const HabVersion = '012'
@@ -96,12 +87,13 @@ function NovaApp() {
 	// Initialize NovaApp and store it contents
 	this.initHab = function(needAddServer) {
 		novaLangLog("prepareLaunch")
-		novaLangLogArgs("selectedServer", global.NovaApp.getVar('ServerUri'))
-		novaLangLogArgs("selectedToken", global.NovaApp.getVar('ServerToken'))
+
+		novaLangLogArgs("selectedServer", this.getVar('ServerUri'))
+		novaLangLogArgs("selectedToken", this.getVar('ServerToken'))
 
 		// Retrieve Server Data
 		if (needAddServer == true) {
-			global.NovaApp.Requests().retrieveServer(function(response) {
+			this.Requests().retrieveServer(function(response) {
 				if (response == true) {
 					novaLangLog("gatheredServer")
 
@@ -113,13 +105,13 @@ function NovaApp() {
 				}
 			});
 		} else {
-			global.NovaApp.startComm();
+			this.startComm();
 		}
 	}
 
 	// Start NovaApp Communication
 	this.startComm = function() {
-		global.NovaApp.Requests().validateAuth(function(response) {
+		this.Requests().validateAuth(function(response) {
 			if (response == true) {
 				// Load Hotel Client from NovaEngine
 				win.loadURL(global.NovaApp.getBase() + global.NovaApp.getController('Hotel') + global.NovaApp.getModule('Client') + global.NovaApp.getToken())
@@ -132,29 +124,29 @@ function NovaApp() {
 	}
 
 	// Language Functions
-	this.Languages = function() {
+	var languages = function(NovaApp) {
 		this.loadLanguages = function() {
-			global.NovaApp.setLangauges(ini.parse(fs.readFileSync(path.join(__dirname + '/languages/', Language + '.ini'), 'utf-8')));
+			NovaApp.setLanguages(ini.parse(fs.readFileSync(path.join(__dirname + '/languages/', Language + '.ini'), 'utf-8')));
 		}
 
 		// Return Language Section
 		this.getLanguageSection = function(langVar) {
-			return systemLanguages[langVar]
+			return NovaApp.getLanguages()[langVar]
 		}
 
 		// Get Language Var
 		this.getLanguageVar = function(section, langVar) {
-			return global.NovaApp.Languages().getLanguageSection(section)[langVar]
+			return getLanguageSection(section)[langVar]
 		}
 
 		return this
 	}
 
 	// URI Functions
-	this.Uri = function() {
+	var uri = function(NovaApp) {
 		// Create Context URL with Arguments
 		this.createUriWithArguments = function(ServerController, ServerModule, Arguments) {
-			var URL = global.NovaApp.getBase() + global.NovaApp.getController(ServerController) + global.NovaApp.getModule(ServerModule) + Arguments
+			var URL = NovaApp.getBase() + NovaApp.getController(ServerController) + NovaApp.getModule(ServerModule) + Arguments
 
 			novaLangLogArgs("prepareContextModule", URL)
 
@@ -163,7 +155,7 @@ function NovaApp() {
 
 		// Create Context URL
 		this.createUri = function(ServerController, ServerModule) {
-			var URL = global.NovaApp.getBase() + global.NovaApp.getController(ServerController) + global.NovaApp.getModule(ServerModule)
+			var URL = NovaApp.getBase() + NovaApp.getController(ServerController) + NovaApp.getModule(ServerModule)
 
 			novaLangLogArgs("prepareContextModule", URL)
 
@@ -172,14 +164,14 @@ function NovaApp() {
 
 		// Create Context URL with Token
 		this.createUriWithToken = function(ServerController, ServerModule) {
-			return global.NovaApp.Uri().createUriWithArguments(ServerController, ServerModule, global.NovaApp.getToken())
+			return createUriWithArguments(ServerController, ServerModule, NovaApp.getToken())
 		}
 
 		return this
 	}
 
 	// Load Functions
-	this.Load = function() {
+	var load = function(NovaApp) {
 		// Load Page Function
 		this.loadPage = function(loadPage) {
 			win.loadURL(url.format({
@@ -188,7 +180,7 @@ function NovaApp() {
 				slashes: true
 			}))
 
-			novaLangLogArgs("loadPage", loadPage)
+			novaLangLogArgs("loadingPage", loadPage)
 		}
 
 		// Load Error Page Function
@@ -201,14 +193,14 @@ function NovaApp() {
 
 			novaLangLog("loadingError")
 
-			global.NovaApp.setError(title, message)
+			NovaApp.setError(title, message)
 		}
 
 		return this
 	}
 
 	// Server Functions
-	this.Server = function() {
+	var server = function(NovaApp) {
 		// Check if Exists ServerList
 		this.checkServers = function(callback) {
 			storage.has('serverList', function(error, hasKey) {
@@ -234,7 +226,7 @@ function NovaApp() {
 
 		// Erase the Server List if exists Data Corruption
 		this.clearServers = function() {
-			global.NovaApp.Server().getServers(function(response) {
+			getServers(function(response) {
 				if (response == '{}' || response == 'undefined') {
 					storage.clear(function(error) {
 						novaLangLog("serverListCleared")
@@ -245,14 +237,14 @@ function NovaApp() {
 
 		// Check If an Specific Server Exists
 		this.checkServerExistence = function(serverName, callback) {
-			global.NovaApp.Server().getServers(function(serverList) {
+			getServers(function(serverList) {
 				callback(serverList[serverName] != 'undefined')
 			});
 		}
 
 		// Remove Server from the Server List
 		this.removeServer = function(serverName) {
-			global.NovaApp.Server().checkServerExistence(serverName, function(response) {
+			checkServerExistence(serverName, function(response) {
 				global.NovaApp.Server().getServers(function(serverList) {
 					delete serverList[serverName]
 
@@ -266,12 +258,12 @@ function NovaApp() {
 			var server = {}
 
 			server[serverName] = {
-				base: global.NovaApp.getVar('ServerUri'),
-				name: global.NovaApp.getData('name'),
-				token: global.NovaApp.getVar('ServerToken')
+				base: NovaApp.getVar('ServerUri'),
+				name: NovaApp.getData('name'),
+				token: NovaApp.getVar('ServerToken')
 			}
 
-			global.NovaApp.Server().checkServerExistence(serverName, function(response) {
+			checkServerExistence(serverName, function(response) {
 				if (response == true) {
 					global.NovaApp.Server().checkServers(function(response) {
 						if (response == true) {
@@ -300,7 +292,7 @@ function NovaApp() {
 
 		// Retrieve Server Data
 		this.getServer = function(serverName, callback) {
-			global.NovaApp.Server().checkServerExistence(serverName, function(response) {
+			checkServerExistence(serverName, function(response) {
 				if (response == true) {
 					global.NovaApp.Server().getServers(function(serverList) {
 						callback(serverList[serverName])
@@ -315,7 +307,7 @@ function NovaApp() {
 	}
 
 	// Requests Functions
-	this.Requests = function() {
+	var requests = function(NovaApp) {
 		// Do NovaApp Request
 		this.doRequest = function(RequestUri, callback) {
 			request(RequestUri, function(error, response, body) {
@@ -338,7 +330,7 @@ function NovaApp() {
 		this.validateAuth = function(callback) {
 			var serverLoaded = false
 
-			global.NovaApp.Requests().doRequest(global.NovaApp.getBase() + global.NovaApp.getController('Hotel') + global.NovaApp.getModule('Client') + global.NovaApp.getToken(), function(response) {
+			doRequest(NovaApp.Uri().createUriWithToken('Hotel', 'HotelSettings'), function(response) {
 				if (response == false) {
 					novaLangLog("serverInvalid")
 				} else if (response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
@@ -365,7 +357,7 @@ function NovaApp() {
 		this.validateToken = function(callback) {
 			var validToken = false
 
-			global.NovaApp.Requests().doRequest(global.NovaApp.Uri().createUriWithToken('Users', 'UserAuth'), function(response) {
+			doRequest(NovaApp.Uri().createUriWithToken('Users', 'UserAuth'), function(response) {
 				if (response == false) {
 					novaLangLog("serverTokenWTF")
 				} else if (response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
@@ -394,7 +386,7 @@ function NovaApp() {
 		this.validateServer = function(callback) {
 			var validServer = false
 
-			global.NovaApp.Requests().doRequest(global.NovaApp.Uri().createUriWithArguments('Engine', 'VersionCheck', '&Version=' + HabVersion), function(response) {
+			doRequest(NovaApp.Uri().createUriWithArguments('Engine', 'VersionCheck', '&Version=' + HabVersion), function(response) {
 				if (response == false) {
 					console.log("[NovaApp] Server is invalid and with errors. Sorry.")
 				} else if (response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
@@ -419,7 +411,7 @@ function NovaApp() {
 		this.retrieveServer = function(callback) {
 			var success = false
 
-			global.NovaApp.Requests().doRequest(global.NovaApp.Uri().createUriWithToken('Hotel', 'HotelSettings'), function(response) {
+			doRequest(NovaApp.Uri().createUriWithToken('Hotel', 'HotelSettings'), function(response) {
 				if (response == false) {
 					novaLangLog("serverNON")
 				} else if (response.Response.headers['content-type'] == 'application/json; charset=utf-8') {
@@ -447,10 +439,10 @@ function NovaApp() {
 	}
 
 	// Renderes Functions
-	this.Renderers = function() {
+	var renderers = function(NovaApp) {
 		// Get Rendered Server List
 		this.renderServerList = function(callback) {
-			global.NovaApp.Server().getServers(function(response) {
+			NovaApp.Server().getServers(function(response) {
 				var serversHTML = ''
 
 				serversHTML = '<ul class="tweet_list">'
@@ -481,7 +473,7 @@ function NovaApp() {
 		this.renderNewsHTML = function(callback) {
 			var updatesHTML = ''
 
-			global.NovaApp.Requests().doRequest('https://raw.githubusercontent.com/sant0ro/Nova/master/SERVER_MESSAGES.json', function(response) {
+			NovaApp.Requests().doRequest('https://raw.githubusercontent.com/sant0ro/Nova/master/SERVER_MESSAGES.json', function(response) {
 				if (response == false) {
 					console.log("[NovaApp] Can't communicate with Nova Repository..")
 				} else {
@@ -509,6 +501,30 @@ function NovaApp() {
 		}
 
 		return this
+	}
+
+	this.Languages = function() {
+		return languages(this)
+	}
+
+	this.Uri = function() {
+		return uri(this)
+	}
+
+	this.Load = function() {
+		return load(this)
+	}
+
+	this.Server = function() {
+		return server(this)
+	}
+
+	this.Requests = function() {
+		return requests(this)
+	}
+
+	this.Renderers = function() {
+		return renderers(this)
 	}
 
 	// Get Server Base URI + Server Base
@@ -583,80 +599,32 @@ function NovaApp() {
 
 	// Get Languages
 	this.getLanguages = function() {
-		return systemLanguages;
+		return systemLanguages
 	}
 
 	// Set Languages
-	this.setLangauges = function(languageFiles) {
-		systemLanguages = languageFiles;
+	this.setLanguages = function(languageFiles) {
+		systemLanguages = languageFiles
 	}
 }
 
-// Instantiates NovaApp
-global.NovaApp = new NovaApp();
+// Log Something
+function novaLog(content) {
+	console.log("[NovaApp] " + content)
+}
+
+// Log Something from Language Variables
+function novaLangLog(langVariable) {
+	novaLog(getLang("logs", langVariable))
+}
+
+function novaLangLogArgs(langVariable, logArgs) {
+	novaLog(getLang("logs", langVariable) + logArgs)
+}
 
 // Get Language Variable
 function getLang(section, langVar) {
 	return global.NovaApp.Languages().getLanguageVar(section, langVar)
-}
-
-// Check Server Vality
-function checkServer(serverName) {
-	console.log("[NovaApp] Starting Server Validation")
-
-	global.NovaApp.setVar('ServerUri', serverName)
-	global.NovaApp.Requests().validateServer(function(response) {
-		if (response == false) {
-			global.NovaApp.Load().loadError(getLang("errors", "invalidServerTitle"), getLang("errors", "invalidServerText"))
-		} else {
-			global.NovaApp.Load().loadPage('token.html')
-		}
-	})
-}
-
-// Check Token Function
-function checkToken(serverToken) {
-	console.log("[NovaApp] Starting Token Validation")
-
-	global.NovaApp.setVar('ServerToken', serverToken)
-	global.NovaApp.Requests().validateToken(function(response) {
-		if (response == false) {
-			global.NovaApp.Load().loadError(getLang("errors", "invalidTokenTitle"), getLang("errors", "invalidTokenText"))
-		} else {
-			global.NovaApp.initHab(true);
-		}
-	})
-}
-
-// Go Back to Home Page
-function goBack() {
-	global.NovaApp.Load().loadPage('index.html')
-}
-
-// Get Local Server List
-function getServerList(callback) {
-	global.NovaApp.Renderers().renderServerList(function(response) {
-		callback(response)
-	})
-}
-
-// Get getError Message
-function getError() {
-	return global.NovaApp.getError();
-}
-
-// Get Last News HTML
-function getUpdates() {
-	return global.NovaApp.getUpdates();
-}
-
-// Start Specific Server
-function startSpecificServer(serverUri, userToken) {
-	novaLangLog("startSpecificServer")
-
-	global.NovaApp.setVar('ServerUri', serverUri)
-	global.NovaApp.setVar('ServerToken', userToken)
-	global.NovaApp.initHab(false);
 }
 
 // Go to Main Page
@@ -664,51 +632,14 @@ function addNewServer() {
 	global.NovaApp.Load().loadPage('index.html')
 }
 
-// Got to Server List
-function goToServerList(callback) {
-	global.NovaApp.Server().checkServers(function(response) {
-		if (response == true) {
-			global.NovaApp.Load().loadPage('servers.html')
-		} else {
-			callback(false)
-		}
-	})
-}
+// Exports NovaApp
+exports.NovaApp = global.NovaApp
 
-// Logout User
-function logOut() {
-	global.NovaApp.Load().loadPage('index.html')
-}
+// Exports Language Manager
+exports.getLang = getLang
 
-// Exports logOut checkServer Method
-exports.logOut = logOut
-
-// Exports addNewServer checkServer Method
-exports.addNewServer = addNewServer
-
-// Exports goToServerList checkServer Method
-exports.goToServerList = goToServerList
-
-// Exports startSpecificServer checkServer Method
-exports.startSpecificServer = startSpecificServer
-
-// Exports getServerList checkServer Method
-exports.getServerList = getServerList
-
-// Exports NovaApp checkServer Method
-exports.checkServer = checkServer
-
-// Exports NovaApp goBack Method
-exports.goBack = goBack
-
-// Exports NovaApp errorMessage Method
-exports.getError = getError
-
-// Exports NovaApp checkToken Method
-exports.checkToken = checkToken
-
-// Exports NovaApp getUpdates Method
-exports.getUpdates = getUpdates
+// Exports Nova Log Manager
+exports.novaLog = novaLog
 
 // Create Context Window
 function createWindow() {

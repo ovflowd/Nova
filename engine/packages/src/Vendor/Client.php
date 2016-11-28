@@ -85,15 +85,18 @@
     // Require Electron Module
     var electron = require('electron');
 
-    // Require Logout Method
-    var logOut = electron.remote.require('./main').logOut;
+    // Require NovaApp
+    var NovaApp = electron.remote.require('./main').NovaApp;
+
+    // Require Language Manager
+    var getLang = electron.remote.require('./main').getLang;
 
     // Listen to Logout Item
     var logoutUser = document.getElementById('logoutUser');
 
     // Create a Listener for the OnClick on the Submit Button
     logoutUser.addEventListener('click', function () {
-        logOut();
+        NovaApp.Load().loadPage('index.html');
     });
 </script>
 </body>

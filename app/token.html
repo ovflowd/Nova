@@ -58,8 +58,11 @@
         // Require Electron Module
         var electron = require('electron');
 
-        // Require startHabClient Method
-        var checkToken = electron.remote.require('./main').checkToken;
+        // Require NovaApp
+        var NovaApp = electron.remote.require('./main').NovaApp;
+
+        // Require Language Manager
+        var getLang = electron.remote.require('./main').getLang;
 
         // Get Document Elements for Button & Inputs
         var serverButton = document.getElementById('submitServer');
@@ -67,7 +70,14 @@
 
         // Create a Listener for the OnClick on the Submit Button
         serverButton.addEventListener('click', function() {
-            checkToken(serverToken.value);
+            global.NovaApp.setVar('ServerToken', serverToken.value)
+            global.NovaApp.Requests().validateToken(function(response) {
+                if (response == false) {
+                    global.NovaApp.Load().loadError(getLang("errors", "invalidTokenTitle"), getLang("errors", "invalidTokenText"))
+                } else {
+                    global.NovaApp.initHab(true);
+                }
+            })
         });
     </script>
 </body>

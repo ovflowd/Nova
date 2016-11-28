@@ -51,17 +51,14 @@
         // Require Electron Module
         var electron = require('electron');
 
-        // Require Check Server Method
-        var checkServer = electron.remote.require('./main').checkServer;
+        // Require NovaApp
+        var NovaApp = electron.remote.require('./main').NovaApp;
 
-        // Get Server Latest News
-        var getUpdates = electron.remote.require('./main').getUpdates;
-
-        // Get GoToServerList
-        var goToServerList = electron.remote.require('./main').goToServerList;
+        // Require Language Manager
+        var getLang = electron.remote.require('./main').getLang;
 
         // Set Latest News
-        document.getElementById('lastNews').innerHTML = getUpdates();
+        document.getElementById('lastNews').innerHTML = NovaApp.getUpdates();
 
         // Get Document Elements for Button & Inputs
         var serverButton = document.getElementById('submitServer');
@@ -75,17 +72,27 @@
             if (serverButton.disabled == false) {
                 serverButton.disabled = true;
                 resultMessage.innerHTML = "Loading Server Details... Wait please.";
-                checkServer(serverText.value);
+
+                NovaApp.setVar('ServerUri', serverName);
+                NovaApp.Requests().validateServer(function(response) {
+                    if (response == false) {
+                        NovaApp.Load().loadError(getLang("errors", "invalidServerTitle"), getLang("errors", "invalidServerText"));
+                    } else {
+                        NovaApp.Load().loadPage('token.html');
+                    }
+                });
             }
         });
 
         // Create a Listener for the OnClick on the Submit Button
         serverList.addEventListener('click', function() {
-            goToServerList(function(response) {
-                if (response == false) {
-                    hasServer.innerHTML = "Sorry, but you don't have any stored server. You need add one.";
+            NovaApp.Server().checkServers(function(response) {
+                if (response == true) {
+                    NovaApp.Load().loadPage('servers.html');
+                } else {
+                    hasServer.innerHTML = getLang("errors", noStoredServer);
                 }
-            })
+            });
         });
     </script>
 </body>

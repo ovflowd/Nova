@@ -47,31 +47,30 @@
         // Require Electron Module
         var electron = require('electron');
 
-        // Require Get Server List Method
-        var getServerList = electron.remote.require('./main').getServerList;
+        // Require NovaApp
+        var NovaApp = electron.remote.require('./main').NovaApp;
 
-        // Start Specific Server
-        var startSpecificServer = electron.remote.require('./main').startSpecificServer;
-
-        // Add New Server
-        var addNewServer = electron.remote.require('./main').addNewServer;
+        // Require Language Manager
+        var getLang = electron.remote.require('./main').getLang;
 
         // Set Server List
-        getServerList(function(response) {
-            document.getElementById('serverList').innerHTML = response;
-        })
+        NovaApp.Renderers().renderServerList(function(response) {
+      		document.getElementById('serverList').innerHTML = response;
+      	});
 
         // Add Server Trigger Button
         var serverButton = document.getElementById('submitServer');
 
         // Create a Listener for the OnClick on the Submit Button
         serverButton.addEventListener('click', function() {
-            addNewServer();
+            NovaApp.Load().loadPage('index.html');
         });
 
         // Start Specific Server
         function openServer(serverUri, userToken) {
-            startSpecificServer(serverUri, userToken);
+          NovaApp.setVar('ServerUri', serverUri);
+          NovaApp.setVar('ServerToken', userToken);
+          NovaApp.initHab(false);
         }
     </script>
 </body>
