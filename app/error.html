@@ -40,10 +40,12 @@
         var electron = require('electron');
 
         // Require NovaApp
-        var NovaApp = electron.remote.require('./main').NovaApp;
+        var NovaApp = electron.remote.require('./main').NovaApp,
+            getLang = electron.remote.require('./main').getLang,
+            novaLog = electron.remote.require('./main').novaLog;
 
-        // Require Language Manager
-        var getLang = electron.remote.require('./main').getLang;
+        document.getElementById('errorTitle').innerHTML = getLang("index", "errorNotDefinedTitle");
+        document.getElementById('errorMessage').innerHTML = getLang("index", "errorNotDefinedText");
 
         // Set the Error Message Components
         document.getElementById("errorTitle").innerHTML = NovaApp.getError().Title;

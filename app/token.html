@@ -18,12 +18,12 @@
             </div>
             <div id="process-content">
                 <div class="fireman">
-                    <h1>Authenticate User!</h1>
+                    <h1 id="tokenTitle">Authenticate User!</h1>
                     <p>
-                        OK! You're playing in a valid server. Please enter the Token that was provided for you.
+                        <k id="tokenText">OK! You're playing in a valid server. Please enter the Token that was provided for you.</k>
                         <br/>
                         <br/>
-                        <p>Your Generated Token</p>
+                        <p id="tokenInput">Your Generated Token</p>
                         <p><input class="text-input" id="serverToken" type="text" /></p>
                     </p>
                     <p>
@@ -32,19 +32,9 @@
                     </p>
                 </div>
                 <div class="tweet-container">
-                    <h2>What's going on?</h2>
-                    <div class="tweet">
-                        <ul class="tweet_list">
-                            <li>
-                                <b>Welcome to HabClient Bootstrapper</b><br/> This is the HabClient Bootstraper, you can play any Retro Server using HabClient, with this App.
-                            </li>
-                            <li class="tweet_even">
-                                <b>RaGEZONE! & GitHub</b><br/> Help by contributing to HabClient, see our development thread <a href="http://forum.ragezone.com/f331/habclient-java-php-flash-shockwave-1119880">here</a>
-                            </li>
-                            <li>
-                                <b>Which Version i'm Running?</b><br/> HabClient App v0111 (Dev Alpha)
-                            </li>
-                        </ul>
+                    <h2 id="whatsGoing">What's going on?</h2>
+                    <div class="tweet" id="lastNews">
+
                     </div>
                 </div>
                 <div id="footer">
@@ -59,10 +49,18 @@
         var electron = require('electron');
 
         // Require NovaApp
-        var NovaApp = electron.remote.require('./main').NovaApp;
+        var NovaApp = electron.remote.require('./main').NovaApp,
+            getLang = electron.remote.require('./main').getLang,
+            novaLog = electron.remote.require('./main').novaLog;
 
-        // Require Language Manager
-        var getLang = electron.remote.require('./main').getLang;
+        document.getElementById('tokenTitle').innerHTML = getLang("token", "tokenTitle");
+        document.getElementById('tokenText').innerHTML = getLang("token", "tokenText");
+        document.getElementById('tokenInput').innerHTML = getLang("token", "tokenInput");
+        document.getElementById('submitServer').innerHTML = getLang("token", "submitServer");
+        document.getElementById('whatsGoing').innerHTML = getLang("token", "whatsGoing");
+
+        // Set Latest News
+        document.getElementById('lastNews').innerHTML = NovaApp.getUpdates();
 
         // Get Document Elements for Button & Inputs
         var serverButton = document.getElementById('submitServer');

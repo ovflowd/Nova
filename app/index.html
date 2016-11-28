@@ -18,13 +18,13 @@
             </div>
             <div id="process-content">
                 <div class="fireman">
-                    <h1>Select the Server!</h1>
+                    <h1 id="helloTitle">Select the Server!</h1>
                     <p>
-                        Hello, in order to use Nova you need select the server.<br/><br/>
+                        <k id="helloServer">Hello, in order to use Nova you need select the server.<br/><br/></k>
                         <i id="hasServer">If you already have stored servers, you can go to the server list by clicking <a id="serverList">here</a></i>
                         <br/>
                         <br/>
-                        <p>Hotel URL (without http://)</p>
+                        <p>Hotel URL</p>
                         <p><input class="text-input" id="serverUri" type="text" /></p>
                     </p>
                     <p>
@@ -35,7 +35,7 @@
                     </p>
                 </div>
                 <div class="tweet-container">
-                    <h2>What's going on?</h2>
+                    <h2 id="whatsGoing">What's going on?</h2>
                     <div class="tweet" id="lastNews">
 
                     </div>
@@ -52,10 +52,14 @@
         var electron = require('electron');
 
         // Require NovaApp
-        var NovaApp = electron.remote.require('./main').NovaApp;
+        var NovaApp = electron.remote.require('./main').NovaApp,
+            getLang = electron.remote.require('./main').getLang,
+            novaLog = electron.remote.require('./main').novaLog;
 
-        // Require Language Manager
-        var getLang = electron.remote.require('./main').getLang;
+        document.getElementById('helloTitle').innerHTML = getLang("index", "helloTitle");
+        document.getElementById('helloServer').innerHTML = getLang("index", "helloServer");
+        document.getElementById('hasServer').innerHTML = getLang("index", "hasServer");
+        document.getElementById('whatsGoing').innerHTML = getLang("index", "whatsGoing");
 
         // Set Latest News
         document.getElementById('lastNews').innerHTML = NovaApp.getUpdates();

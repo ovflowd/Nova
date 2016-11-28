@@ -18,11 +18,9 @@
             </div>
             <div id="process-content">
                 <div class="fireman fireman-server">
-                    <h1>Select the Server!</h1>
+                    <h1 id="serverTitle">Select the Server!</h1>
                     <p>
-                        It's seems that you already added a Server in Nova. Check the list of Saved servers.
-                        <br/>
-                        <br/> Want to add other server to your list?<br/>
+                        <k id="serverText">It's seems that you already added a Server in Nova. Check the list of Saved servers.<br/><br/> Want to add other server to your list?<br/></k>
                         <a style="color:white;font-weight:bold" id="submitServer">Add a New Server</a>
                     </p>
                     <p>
@@ -31,7 +29,7 @@
                     </p>
                 </div>
                 <div class="tweet-container server-list">
-                    <h2>Server List</h2>
+                    <h2 id="serverList">Server List</h2>
                     <div class="tweet" id="serverList">
 
                     </div>
@@ -48,15 +46,19 @@
         var electron = require('electron');
 
         // Require NovaApp
-        var NovaApp = electron.remote.require('./main').NovaApp;
+        var NovaApp = electron.remote.require('./main').NovaApp,
+            getLang = electron.remote.require('./main').getLang,
+            novaLog = electron.remote.require('./main').novaLog;
 
-        // Require Language Manager
-        var getLang = electron.remote.require('./main').getLang;
+        document.getElementById('serverTitle').innerHTML = getLang("servers", "serverTitle");
+        document.getElementById('serverText').innerHTML = getLang("servers", "serverText");
+        document.getElementById('submitServer').innerHTML = getLang("servers", "submitServer");
+        document.getElementById('serverList').innerHTML = getLang("servers", "serverList");
 
         // Set Server List
         NovaApp.Renderers().renderServerList(function(response) {
-      		document.getElementById('serverList').innerHTML = response;
-      	});
+            document.getElementById('serverList').innerHTML = response;
+        });
 
         // Add Server Trigger Button
         var serverButton = document.getElementById('submitServer');
@@ -68,9 +70,9 @@
 
         // Start Specific Server
         function openServer(serverUri, userToken) {
-          NovaApp.setVar('ServerUri', serverUri);
-          NovaApp.setVar('ServerToken', userToken);
-          NovaApp.initHab(false);
+            NovaApp.setVar('ServerUri', serverUri);
+            NovaApp.setVar('ServerToken', userToken);
+            NovaApp.initHab(false);
         }
     </script>
 </body>
