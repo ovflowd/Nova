@@ -134,6 +134,21 @@ final class DatabaseQueries
     }
 
     /**
+     * Return all Hotel Articles
+     *
+     * @return mixed
+     */
+    public static function getHotelArticles()
+    {
+        // Get the Engine Tables
+        $engine = HabEngine::getInstance()->getEngineSettings()->tables;
+
+        // Get All Hotel Articles
+        return DatabaseManager::getInstance()->fetchAll("SELECT {$engine->newsColumns->articleId}, {$engine->newsColumns->articleTitle}, {$engine->newsColumns->articleContent}, {$engine->newsColumns->articleDate} " .
+            "FROM {$engine->newsTable} ORDER BY id DESC");
+    }
+
+    /**
      * Check if the Used Token Column
      *
      * @return bool

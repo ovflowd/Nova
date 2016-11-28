@@ -6,6 +6,7 @@
     <style>
         <?= \Hab\Core\HabTemplate::getVendor('CSS/Client.css') ?>
     </style>
+    <?= \Hab\Core\HabTemplate::includeVendor('CSS/News.php') ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js"></script>
     <script type="text/javascript">
         var BaseUrl = "<?= \Hab\Core\HabEngine::getInstance()->getApiSettings()->swf->path; ?><?= \Hab\Core\HabEngine::getInstance()->getApiSettings()->swf->gordon->base; ?>";
@@ -50,11 +51,50 @@
     <img src="<?= \Hab\Core\HabEngine::getInstance()->getApiSettings()->custom->small_logo ?>">
     <div class="logout">
         <p id="logoutUser">Logout</p>
+        <p id="openArticles">Articles</p>
     </div>
     <div class="online">
-        <p><?= \Hab\Database\DatabaseQueries::getHotelStatus()->{\Hab\Core\HabEngine::getInstance()->getEngineSettings()->tables->serverColumns->onlineCount} ?> Users
+        <p><?= \Hab\Database\DatabaseQueries::getHotelStatus()->{\Hab\Core\HabEngine::getInstance()->getEngineSettings()->tables->serverColumns->onlineCount} ?>
+            Users
             Online</p>
     </div>
+</div>
+<div id="news-habblet-container" style="position:fixed; display: none;">
+    <div class="title">
+        <div class="habblet-close"></div>
+        <div>Latest News of <?= \Hab\Core\HabEngine::getInstance()->getApiSettings()->hotel->name ?></div>
+    </div>
+    <div class="content-container">
+        <div id="news-articles">
+            <ul id="news-articlelist" class="articlelist">
+                <?php
+
+                $tableItems = \Hab\Core\HabEngine::getInstance()->getEngineSettings()->tables->newsColumns;
+
+                foreach (\Hab\Database\DatabaseQueries::getHotelArticles() as $articleItem):
+
+                    $oddEven = ($articleItem->id % 2 == 0) ? 'even' : 'odd';
+
+                    echo '<li class="' . $oddEven . '">
+					
+					  <div class="news-title">' . $articleItem->{$tableItems->articleTitle} . '</div>
+					  <div class="news-summary">' . $articleItem->{$tableItems->articleContent} . '</div>
+					  <div class="newsitem-date">' . $articleItem->{$tableItems->articleDate} . '</div>
+
+					  <div class="clearfix">
+					  
+						<a target="_blank" class="article-toggle">Read on site</a>
+						
+					  </div>
+					  
+					</li>';
+                endforeach;
+
+                ?>
+            </ul>
+        </div>
+    </div>
+    <div class="news-footer"></div>
 </div>
 <div id="client-ui">
     <div id="flash-wrapper">
@@ -81,7 +121,40 @@
     <div id="content" class="client-content">
     </div>
 </div>
+<script
+    src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+    crossorigin="anonymous">
+</script>
+<script>
+    try {
+        $ = jQuery = module.exports;
+        // If you want module.exports to be empty, uncomment:
+        // module.exports = {};
+    } catch (e) {
+    }
+</script>
+<script
+    src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+    integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
+    crossorigin="anonymous">
+</script>
 <script type="text/javascript">
+    $.noConflict();
+
+    var habblet = jQuery('#news-habblet-container');
+
+    habblet.hide();
+
+    jQuery('#openArticles').on('click', function () {
+        habblet.show();
+        habblet.draggable();
+    });
+
+    jQuery('.habblet-close').on('click', function () {
+        habblet.hide();
+    });
+
     // Require Electron Module
     var electron = require('electron');
 

@@ -52,6 +52,13 @@ define('ENGINE_SETTINGS', json_encode([
         'serverColumns' => [
             'online' => 'status',
             'onlineCount' => 'users_online'
+        ],
+        'newsTable' => 'cms_news',
+        'newsColumns' => [
+            'articleId' => 'id',
+            'articleTitle' => 'title',
+            'articleContent' => 'content',
+            'articleDate' => 'date'
         ]
     ]
 ]));
@@ -85,7 +92,8 @@ define('API_SETTINGS', json_encode([
     'custom' => [
         'loading' => 'Loading Habbo Hotel...',
         'logo' => 'http://localhost/images/logo.gif',
-        'small_logo' => 'http://localhost/images/nova.gif'
+        'small_logo' => 'http://localhost/images/nova.gif',
+        'news_folder' => 'http://localhost/images/news/'
     ]
 ]));
 
