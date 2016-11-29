@@ -55,3 +55,7 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Logs
+logs
+*.log
+npm-debug.log*
