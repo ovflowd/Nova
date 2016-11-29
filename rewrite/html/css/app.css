@@ -33,6 +33,14 @@ a {
   box-shadow: none;
   background: #2767a7;
   border-radius: 3px;
+  color: #fff;
+}
+
+.panel__blue h2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: 800;
+  font-size: 25px;
 }
 
   /* panel__blue end */
@@ -62,7 +70,7 @@ a {
 .panel__ticker .nova__tweets {
   padding: 0px;
   list-style-type: none;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .panel__ticker .nova__tweets > li {
