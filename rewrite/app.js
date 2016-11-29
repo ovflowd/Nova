@@ -4,6 +4,8 @@ const url = require('url')
 
 let win;
 
+app.commandLine.appendSwitch('--enable-npapi');
+
 function createWindow () {
   win = new BrowserWindow({
     name: 'NovaApp',

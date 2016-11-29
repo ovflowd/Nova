@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/app.css" />
   </head>
   <body>
-    <section class="container">
+    <section class="container" id="flash-container">
       <div style="margin-top: 25px;">
         <div class="panel panel__default">
           <div class="panel-body">
@@ -28,7 +28,13 @@
               </div>
 
               <div class="col-sm-6">
-                hello
+                <div class="panel panel__ticker">
+                  <div class="panel-heading">What's going on?</div>
+                  <div class="panel-body">
+                    <ul class="nova__tweets" style="display: none"></ul>
+                    <center><img src="../assets/loading.gif" /></center>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -38,6 +44,15 @@
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+      var electron = require('electron');
+      $(document).ready(() => {
+        $.getJSON('https://raw.githubusercontent.com/sant0ro/Nova/master/tweets.json', (resp) => {
+          var msg = [];
+          console.log(msg);
+        });
+      });
+    </script>
     <script>if (window.module) module = window.module;</script>
   </body>
 </html>
