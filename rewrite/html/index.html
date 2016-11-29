@@ -48,8 +48,13 @@
       var electron = require('electron');
       $(document).ready(() => {
         $.getJSON('https://raw.githubusercontent.com/sant0ro/Nova/master/tweets.json', (resp) => {
-          var msg = [];
-          console.log(msg);
+          // console.log(resp.tweets);
+          for(var i = 0; i < resp.tweets.length; i++) {
+            $('.panel__ticker .panel-body > center').css('display', 'none');
+            $('.nova__tweets').css('display', 'block').append('<li>' + resp.tweets[i].message + '</li>');
+          }
+        }).fail((err) => {
+          console.log('failed to get tweets');
         });
       });
     </script>

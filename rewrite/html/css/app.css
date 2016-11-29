@@ -8,6 +8,10 @@ body {
   font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
+a {
+    color: #fc6204;
+}
+
 /* container */
   /* panel__default */
 .panel__default {
@@ -58,6 +62,7 @@ body {
 .panel__ticker .nova__tweets {
   padding: 0px;
   list-style-type: none;
+  overflow: scroll;
 }
 
 .panel__ticker .nova__tweets > li {
