@@ -1,0 +1,35 @@
+/**
+  * @template NovaApp
+  * @author Necmi Hasan
+  */
+
+body {
+  background-color: #bce0ee;
+}
+
+/* container */
+  /* panel__default */
+.panel__default {
+  box-shadow: none;
+  background-color: #fff;
+  border: 1px solid #96b3be;
+  border-bottom: 3px solid #96b3be;
+  border-radius: 6px;
+}
+
+.panel__default .nova__logo {
+  display: block;
+}
+
+/* panel__default end */
+
+  /* panel__blue */
+.panel__blue {
+  box-shadow: none;
+  background: #2767a7;
+  border-radius: 3px;
+}
+
+/* panel__blue end */
+
+/* container end */

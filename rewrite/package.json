@@ -1,0 +1,36 @@
+{
+  "name": "NovaApp",
+  "version": "0.1.1",
+  "description": "NovaApp - the future of Habbo",
+  "main": "app.js",
+  "dependencies": {
+    "dev-null": "^0.1.1",
+    "electron": "^1.4.7",
+    "electron-chromedriver": "~1.4.0",
+    "electron-json-storage": "^2.1.0",
+    "request": "^2.65.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Habbo",
+    "Habbo Hotel",
+    "RaGEZONE",
+    "Habbo Retro",
+    "Electron",
+    "NodeJS",
+    "sant0ro",
+    "NovaEngine",
+    "NovaApp",
+    "Nova"
+  ],
+  "author": "Claudio Santoro, Necmi Hasan",
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.12.4"
+  },
+  "bugs": {
+    "url": "https://github.com/sant0ro/Nova/issues"
+  }
+}
