@@ -11,7 +11,7 @@
     "request": "^2.65.0"
   },
   "scripts": {
-    "test": "electron-mocha && standard"
+    "test": "electron-mocha"
   },
   "keywords": [
     "Habbo",
