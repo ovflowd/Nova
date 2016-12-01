@@ -1,10 +1,6 @@
 {
   "tweets" : [
-    {
-      "message" : "<b>Welcome to HabClient Bootstrapper</b><br/>This is the Nova Bootstraper, you can play any Retro Server using HabClient, with this App"
-    },
-    {
-      "message" : "<b>RaGEZONE! & GitHub</b><br/>Help by contributing to Nova, see our development thread <a href='http://forum.ragezone.com/f331/habclient-java-php-flash-shockwave-1119880'>here</a>"
-    }
+    {"message" : "<b>Habbo Hotel</b>Uses HabClient, the future of Retro Servers Clients. <br>With <b>HabClient</b> you can play easily any hotel, without the needing of any browser."},
+    {"message" : "<b>RaGEZONE! & GitHub</b><br/>Help by contributing to Nova, see our development thread <a href='http://forum.ragezone.com/f331/habclient-java-php-flash-shockwave-1119880'>here</a>"}
   ]
 }

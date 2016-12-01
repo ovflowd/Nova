@@ -469,7 +469,7 @@ function NovaApp() {
     this.renderNewsHTML = function(callback) {
       var updatesHTML = ''
 
-      NovaApp.Requests().doRequest('https://raw.githubusercontent.com/sant0ro/Nova/master/SERVER_MESSAGES.json', function(response) {
+      NovaApp.Requests().doRequest('https://raw.githubusercontent.com/sant0ro/Nova/master/tweets.json', function(response) {
         if (response == false) {
           console.log("[NovaApp] Can't communicate with Nova Repository..")
         } else {
@@ -479,7 +479,7 @@ function NovaApp() {
 
           var even = 0
 
-          answer.messages.forEach(function(entry) {
+          answer.tweets.forEach(function(entry) {
             even++
 
             updatesHTML += (even % 2 == 0) ? '<li class="tweet_even">' : '<li>'
