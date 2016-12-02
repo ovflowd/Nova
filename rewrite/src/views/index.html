@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nova - Welcome!</title>
 
-    <title>Nova - Welcome</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/app.css" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/app.css" rel="stylesheet">
   </head>
   <body>
     <section class="container" id="flash-container">
       <div style="margin-top: 25px;">
         <div class="panel panel__default">
           <div class="panel-body">
-            <img class="nova__logo" src="../assets/logo.gif" />
+            <img class="nova__logo" src="assets/images/logo.gif" />
             <div class="row">
               <div class="col-sm-6">
                 <div class="panel panel__blue">
@@ -26,13 +24,12 @@
                   </div>
                 </div>
               </div>
-
               <div class="col-sm-6">
                 <div class="panel panel__ticker">
                   <div class="panel-heading">What's going on?</div>
                   <div class="panel-body">
                     <ul class="nova__tweets" style="display: none"></ul>
-                    <center><img src="../assets/loading.gif" /></center>
+                    <center><img src="assets/images/loading.gif"></center>
                   </div>
                 </div>
               </div>
@@ -41,23 +38,14 @@
         </div>
       </div>
     </section>
-    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+    <script type="text/javascript">
+      var remote = require('electron').remote;  
+      var nova = remote.require("./main.js");
+
+      nova.sayHello()
+    </script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script>
-      var electron = require('electron');
-      $(document).ready(() => {
-        $.getJSON('https://raw.githubusercontent.com/sant0ro/Nova/master/tweets.json', (resp) => {
-          // console.log(resp.tweets);
-          for(var i = 0; i < resp.tweets.length; i++) {
-            $('.panel__ticker .panel-body > center').css('display', 'none');
-            $('.nova__tweets').css('display', 'block').append('<li>' + resp.tweets[i].message + '</li>');
-          }
-        }).fail((err) => {
-          console.log('failed to get tweets');
-        });
-      });
-    </script>
-    <script>if (window.module) module = window.module;</script>
   </body>
 </html>

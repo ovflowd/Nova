@@ -1,36 +1,25 @@
 {
-  "name": "NovaApp",
-  "version": "0.1.1",
-  "description": "NovaApp - the future of Habbo",
-  "main": "app.js",
-  "dependencies": {
-    "dev-null": "^0.1.1",
-    "electron": "^1.4.7",
-    "electron-chromedriver": "~1.4.0",
-    "electron-json-storage": "^2.1.0",
-    "request": "^2.65.0"
+  "name": "nova-app",
+  "productName": "Nova",
+  "description": "The External HH Client Ecosystem™",
+  "version": "0.1.2",
+  "author": "Claudio Santoro <claudio.santoro@ieee.org",
+  "contributors": [
+    "John Winfield <xraizzer1337@gmail.com>",
+    "Guilherme Araújo <lai0n@outlook.com>"
+  ],
+  "license": "MIT",
+  "main": "src/main.js",
+  "repository": "sant0ro/Nova",
+  "devDependencies": {
+    "electron": "^1.4.10",
+    "electron-packager": "^8.3.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "Habbo",
-    "Habbo Hotel",
-    "RaGEZONE",
-    "Habbo Retro",
-    "Electron",
-    "NodeJS",
-    "sant0ro",
-    "NovaEngine",
-    "NovaApp",
-    "Nova"
-  ],
-  "author": "Claudio Santoro, Necmi Hasan",
-  "license": "MIT",
-  "engines": {
-    "node": ">=0.12.4"
-  },
-  "bugs": {
-    "url": "https://github.com/sant0ro/Nova/issues"
+    "start": "electron .",
+    "build": "electron-packager . --all --out build",
+    "build-win": "electron-packager . -platform=win32 --out build",
+    "build-linux": "electron-packager . --platform=linux --out build",
+    "build-darwin": "electron-packager . --platform=darwin --out build"
   }
 }
