@@ -1,5 +1,4 @@
-const app = require('electron').app
-const BrowserWindow = require('electron').BrowserWindow
+const { app, BrowserWindow } = require('electron')
 const Nova = require('./Nova')
 const path = require('path')
 const url = require('url')
