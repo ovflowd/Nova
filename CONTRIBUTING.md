@@ -263,9 +263,9 @@ disablePackage: (name, options, callback) ->
 
 ### Issue and Pull Request Labels
 
-This section lists the labels we use to help us track and manage issues and pull requests. Most labels are used across all Atom repositories, but some are specific to `atom/atom`.
+This section lists the labels we use to help us track and manage issues and pull requests.
 
-[GitHub search](https://help.github.com/articles/searching-issues/) makes it easy to use labels for finding groups of issues or pull requests you're interested in. For example, you might be interested in [open issues across `nova` and all Atom-owned packages which are labeled as bugs, but still need to be reliably reproduced](https://github.com/sant0ro/Nova/issues). To help you find issues and pull requests, each label is listed with search links for finding open items with that label in `atom/atom`, we  encourage you to read about [other search filters](https://help.github.com/articles/searching-issues/) which will help you write more focused queries.
+[GitHub search](https://help.github.com/articles/searching-issues/) makes it easy to use labels for finding groups of issues or pull requests you're interested in. For example, you might be interested in [Nova Issues](https://github.com/sant0ro/Nova/issues). To help you find issues and pull requests, each label is listed with search links for finding open items with that label in `nova`, we  encourage you to read about [other search filters](https://help.github.com/articles/searching-issues/) which will help you write more focused queries.
 
 The labels are loosely grouped by their purpose, but it's not required that every issue have a label from every group or that an issue can't have more than one label from the same group.
 
