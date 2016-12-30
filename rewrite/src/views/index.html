@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nova - Welcome!</title>
+
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/app.css" rel="stylesheet">
+  </head>
+  <body>
+    <section class="container" id="flash-container">
+      <div style="margin-top: 25px;">
+        <div class="panel panel__default">
+          <div class="panel-body">
+            <img class="nova__logo" src="assets/images/logo.gif" />
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="panel panel__blue">
+                  <div class="panel-body">
+                    <h2>Select the Server!</h2>
+                    <p>Hello, in order to use Nova you need to select the server.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="panel panel__ticker">
+                  <div class="panel-heading">What's going on?</div>
+                  <div class="panel-body">
+                    <ul class="nova__tweets" style="display: none"></ul>
+                    <center><img src="assets/images/loading.gif"></center>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script type="text/javascript">
+      var remote = require('electron').remote;  
+      var nova = remote.require("./main.js");
+    </script>
+    <script src="js/jquery.min.js"></script>
+    <script>
+      $ = jQuery = module.exports;
+    </script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

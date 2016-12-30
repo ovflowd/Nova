@@ -1,0 +1,84 @@
+/**
+  * @template NovaApp
+  * @author Necmi Hasan
+  */
+
+body {
+  background-color: #bce0ee;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+a {
+    color: #fc6204;
+}
+
+/* container */
+  /* panel__default */
+.panel__default {
+  box-shadow: none;
+  background-color: #fff;
+  border: 1px solid #96b3be;
+  border-bottom: 3px solid #96b3be;
+  border-radius: 6px;
+}
+
+.panel__default .nova__logo {
+  display: block;
+}
+
+  /* panel__default end */
+
+  /* panel__blue */
+.panel__blue {
+  box-shadow: none;
+  background: #2767a7;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.panel__blue h2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: 800;
+  font-size: 25px;
+}
+
+  /* panel__blue end */
+
+  /* panel__ticker */
+
+.panel__ticker {
+  border: 1px solid #d6d6d6;
+  border-bottom: 3px solid #cccccc;
+  border-radius: 6px;
+}
+
+.panel__ticker > .panel-heading {
+  background-color: #ff9900;
+  padding: 5px 10px;
+  margin: 4px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.panel__ticker > .panel-body {
+  padding: 0px;
+}
+
+.panel__ticker .nova__tweets {
+  padding: 0px;
+  list-style-type: none;
+  overflow-y: scroll;
+}
+
+.panel__ticker .nova__tweets > li {
+  padding: 7px 14px;
+}
+
+.panel__ticker .nova__tweets > li:nth-child(even) {
+  background-color: #ececec;
+}
+
+/* container end */

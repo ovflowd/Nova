@@ -1,0 +1,25 @@
+{
+  "name": "nova-app",
+  "productName": "Nova",
+  "description": "The External HH Client Ecosystem™",
+  "version": "0.1.2",
+  "author": "Claudio Santoro <claudio.santoro@ieee.org",
+  "contributors": [
+    "John Winfield <xraizzer1337@gmail.com>",
+    "Guilherme Araújo <lai0n@outlook.com>"
+  ],
+  "license": "MIT",
+  "main": "src/main.js",
+  "repository": "sant0ro/Nova",
+  "devDependencies": {
+    "electron": "^1.4.10",
+    "electron-packager": "^8.3.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . --all --out build",
+    "build-win": "electron-packager . -platform=win32 --out build",
+    "build-linux": "electron-packager . --platform=linux --out build",
+    "build-darwin": "electron-packager . --platform=darwin --out build"
+  }
+}
