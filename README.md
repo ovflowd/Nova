@@ -24,7 +24,7 @@ __* The Hotel need to use Nova__
 
 * Download latests builds of Nova Engine and HabClient App in Releases Section
 * Configure the Nova Engine Settings on `client.php`
-* You can run a test environment of Nova by starting PHP Built-In server (explained above)
+* You can run a test environment of Nova by starting PhP Built-In server (explained above)
 * Package the HabClient App
 * Open the client (Engine) `http://yoursite.com:8080/client.php`
 * Copy the Token Hash
